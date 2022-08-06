@@ -2,6 +2,32 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
+	public class ResourceNeedProperties
+	{
+		public ResourceCost[] Generate;
+
+		[CanBeNull]
+		public ResourceCost[] CreateCost;
+
+		[CanBeNull]
+		public ResourceCost[] LiveCost;
+
+		[CanBeNull]
+		public ResourceCost[] GenerateCost;
+
+		public void AddGenerate(ResourceCost cost) => Generate = new[] { cost };
+		public void AddGenerate(ResourceCost[] costs) => Generate = costs;
+
+		public void AddCreateCost(ResourceCost cost) => CreateCost = new[] { cost };
+		public void AddCreateCost(ResourceCost[] costs) => CreateCost = costs;
+
+		public void AddLiveCost(ResourceCost cost) => LiveCost = new[] { cost };
+		public void AddLiveCost(ResourceCost[] costs) => LiveCost = costs;
+
+		public void AddGenerateCost(ResourceCost cost) => GenerateCost = new[] { cost };
+		public void AddGenerateCost(ResourceCost[] costs) => GenerateCost = costs;
+	}
+
 	public class ResourceNeeds
 	{
 		public ResourceCost[] Generate { get; }
@@ -9,22 +35,12 @@ namespace IdleFactions
 		[CanBeNull] public ResourceCost[] GenerateCost { get; }
 		[CanBeNull] public ResourceCost[] LiveCost { get; }
 
-		public ResourceNeeds(ResourceCost generate, [CanBeNull] ResourceCost createCost,
-			[CanBeNull] ResourceCost generateCost = null, [CanBeNull] ResourceCost liveCost = null)
+		public ResourceNeeds(ResourceNeedProperties properties)
 		{
-			Generate = new[] { generate };
-			if (createCost != null) CreateCost = new[] { createCost };
-			if (generateCost != null) GenerateCost = new[] { generateCost };
-			if (liveCost != null) LiveCost = new[] { liveCost };
-		}
-
-		public ResourceNeeds(ResourceCost[] generate, ResourceCost[] createCost,
-			ResourceCost[] generateCost = null, ResourceCost[] liveCost = null)
-		{
-			Generate = generate;
-			CreateCost = createCost;
-			GenerateCost = generateCost;
-			LiveCost = liveCost;
+			Generate = properties.Generate;
+			CreateCost = properties.CreateCost;
+			GenerateCost = properties.GenerateCost;
+			LiveCost = properties.LiveCost;
 		}
 	}
 }

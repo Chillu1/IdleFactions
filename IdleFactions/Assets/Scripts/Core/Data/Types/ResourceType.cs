@@ -4,8 +4,13 @@ namespace IdleFactions
 	{
 		None,
 		Light,
+		Dark,
 		Water,
-		
+
 		Nature,
+		Food,
+		Wood,
+		Wildlife,
+		Plants
 	}
 }

@@ -17,8 +17,8 @@ namespace IdleFactions
             _factionController = new FactionController(_factionData);
             
             //TEMP
-            _factionController.GetFaction(FactionType.Light)?.ChangePopulation(13);
-            _factionController.GetFaction(FactionType.Water)?.ChangePopulation(7);
+            _factionController.GetFaction(FactionType.Divinity)?.ChangePopulation(13);
+            _factionController.GetFaction(FactionType.Ocean)?.ChangePopulation(7);
             _factionController.GetFaction(FactionType.Nature)?.ChangePopulation(2);
             
             FindObjectOfType<UIController>().Setup(_resourceController);

@@ -16,9 +16,9 @@ namespace IdleFactions
 			_factions = new Dictionary<FactionType, Faction>();
 
 			//Starting factions
-			AddFaction(factionData.Get(FactionType.Light));
-			AddFaction(factionData.Get(FactionType.Water));
-			AddFaction(factionData.Get(FactionType.Nature));
+			AddFaction(factionData.Get(FactionType.Divinity));
+			AddFaction(factionData.Get(FactionType.Ocean));
+			//AddFaction(factionData.Get(FactionType.Nature));
 		}
 
 		public void Update(float delta)

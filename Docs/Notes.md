@@ -10,14 +10,14 @@ Factions interact with each other, using each other resources.
 | Divinity/Creator | Light           |                      |               |                      |
 | Necro            | Skeletons       | Human, Energy, Dark  | Food, Mana    | Dark                 |
 | Mage             | Mana            | Human, Energy, Light | Food, ?       | Energy               |
-| Human            | Food, Wood      | Nature, Light, Water | Food, Water   | Nature               |
-| Gobling/Ogre/w/e | Food, Stone     | Nature, Dark, Water  | Food, Water   |                      |
+| Human            | Food, Wood      | Plants, Light, Water | Food, Water   | Plants               |
+| Gobling/Ogre/w/e | Food, Stone     | Plants, Dark, Water  | Food, Water   |                      |
 | Ocean            | Water           | Light                | Light         |                      |
 | Warlock faction  | Magic/mana      | Human, ?             | Food, ?       |                      |
 | Demons/Fire      | Heat/fire/light |                      | Light?        |                      |
 | Nature           | Plants, Food-   |                      | Water, Light? | Light, Water         |
-| Treant           | Wood            | Light, Nature, Water | Light, Water  | Water, Light         |
-| Nature2?         | Wildlife        |                      | Light, Water  | Light, Water, Nature |
+| Treant           | Wood            | Light, Plants, Water | Light, Water  | Water, Light         |
+| Nature2?         | Wildlife        |                      | Light, Water  | Light, Water, Plants |
 | Dwarf?           | Gold/treasures  |                      | Food          |                      |
 | Void?Elders?	    | Dark            |                      |               | Light                |
 | Evil?            | Souls/bodies    |                      | Dark          | Human                |

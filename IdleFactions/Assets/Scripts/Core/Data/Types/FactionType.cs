@@ -3,9 +3,12 @@ namespace IdleFactions
 	public enum FactionType
 	{
 		None,
-		Light,
-		Water,
-        
+		Divinity,
+		Void,
+		Ocean,
+
 		Nature,
+		Nature2,
+		Human
 	}
 }
