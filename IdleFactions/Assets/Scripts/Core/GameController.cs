@@ -1,19 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace IdleFactions
 {
     public class GameController : MonoBehaviour
     {
-        void Start()
-        {
+        private FactionData _factionData;
         
+        private FactionController _factionController;
+        private ResourceController _resourceController;
+
+        private void Start()
+        {
+            _factionData = new FactionData();
+            _resourceController = new ResourceController();
+            Faction.Setup(_resourceController);
+            _factionController = new FactionController(_factionData);
+            
+            //TEMP
+            _factionController.GetFaction(FactionType.Light)?.ChangePopulation(13);
+            _factionController.GetFaction(FactionType.Water)?.ChangePopulation(7);
+            _factionController.GetFaction(FactionType.Nature)?.ChangePopulation(2);
+            
+            FindObjectOfType<UIController>().Setup(_resourceController);
         }
 
-        void Update()
+        private void Update()
         {
-        
+            float delta = Time.deltaTime;
+            
+            _factionController.Update(delta);
         }
     }
 }
