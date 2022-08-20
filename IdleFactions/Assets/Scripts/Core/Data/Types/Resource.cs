@@ -2,32 +2,46 @@ using System;
 
 namespace IdleFactions
 {
-	public class Resource : IResource
+	public class Resource // : IResource
 	{
 		public ResourceType Type { get; }
 
-		public double Value { get; private set; }
+		public double Value => _baseValue * _multiplier;
+
+		private double _baseValue;
+		private double _multiplier = 1d;
 
 		public Resource(ResourceType type)
 		{
 			Type = type;
 		}
 
-		public void Add(double value)
+		public Resource(ResourceCost cost)
 		{
-			Value += value;
+			Type = cost.Type;
+			_baseValue = cost.Value;
 		}
 
-		public void Remove(double neededResourceAmount)
+		public void Add(double value)
 		{
-			Value -= Math.Abs(neededResourceAmount);
-			if (Value < 0)
-				Value = 0;
+			_baseValue += value;
+		}
+
+		public void Remove(double value)
+		{
+			_baseValue -= Math.Abs(value);
+			if (_baseValue < 0)
+				_baseValue = 0;
+		}
+
+		public void TimesMultiplier(double multiplier)
+		{
+			_multiplier *= multiplier;
 		}
 
 		public override string ToString()
 		{
-			return $"Resource: {Type}. Value: {Value:F2}";
+			return $"Resource: {Type}. Value: {_baseValue:F2}";
 		}
 
 		public override int GetHashCode()

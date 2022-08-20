@@ -1,46 +1,55 @@
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class ResourceNeedProperties
+	public class ResourceNeeds //TODO Rename
 	{
-		public ResourceCost[] Generate;
+		public Dictionary<ResourceType, Resource> Generate { get; }
+		[CanBeNull] public Dictionary<ResourceType, Resource> CreateCost { get; }
+		[CanBeNull] public Dictionary<ResourceType, Resource> GenerateCost { get; }
+		[CanBeNull] public Dictionary<ResourceType, Resource> LiveCost { get; }
 
-		[CanBeNull]
-		public ResourceCost[] CreateCost;
-
-		[CanBeNull]
-		public ResourceCost[] LiveCost;
-
-		[CanBeNull]
-		public ResourceCost[] GenerateCost;
-
-		public void AddGenerate(ResourceCost cost) => Generate = new[] { cost };
-		public void AddGenerate(ResourceCost[] costs) => Generate = costs;
-
-		public void AddCreateCost(ResourceCost cost) => CreateCost = new[] { cost };
-		public void AddCreateCost(ResourceCost[] costs) => CreateCost = costs;
-
-		public void AddLiveCost(ResourceCost cost) => LiveCost = new[] { cost };
-		public void AddLiveCost(ResourceCost[] costs) => LiveCost = costs;
-
-		public void AddGenerateCost(ResourceCost cost) => GenerateCost = new[] { cost };
-		public void AddGenerateCost(ResourceCost[] costs) => GenerateCost = costs;
-	}
-
-	public class ResourceNeeds
-	{
-		public ResourceCost[] Generate { get; }
-		[CanBeNull] public ResourceCost[] CreateCost { get; }
-		[CanBeNull] public ResourceCost[] GenerateCost { get; }
-		[CanBeNull] public ResourceCost[] LiveCost { get; }
-
-		public ResourceNeeds(ResourceNeedProperties properties)
+		public ResourceNeeds(ResourceNeedsProperties properties)
 		{
-			Generate = properties.Generate;
-			CreateCost = properties.CreateCost;
-			GenerateCost = properties.GenerateCost;
-			LiveCost = properties.LiveCost;
+			Generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			CreateCost = properties.CreateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			GenerateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			LiveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+		}
+
+		public void ChangeMultiplier(ResourceNeedsType needsType, ResourceType resourceType, double multiplier)
+		{
+			switch (needsType)
+			{
+				case ResourceNeedsType.Generate:
+					ChangeMultiplier(Generate, resourceType, multiplier);
+					break;
+				case ResourceNeedsType.CreateCost:
+					ChangeMultiplier(CreateCost, resourceType, multiplier);
+					break;
+				case ResourceNeedsType.GenerateCost:
+					ChangeMultiplier(GenerateCost, resourceType, multiplier);
+					break;
+				case ResourceNeedsType.LiveCost:
+					ChangeMultiplier(LiveCost, resourceType, multiplier);
+					break;
+				default:
+					Log.Error("Invalid ResourceNeedsType: " + needsType);
+					break;
+			}
+		}
+
+		private static void ChangeMultiplier(Dictionary<ResourceType, Resource> source, ResourceType type, double multiplier)
+		{
+			if (!source.ContainsKey(type))
+			{
+				Log.Error("Invalid ResourceType: " + type);
+				return;
+			}
+
+			source[type].TimesMultiplier(multiplier);
 		}
 	}
 }

@@ -1,75 +1,62 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace IdleFactions
 {
 	public class ResourceController
 	{
-		private Dictionary<ResourceType, Resource> _resources;
+		private Dictionary<ResourceType, StoredResource> _resources;
 
 		public ResourceController()
 		{
-			_resources = new Dictionary<ResourceType, Resource>();
+			_resources = new Dictionary<ResourceType, StoredResource>();
 		}
 
-		public void Add(Resource resource)
-		{
-			if (!_resources.ContainsKey(resource.Type))
-			{
-				_resources.Add(resource.Type, resource);
-			}
-			else
-			{
-				_resources[resource.Type].Add(resource.Value);
-			}
-		}
-
-		public void Add(ResourceType type, double amount)
+		public void Add(ResourceType type, double value)
 		{
 			if (!_resources.ContainsKey(type))
 			{
-				var resource = new Resource(type);
-				resource.Add(amount);
+				var resource = new StoredResource(type);
+				resource.Add(value);
 				_resources.Add(type, resource);
 			}
 			else
 			{
-				_resources[type].Add(amount);
+				_resources[type].Add(value);
 			}
 		}
 
-		public void Add(ResourceCost[] resources, double usedGenMultiplier)
+		public void Add(IReadOnlyCollection<Resource> resources, double usedGenMultiplier)
 		{
 			foreach (var cost in resources)
 				Add(cost.Type, cost.Value * usedGenMultiplier);
 		}
 
-		public bool TryUseResource((ResourceType type, double amount)[] resources, double multiplier)
+		public bool TryUseResource((ResourceType type, double value)[] resources, double multiplier)
 		{
 			foreach (var resource in resources)
 			{
 				if (!_resources.ContainsKey(resource.type))
 					return false;
-				else if (_resources[resource.type].Value < resource.amount * multiplier)
+				else if (_resources[resource.type].Value < resource.value * multiplier)
 					return false;
 			}
 
 			foreach (var resource in resources)
-				_resources[resource.type].Remove(resource.amount * multiplier);
+				_resources[resource.type].Remove(resource.value * multiplier);
 
 			return true;
 		}
 
-		public bool TryUseResource(ResourceType neededResourceType, double multiplier)
+		public bool TryUseResource(ResourceType neededResourceType, double value)
 		{
 			if (!_resources.ContainsKey(neededResourceType))
 				return false;
 
-			if (_resources[neededResourceType].Value < multiplier)
+			if (_resources[neededResourceType].Value < value)
 				return false;
 
-			_resources[neededResourceType].Remove(multiplier);
+			_resources[neededResourceType].Remove(value);
 			return true;
 		}
 
@@ -82,10 +69,10 @@ namespace IdleFactions
 				else if (_resources[cost.Type].Value < cost.Value * multiplier)
 					return false;
 			}
-			
+
 			foreach (var cost in resourceCosts)
 				_resources[cost.Type].Remove(cost.Value * multiplier);
-			
+
 			return true;
 		}
 
@@ -93,12 +80,13 @@ namespace IdleFactions
 		///		Special function for partial use of resources.
 		/// </summary>
 		/// <example> Living costs </example>
-		public bool TryUseLiveResource(ResourceCost[] resourceCosts, double multiplier, out double usedMultiplier)
+		public bool TryUseLiveResource(Dictionary<ResourceType, Resource>.ValueCollection resourceCosts, double multiplier,
+			out double usedMultiplier)
 		{
-			double[] usedMultipliers = new double[resourceCosts.Length];
-			for (int i = 0; i < resourceCosts.Length; i++)
+			double[] usedMultipliers = new double[resourceCosts.Count];
+			for (int i = 0; i < resourceCosts.Count; i++)
 			{
-				var cost = resourceCosts[i];
+				var cost = resourceCosts.ElementAt(i);
 				if (!_resources.ContainsKey(cost.Type))
 				{
 					usedMultiplier = 0;
@@ -128,7 +116,7 @@ namespace IdleFactions
 			return usedMultiplier > 0;
 		}
 
-		public Resource GetResource(int index)
+		public StoredResource GetResource(int index)
 		{
 			if (index < 0 || index >= _resources.Count)
 				return null;

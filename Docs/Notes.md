@@ -48,6 +48,9 @@ Mana is needed by:
 Warlock
 
 ## Ideas
+Each faction shares some upgrades, raw production, automatic, etc.
+And each faction has a unique set of buildings.
+
 Choose "good" or "evil" start.
 Makes it so you have a very basic income of light/dark.
 

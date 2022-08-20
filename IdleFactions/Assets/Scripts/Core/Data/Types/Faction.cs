@@ -1,5 +1,4 @@
-using System;
-using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace IdleFactions
 {
@@ -8,17 +7,17 @@ namespace IdleFactions
 		public FactionType Type { get; }
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
-		public ResourceType ResourceType { get; private set; }
 
-		private readonly ResourceNeeds _resourceNeeds;
+		public ResourceNeeds ResourceNeeds { get; }
+
+		private List<Upgrade> _upgrades;
 
 		private static ResourceController ResourceController { get; set; }
 
 		public Faction(FactionType type, ResourceNeeds resourceNeeds)
 		{
 			Type = type;
-			_resourceNeeds = resourceNeeds;
-			ResourceType = ResourceType.None;
+			ResourceNeeds = resourceNeeds;
 		}
 
 		public static void Setup(ResourceController resourceController)
@@ -26,13 +25,18 @@ namespace IdleFactions
 			ResourceController = resourceController;
 		}
 
+		public void SetupUpgrades(List<Upgrade> upgrades)
+		{
+			_upgrades = upgrades;
+		}
+
 		public void Update(float delta)
 		{
 			if (Population <= 0)
 				return;
 
-			if (_resourceNeeds.LiveCost != null &&
-			    ResourceController.TryUseLiveResource(_resourceNeeds.LiveCost, Population * delta, out double usedLiveMultiplier))
+			if (ResourceNeeds.LiveCost != null &&
+			    ResourceController.TryUseLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out double usedLiveMultiplier))
 			{
 				//Partial use
 				if (usedLiveMultiplier < 1d)
@@ -40,10 +44,20 @@ namespace IdleFactions
 			}
 
 			double usedGenMultiplier = 1d;
-			if (_resourceNeeds.GenerateCost == null ||
-			    ResourceController.TryUseLiveResource(_resourceNeeds.GenerateCost, Population * delta, out usedGenMultiplier))
+			if (ResourceNeeds.GenerateCost == null ||
+			    ResourceController.TryUseLiveResource(ResourceNeeds.GenerateCost.Values, Population * delta, out usedGenMultiplier))
 			{
-				ResourceController.Add(_resourceNeeds.Generate, Population * usedGenMultiplier * delta);
+				ResourceController.Add(ResourceNeeds.Generate.Values, Population * usedGenMultiplier * delta);
+			}
+		}
+
+		public void TryUpgrade()
+		{
+			var upgrade = _upgrades[0];
+			if (ResourceController.TryUseResource(upgrade.Cost.Type, upgrade.Cost.Value))
+			{
+				upgrade.Apply();
+				_upgrades.RemoveAt(0);
 			}
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -30,10 +29,8 @@ namespace IdleFactions
 		[CanBeNull]
 		public Faction GetFaction(FactionType type)
 		{
-			if (!_factions.ContainsKey(type))
-				return null;
-
-			return _factions[type];
+			_factions.TryGetValue(type, out var faction);
+			return faction;
 		}
 
 		private Faction AddFaction(Faction faction)
