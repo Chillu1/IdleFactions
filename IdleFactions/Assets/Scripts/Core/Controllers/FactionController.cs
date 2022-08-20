@@ -14,10 +14,8 @@ namespace IdleFactions
 		{
 			_factions = new Dictionary<FactionType, Faction>();
 
-			//Starting factions
-			AddFaction(factionData.Get(FactionType.Divinity));
-			AddFaction(factionData.Get(FactionType.Ocean));
-			//AddFaction(factionData.Get(FactionType.Nature));
+			foreach (var type in FactionTypeHelper.AllFactionTypes)
+				AddFaction(factionData.Get(type));
 		}
 
 		public void Update(float delta)

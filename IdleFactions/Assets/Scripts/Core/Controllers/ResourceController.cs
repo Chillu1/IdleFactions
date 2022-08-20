@@ -10,6 +10,8 @@ namespace IdleFactions
 		public ResourceController()
 		{
 			_resources = new Dictionary<ResourceType, StoredResource>();
+			_resources.Add(ResourceType.Light, new StoredResource(ResourceType.Light));
+			_resources.Add(ResourceType.Dark, new StoredResource(ResourceType.Dark));
 		}
 
 		public void Add(ResourceType type, double value)
@@ -60,18 +62,18 @@ namespace IdleFactions
 			return true;
 		}
 
-		public bool TryUseResource(ResourceCost[] resourceCosts, double multiplier)
+		public bool TryUseResource(ResourceCost[] resourceCosts)
 		{
 			foreach (var cost in resourceCosts)
 			{
 				if (!_resources.ContainsKey(cost.Type))
 					return false;
-				else if (_resources[cost.Type].Value < cost.Value * multiplier)
+				if (_resources[cost.Type].Value < cost.Value)
 					return false;
 			}
 
 			foreach (var cost in resourceCosts)
-				_resources[cost.Type].Remove(cost.Value * multiplier);
+				_resources[cost.Type].Remove(cost.Value);
 
 			return true;
 		}
@@ -111,7 +113,9 @@ namespace IdleFactions
 
 			usedMultiplier = usedMultipliers.Min();
 			foreach (var cost in resourceCosts)
-				_resources[cost.Type].Remove(cost.Value * usedMultiplier);
+			{
+				_resources[cost.Type].Remove(cost.Value * multiplier * usedMultiplier);
+			}
 
 			return usedMultiplier > 0;
 		}

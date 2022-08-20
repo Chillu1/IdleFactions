@@ -5,10 +5,11 @@ namespace IdleFactions
 	public class Faction
 	{
 		public FactionType Type { get; }
+		public ResourceNeeds ResourceNeeds { get; }
+
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
 
-		public ResourceNeeds ResourceNeeds { get; }
 
 		private List<Upgrade> _upgrades;
 
@@ -54,11 +55,13 @@ namespace IdleFactions
 		public void TryUpgrade()
 		{
 			var upgrade = _upgrades[0];
-			if (ResourceController.TryUseResource(upgrade.Cost.Type, upgrade.Cost.Value))
-			{
-				upgrade.Apply();
+			if (upgrade.TryBuy())
 				_upgrades.RemoveAt(0);
-			}
+		}
+
+		public string GetUpgradeId(int i)
+		{
+			return i >= _upgrades.Count ? "Id" : _upgrades[i].Id;
 		}
 
 		public void ChangePopulation(int amount)
