@@ -39,11 +39,19 @@ namespace IdleFactions
 				{
 					//Log.Info(factionResource.GetChild(0).name + "_" + factionResource.GetChild(0).GetChild(0).name);
 					_factionUpgradeButtons[i] = new Button[MaxButtonUpgrades];
+
 					_factionUpgradeButtons[i][k] =
 						factionResource.Find("Upgrades").Find("UpgradeButton (" + k + ")").GetComponent<Button>();
-					_factionUpgradeButtons[i][k].GetComponentInChildren<TMP_Text>().text =
-						_factionController.GetFaction((FactionType)j + 1)?.GetUpgradeId(k);
-					_factionUpgradeButtons[i][k].onClick.AddListener(() => _factionController.GetFaction((FactionType)j + 1)?.TryUpgrade());
+
+					var button = _factionUpgradeButtons[i][k];
+					button.GetComponentInChildren<TMP_Text>().text = _factionController.GetFaction((FactionType)j + 1)?.GetUpgradeId(k);
+					int k1 = k;
+					button.onClick
+						.AddListener(() =>
+						{
+							_factionController.GetFaction((FactionType)j + 1)?.TryUpgrade(k1);
+							button.interactable = false;
+						});
 				}
 			}
 		}

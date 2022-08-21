@@ -1,15 +1,15 @@
-using UnityEngine;
+using IdleFactions.Core;
 
 namespace IdleFactions
 {
-	public class GameController : MonoBehaviour
+	public class GameController
 	{
-		private FactionData _factionData;
+		private readonly FactionData _factionData;
 
-		private FactionController _factionController;
-		private ResourceController _resourceController;
+		private readonly FactionController _factionController;
+		private readonly ResourceController _resourceController;
 
-		private void Start()
+		public GameController(GameInitializer gameInitializer, UIController uiController)
 		{
 			_factionData = new FactionData();
 			_resourceController = new ResourceController();
@@ -20,18 +20,19 @@ namespace IdleFactions
 			_resourceController.Add(ResourceType.Light, 1000);
 			_resourceController.Add(ResourceType.Dark, 1000);
 
+			_factionController.GetFaction(FactionType.Divinity)?.Unlock();
+			_factionController.GetFaction(FactionType.Void)?.Unlock();
+
 			//TEMP
 			_factionController.GetFaction(FactionType.Divinity)?.ChangePopulation(10);
 			_factionController.GetFaction(FactionType.Void)?.ChangePopulation(10);
 			//_factionController.GetFaction(FactionType.Nature)?.ChangePopulation(2);
 
-			FindObjectOfType<UIController>().Setup(_resourceController, _factionController);
+			uiController.Setup(_resourceController, _factionController);
 		}
 
-		private void Update()
+		public void Update(float delta)
 		{
-			float delta = Time.deltaTime;
-
 			_factionController.Update(delta);
 		}
 	}

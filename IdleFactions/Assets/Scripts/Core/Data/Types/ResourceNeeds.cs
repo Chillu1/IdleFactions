@@ -19,6 +19,11 @@ namespace IdleFactions
 			LiveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 		}
 
+		public void ChangeMultiplier(UpgradeAction upgradeAction)
+		{
+			ChangeMultiplier(upgradeAction.ResourceNeedsType, upgradeAction.ResourceType, upgradeAction.Multiplier);
+		}
+
 		public void ChangeMultiplier(ResourceNeedsType needsType, ResourceType resourceType, double multiplier)
 		{
 			switch (needsType)

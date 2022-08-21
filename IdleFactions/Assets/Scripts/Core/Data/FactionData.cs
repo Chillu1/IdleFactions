@@ -26,50 +26,55 @@ namespace IdleFactions
 				var properties = new ResourceNeedsProperties();
 				properties.AddGenerate(new ResourceCost(ResourceType.Light));
 				properties.AddGenerateCost(new ResourceCost(ResourceType.Dark, 0.25d)); //TEMP
-				//properties.AddLiveCost(new ResourceCost(ResourceType.Dark, 0.25d));
+				properties.AddLiveCost(new ResourceCost(ResourceType.Dark, 0.65d));
 
 				var faction = AddFaction(new Faction(FactionType.Divinity, new ResourceNeeds(properties)));
 
 				var upgrades = new List<Upgrade>();
-				upgrades.Add(new Upgrade("More light", new ResourceCost(ResourceType.Light, 5),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2)));
-				upgrades.Add(new Upgrade("More light 2", new ResourceCost(ResourceType.Light, 10),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2)));
-				upgrades.Add(new Upgrade("More light 3", new ResourceCost(ResourceType.Light, 15),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2)));
+				upgrades.Add(new Upgrade("More light",
+					new ResourceCost(ResourceType.Light, 5),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
+				upgrades.Add(new Upgrade("More light 2",
+					new ResourceCost(ResourceType.Light, 10),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
+				upgrades.Add(new Upgrade("More light 3",
+					new ResourceCost(ResourceType.Light, 15),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
 
 				upgrades.Add(new Upgrade("More dark consumption, more light",
-					new[] { new ResourceCost(ResourceType.Light, 100), new ResourceCost(ResourceType.Dark, 100) },
-					() =>
-					{
-						faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.GenerateCost, ResourceType.Dark, 2);
-						faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2);
-					}));
+					new ResourceCost(ResourceType.Light, 15),
+					new UpgradeAction(ResourceNeedsType.GenerateCost, ResourceType.Dark, 2),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)
+				));
+
 				faction.SetupUpgrades(upgrades);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.AddGenerate(new ResourceCost(ResourceType.Dark));
 				properties.AddGenerateCost(new ResourceCost(ResourceType.Light, 0.25d)); //TEMP
-				//properties.AddLiveCost(new ResourceCost(ResourceType.Light, 0.25d));
+				properties.AddLiveCost(new ResourceCost(ResourceType.Light, 0.65d));
 
 				var faction = AddFaction(new Faction(FactionType.Void, new ResourceNeeds(properties)));
 
 				var upgrades = new List<Upgrade>();
-				upgrades.Add(new Upgrade("More dark", new ResourceCost(ResourceType.Light, 5),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
-				upgrades.Add(new Upgrade("More dark 2", new ResourceCost(ResourceType.Light, 10),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
-				upgrades.Add(new Upgrade("More dark 3", new ResourceCost(ResourceType.Light, 15),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
+
+				upgrades.Add(new Upgrade("More dark",
+					new ResourceCost(ResourceType.Light, 5),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
+				upgrades.Add(new Upgrade("More dark 2",
+					new ResourceCost(ResourceType.Light, 10),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
+				upgrades.Add(new Upgrade("More dark 3",
+					new ResourceCost(ResourceType.Light, 15),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
 
 				upgrades.Add(new Upgrade("More light consumption, more dark",
-					new[] { new ResourceCost(ResourceType.Dark, 100), new ResourceCost(ResourceType.Light, 100) },
-					() =>
-					{
-						faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.GenerateCost, ResourceType.Light, 2);
-						faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Dark, 2);
-					}));
+					new ResourceCost(ResourceType.Dark, 100),
+					new UpgradeAction(ResourceNeedsType.GenerateCost, ResourceType.Light, 2),
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)
+				));
+
 				faction.SetupUpgrades(upgrades);
 			}
 			{
@@ -103,9 +108,9 @@ namespace IdleFactions
 				var upgrades = new List<Upgrade>();
 				//ResourceCost, UpgradeEffectType, ref to faction?
 				upgrades.Add(new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.Generate, ResourceType.Food, 1.5)));
+					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Food, 1.5)));
 				upgrades.Add(new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
-					() => faction.ResourceNeeds.ChangeMultiplier(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9)));
+					new UpgradeAction(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9)));
 				faction.SetupUpgrades(upgrades);
 			}
 			{

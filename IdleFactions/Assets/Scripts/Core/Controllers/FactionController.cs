@@ -7,9 +7,6 @@ namespace IdleFactions
 	{
 		private readonly Dictionary<FactionType, Faction> _factions;
 
-		private const float ResourceCooldown = 1.0f;
-		private float _resourceTimer;
-
 		public FactionController(FactionData factionData)
 		{
 			_factions = new Dictionary<FactionType, Faction>();
@@ -31,10 +28,9 @@ namespace IdleFactions
 			return faction;
 		}
 
-		private Faction AddFaction(Faction faction)
+		private void AddFaction(Faction faction)
 		{
 			_factions.Add(faction.Type, faction);
-			return faction;
 		}
 	}
 }
