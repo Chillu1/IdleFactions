@@ -1,6 +1,27 @@
 # Notes
 
 ## Temp Notes
+
+TimeFaction? Creating a special resource, time?
+Extra resource "time", that get's generated when game is offline/afk?
+
+Faction UI:
+* Buttons
+  * Buy population
+  * Upgrades
+  * Toggle generation
+* Info
+  * Population
+  * Needs
+    * Generation
+    * GenerationCost
+    * LiveCost
+    * CreateCost
+  * Rates
+    * GenerationRate
+    * LiveRate
+
+## Notes
 Homm like factions/cities, with building choices.
 Factions interact with each other, using each other resources.
 

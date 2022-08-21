@@ -12,7 +12,16 @@ namespace IdleFactions
 
 		Nature,
 		Nature2,
-		Human
+		Human,
+
+		Goblin,
+		Ogre,
+		Warlock,
+		Treant,
+		Demon,
+		Dwarf,
+		Golem,
+		Drowner
 	}
 
 	public static class FactionTypeHelper

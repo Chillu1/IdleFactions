@@ -11,6 +11,17 @@ namespace IdleFactions
 		Food,
 		Wood,
 		Wildlife,
-		Plants
+		Plant,
+		Stone,
+		Magic, //Mana?
+		Fire,
+		Soul,
+		Energy, //Essence?
+
+		Body,
+		Skeleton,
+		Gold,
+		Heat,
+		Metal,
 	}
 }

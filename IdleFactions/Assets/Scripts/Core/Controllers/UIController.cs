@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,16 @@ namespace IdleFactions
 		private TMP_Text[] _resourceTexts;
 		private Button[][] _factionUpgradeButtons;
 
+		//Faction Tab
+		private TMP_Text _factionType;
+		private Button[] _upgradeButtons;
+		private TMP_Text[] _upgradeButtonTexts;
+		private TMP_Text _population;
+		private TMP_Text[] _needs;
+		private TMP_Text[] _rates;
+
+		private FactionType _currentFactionType;
+
 		public void Setup(ResourceController resourceController, FactionController factionController)
 		{
 			_resourceController = resourceController;
@@ -22,9 +33,51 @@ namespace IdleFactions
 
 		private void Start()
 		{
-			var canvas = GameObject.Find("Canvas");
+			var canvas = GameObject.Find("Canvas").transform;
 
-			var factionResources = canvas.transform.Find("FactionResources");
+			var factions = canvas.Find("Factions");
+			Button[] buttons = factions.GetComponentsInChildren<Button>();
+			for (int i = 0; i < buttons.Length; i++)
+			{
+				var button = buttons[i];
+				var factionType = (FactionType)i + 1;
+				button.GetComponentInChildren<TMP_Text>().text = factionType.ToString();
+				button.onClick.AddListener(() => SwitchFactionTab(factionType));
+			}
+
+			var factionTab = canvas.Find("FactionTab");
+			_factionType = factionTab.Find("FactionType").GetComponent<TMP_Text>();
+
+			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() => _factionController
+				.GetFaction(_currentFactionType)?.TryBuyPopulation());
+			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _factionController
+				.GetFaction(_currentFactionType)?.ToggleGeneration());
+
+			var upgrades = factionTab.Find("Upgrades");
+			int upgradesChildCount = upgrades.childCount;
+			_upgradeButtons = new Button[upgradesChildCount];
+			_upgradeButtonTexts = new TMP_Text[upgradesChildCount];
+			for (int i = 0; i < upgradesChildCount; i++)
+			{
+				var upgradeButton = upgrades.GetChild(i).GetComponent<Button>();
+				_upgradeButtons[i] = upgradeButton;
+				_upgradeButtonTexts[i] = upgradeButton.GetComponentInChildren<TMP_Text>();
+				int upgradeIndex = i;
+				upgradeButton.onClick.AddListener(() =>
+				{
+					//TODO upgradeIndex will be wrong/not dynamic, unless we do some special logic in faction
+					if (_factionController.GetFaction(_currentFactionType)?.TryBuyUpgrade(upgradeIndex) == true)
+					{
+						upgradeButton.interactable = false;
+					}
+				});
+			}
+
+			_population = factionTab.Find("Population").GetComponent<TMP_Text>();
+			_needs = factionTab.Find("Needs").GetComponentsInChildren<TMP_Text>();
+			_rates = factionTab.Find("Rates").GetComponentsInChildren<TMP_Text>();
+
+			var factionResources = canvas.Find("FactionResources");
 
 			int childCount = factionResources.childCount;
 			_resourceTexts = new TMP_Text[childCount];
@@ -34,7 +87,7 @@ namespace IdleFactions
 				var factionResource = factionResources.GetChild(i);
 				_resourceTexts[i] = factionResource.GetComponent<TMP_Text>();
 
-				int j = i;
+				/*int j = i;
 				for (int k = 0; k < MaxButtonUpgrades; k++)
 				{
 					//Log.Info(factionResource.GetChild(0).name + "_" + factionResource.GetChild(0).GetChild(0).name);
@@ -49,10 +102,10 @@ namespace IdleFactions
 					button.onClick
 						.AddListener(() =>
 						{
-							_factionController.GetFaction((FactionType)j + 1)?.TryUpgrade(k1);
+							_factionController.GetFaction((FactionType)j + 1)?.TryBuyUpgrade(k1);
 							button.interactable = false;
 						});
-				}
+				}*/
 			}
 		}
 
@@ -63,6 +116,41 @@ namespace IdleFactions
 				var resourceText = _resourceTexts[i];
 				resourceText.text = _resourceController.GetResource(i)?.ToString();
 			}
+		}
+
+		private void SwitchFactionTab(FactionType type)
+		{
+			var faction = _factionController.GetFaction(type);
+			if (faction == null)
+				return;
+
+			_currentFactionType = type;
+
+			_factionType.text = type.ToString();
+
+			for (int i = 0; i < _upgradeButtons.Length; i++)
+			{
+				_upgradeButtons[i].interactable = faction.GetUpgrade(i)?.Bought == false;
+				_upgradeButtonTexts[i].text = faction.GetUpgradeId(i);
+			}
+
+			UpdateFactionTabInfo(faction);
+		}
+
+		private void UpdateFactionTabInfo(Faction faction)
+		{
+			_needs[0].text = "Generation: " + string.Join(", ", faction.ResourceNeeds.Generate.Select(r => r.Value.ToString()));
+			_needs[1].text = faction.ResourceNeeds.CreateCost != null
+				? "CreateCost: " + string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r => r.Value.ToString()))
+				: "CreateCost: None";
+			_needs[2].text = faction.ResourceNeeds.GenerateCost != null
+				? "GenerateCost: " + string.Join(", ", faction.ResourceNeeds.GenerateCost.Select(r => r.Value.ToString()))
+				: "GenerateCost: None";
+			_needs[3].text = faction.ResourceNeeds.LiveCost != null
+				? "LiveCost: " + string.Join(", ", faction.ResourceNeeds.LiveCost.Select(r => r.Value.ToString()))
+				: "LiveCost: None";
+
+			//TODO _rates
 		}
 	}
 }

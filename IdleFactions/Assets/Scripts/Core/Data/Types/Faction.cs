@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IdleFactions
 {
@@ -9,7 +10,9 @@ namespace IdleFactions
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
+
 		public bool Unlocked { get; private set; }
+		public bool IsGenerationOn { get; private set; } = true;
 
 		public const double MinPopulation = 1d;
 		public const double MinLiveMultiplier = 0.1d;
@@ -53,6 +56,9 @@ namespace IdleFactions
 					Population = MinPopulation;
 			}
 
+			if (!IsGenerationOn)
+				return;
+
 			double usedGenMultiplier = 1d;
 			if (ResourceNeeds.GenerateCost == null ||
 			    ResourceController.TryUseLiveResource(ResourceNeeds.GenerateCost.Values, Population * delta, out usedGenMultiplier))
@@ -68,11 +74,34 @@ namespace IdleFactions
 			Unlocked = true;
 		}
 
-		public void TryUpgrade(int index)
+		public bool TryBuyPopulation()
+		{
+			if (!Unlocked)
+				return false;
+
+			ChangePopulation(1);
+			return true;
+		}
+
+		public bool TryBuyUpgrade(int index)
 		{
 			var upgrade = _upgrades[index];
 			if (upgrade.TryBuy())
-				_upgrades.RemoveAt(index);
+			{
+				//_upgrades.RemoveAt(index);
+				return true;
+			}
+
+			return false;
+		}
+
+		[CanBeNull]
+		public Upgrade GetUpgrade(int index)
+		{
+			if (index < 0 || index >= _upgrades.Count)
+				return null;
+
+			return _upgrades[index];
 		}
 
 		public string GetUpgradeId(int i)
@@ -83,6 +112,11 @@ namespace IdleFactions
 		public void ChangePopulation(int amount)
 		{
 			Population += amount;
+		}
+
+		public void ToggleGeneration()
+		{
+			IsGenerationOn = !IsGenerationOn;
 		}
 
 		public override int GetHashCode()
