@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -74,12 +75,18 @@ namespace IdleFactions
 			Unlocked = true;
 		}
 
-		public bool TryBuyPopulation()
+		public bool TryBuyPopulation(double amount)
 		{
 			if (!Unlocked)
 				return false;
 
-			ChangePopulation(1);
+			double multiplier = CalculateFormula((int)(Population + amount)) - CalculateFormula((int)Population);
+
+			//TODOPRIO Check
+			if (!ResourceController.TryUseResource(ResourceNeeds.CreateCost?.Values, multiplier))
+				return false;
+
+			ChangePopulation(amount);
 			return true;
 		}
 
@@ -109,7 +116,7 @@ namespace IdleFactions
 			return i >= _upgrades?.Count ? "Id" : _upgrades?[i].Id;
 		}
 
-		public void ChangePopulation(int amount)
+		public void ChangePopulation(double amount)
 		{
 			Population += amount;
 		}
@@ -122,6 +129,24 @@ namespace IdleFactions
 		public override int GetHashCode()
 		{
 			return Type.GetHashCode();
+		}
+
+		/// <summary>
+		///		Sum of n ^ 0.15 for n = 0 to n
+		/// </summary>
+		public static double CalculateFormula(int n)
+		{
+			if (n == 1)
+				return 1;
+
+			const double fifth = 0.0001616362;
+			const double fourth = 0.0049091246;
+			const double third = 0.1112719416;
+			const double second = 0.6244118593;
+			//const double first = 0.0241495853;
+
+			//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 0.15 for n = 0 to n
+			return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
 		}
 	}
 }

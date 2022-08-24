@@ -78,6 +78,22 @@ namespace IdleFactions
 			return true;
 		}
 
+		public bool TryUseResource(Dictionary<ResourceType, Resource>.ValueCollection resourceCosts, double multiplier)
+		{
+			foreach (var cost in resourceCosts)
+			{
+				if (!_resources.ContainsKey(cost.Type))
+					return false;
+				if (_resources[cost.Type].Value < cost.Value * multiplier)
+					return false;
+			}
+
+			foreach (var cost in resourceCosts)
+				_resources[cost.Type].Remove(cost.Value * multiplier);
+
+			return true;
+		}
+
 		/// <summary>
 		///		Special function for partial use of resources.
 		/// </summary>

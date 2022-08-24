@@ -49,7 +49,7 @@ namespace IdleFactions
 			_factionType = factionTab.Find("FactionType").GetComponent<TMP_Text>();
 
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() => _factionController
-				.GetFaction(_currentFactionType)?.TryBuyPopulation());
+				.GetFaction(_currentFactionType)?.TryBuyPopulation(1));
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _factionController
 				.GetFaction(_currentFactionType)?.ToggleGeneration());
 
