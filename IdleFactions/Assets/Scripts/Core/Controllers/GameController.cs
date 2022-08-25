@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using IdleFactions.Core;
 
 namespace IdleFactions
 {
+	[SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
 	public class GameController
 	{
 		private readonly FactionData _factionData;

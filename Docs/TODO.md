@@ -1,5 +1,6 @@
 # TODO:
 
+* Unit Tests
 * Light & Water => Nature
 * Faction UI
 * Basic progression. Light/Dark, Water, Nature, Human
