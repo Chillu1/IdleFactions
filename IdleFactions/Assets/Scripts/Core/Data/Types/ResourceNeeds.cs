@@ -7,14 +7,14 @@ namespace IdleFactions
 	public class ResourceNeeds //TODO Rename
 	{
 		public Dictionary<ResourceType, Resource> Generate { get; }
-		[CanBeNull] public Dictionary<ResourceType, Resource> CreateCost { get; }
+		public Dictionary<ResourceType, Resource> CreateCost { get; }
 		[CanBeNull] public Dictionary<ResourceType, Resource> GenerateCost { get; }
 		[CanBeNull] public Dictionary<ResourceType, Resource> LiveCost { get; }
 
 		public ResourceNeeds(ResourceNeedsProperties properties)
 		{
 			Generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			CreateCost = properties.CreateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			CreateCost = properties.CreateCost.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			GenerateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			LiveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 		}

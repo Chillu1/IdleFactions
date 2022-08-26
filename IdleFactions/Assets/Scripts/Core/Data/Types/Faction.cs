@@ -12,7 +12,7 @@ namespace IdleFactions
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
 
-		public bool Unlocked { get; private set; }
+		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;
 
 		public const double MinPopulation = 1d;
@@ -43,7 +43,7 @@ namespace IdleFactions
 
 		public void Update(float delta)
 		{
-			if (!Unlocked || Population <= 0)
+			if (!IsUnlocked || Population <= 0)
 				return;
 
 			double usedLiveMultiplier = 1d;
@@ -72,18 +72,17 @@ namespace IdleFactions
 
 		public void Unlock()
 		{
-			Unlocked = true;
+			IsUnlocked = true;
 		}
 
 		public bool TryBuyPopulation(double amount)
 		{
-			if (!Unlocked)
+			if (!IsUnlocked)
 				return false;
 
 			double multiplier = CalculateFormula((int)(Population + amount)) - CalculateFormula((int)Population);
 
-			//TODOPRIO Check
-			if (!ResourceController.TryUseResource(ResourceNeeds.CreateCost?.Values, multiplier))
+			if (!ResourceController.TryUseResource(ResourceNeeds.CreateCost.Values, multiplier))
 				return false;
 
 			ChangePopulation(amount);

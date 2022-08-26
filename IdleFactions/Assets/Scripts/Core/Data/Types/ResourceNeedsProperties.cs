@@ -6,7 +6,6 @@ namespace IdleFactions
 	{
 		public ResourceCost[] Generate;
 
-		[CanBeNull]
 		public ResourceCost[] CreateCost;
 
 		[CanBeNull]
@@ -15,16 +14,16 @@ namespace IdleFactions
 		[CanBeNull]
 		public ResourceCost[] GenerateCost;
 
-		public void AddGenerate(ResourceCost cost) => Generate = new[] { cost };
-		public void AddGenerate(ResourceCost[] costs) => Generate = costs;
+		public void SetGenerate(ResourceCost cost) => Generate = new[] { cost };
+		public void SetGenerate(ResourceCost[] costs) => Generate = costs;
 
-		public void AddCreateCost(ResourceCost cost) => CreateCost = new[] { cost };
-		public void AddCreateCost(ResourceCost[] costs) => CreateCost = costs;
+		public void SetCreateCost(ResourceCost cost) => CreateCost = new[] { cost };
+		public void SetCreateCost(ResourceCost[] costs) => CreateCost = costs;
 
-		public void AddLiveCost(ResourceCost cost) => LiveCost = new[] { cost };
-		public void AddLiveCost(ResourceCost[] costs) => LiveCost = costs;
+		public void SetLiveCost(ResourceCost cost) => LiveCost = new[] { cost };
+		public void SetLiveCost(ResourceCost[] costs) => LiveCost = costs;
 
-		public void AddGenerateCost(ResourceCost cost) => GenerateCost = new[] { cost };
-		public void AddGenerateCost(ResourceCost[] costs) => GenerateCost = costs;
+		public void SetGenerateCost(ResourceCost cost) => GenerateCost = new[] { cost };
+		public void SetGenerateCost(ResourceCost[] costs) => GenerateCost = costs;
 	}
 }

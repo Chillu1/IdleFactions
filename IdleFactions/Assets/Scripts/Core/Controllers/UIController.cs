@@ -140,9 +140,7 @@ namespace IdleFactions
 		private void UpdateFactionTabInfo(Faction faction)
 		{
 			_needs[0].text = "Generation: " + string.Join(", ", faction.ResourceNeeds.Generate.Select(r => r.Value.ToString()));
-			_needs[1].text = faction.ResourceNeeds.CreateCost != null
-				? "CreateCost: " + string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r => r.Value.ToString()))
-				: "CreateCost: None";
+			_needs[1].text = "CreateCost: " + string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r => r.Value.ToString()));
 			_needs[2].text = faction.ResourceNeeds.GenerateCost != null
 				? "GenerateCost: " + string.Join(", ", faction.ResourceNeeds.GenerateCost.Select(r => r.Value.ToString()))
 				: "GenerateCost: None";

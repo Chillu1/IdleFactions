@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace IdleFactions
 {
@@ -142,6 +143,13 @@ namespace IdleFactions
 				return null;
 
 			return _resources.ElementAt(index).Value;
+		}
+
+		[CanBeNull]
+		public StoredResource GetResource(ResourceType type)
+		{
+			_resources.TryGetValue(type, out var resource);
+			return resource;
 		}
 	}
 }

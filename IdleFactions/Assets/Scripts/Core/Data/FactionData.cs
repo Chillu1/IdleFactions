@@ -24,8 +24,8 @@ namespace IdleFactions
 		{
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new ResourceCost(ResourceType.Light));
-				properties.AddLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
+				properties.SetGenerate(new ResourceCost(ResourceType.Light));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
 				var faction = AddFaction(new Faction(FactionType.Divinity, new ResourceNeeds(properties)));
 
@@ -50,8 +50,8 @@ namespace IdleFactions
 			}
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new ResourceCost(ResourceType.Dark));
-				properties.AddLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
+				properties.SetGenerate(new ResourceCost(ResourceType.Dark));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
 				var faction = AddFaction(new Faction(FactionType.Void, new ResourceNeeds(properties)));
 
@@ -77,25 +77,25 @@ namespace IdleFactions
 			}
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new ResourceCost(ResourceType.Water));
-				properties.AddCreateCost(new ResourceCost(ResourceType.Light, 100d));
-				properties.AddGenerateCost(new ResourceCost(ResourceType.Light, 0.2d));
+				properties.SetGenerate(new ResourceCost(ResourceType.Water));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 100d));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d));
 
 				AddFaction(new Faction(FactionType.Ocean, new ResourceNeeds(properties)));
 			}
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new[]
+				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Plant, 2d),
 					new ResourceCost(ResourceType.Food, 0.5d)
 				});
-				properties.AddCreateCost(new[]
+				properties.SetCreateCost(new[]
 				{
 					new ResourceCost(ResourceType.Light),
 					new ResourceCost(ResourceType.Water, 2d)
 				});
-				properties.AddLiveCost(new[]
+				properties.SetLiveCost(new[]
 				{
 					new ResourceCost(ResourceType.Light),
 					new ResourceCost(ResourceType.Water, 2d)
@@ -114,17 +114,17 @@ namespace IdleFactions
 			}
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new[]
+				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Wildlife),
 					new ResourceCost(ResourceType.Food, 0.5d)
 				});
-				properties.AddCreateCost(new[]
+				properties.SetCreateCost(new[]
 				{
 					new ResourceCost(ResourceType.Light, 1000),
 					new ResourceCost(ResourceType.Water, 200)
 				});
-				properties.AddLiveCost(new[]
+				properties.SetLiveCost(new[]
 				{
 					new ResourceCost(ResourceType.Light, 0.5d),
 					new ResourceCost(ResourceType.Water, 0.2d)
@@ -134,25 +134,25 @@ namespace IdleFactions
 			}
 			{
 				var properties = new ResourceNeedsProperties();
-				properties.AddGenerate(new[]
+				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Food, 2d),
 					new ResourceCost(ResourceType.Wood),
 					new ResourceCost(ResourceType.Stone)
 				});
-				properties.AddCreateCost(new[]
+				properties.SetCreateCost(new[]
 				{
 					new ResourceCost(ResourceType.Light, 100),
 					new ResourceCost(ResourceType.Nature, 10),
 					new ResourceCost(ResourceType.Water, 5)
 				});
-				properties.AddLiveCost(new[]
+				properties.SetLiveCost(new[]
 				{
 					new ResourceCost(ResourceType.Food, 1d),
 					new ResourceCost(ResourceType.Water, 1d),
 					new ResourceCost(ResourceType.Nature, 0.1d)
 				});
-				properties.AddGenerateCost(new[]
+				properties.SetGenerateCost(new[]
 				{
 					new ResourceCost(ResourceType.Food, 1d),
 					new ResourceCost(ResourceType.Water, 1d),
