@@ -79,7 +79,7 @@ namespace IdleFactions
 			return true;
 		}
 
-		public bool TryUseResource(Dictionary<ResourceType, Resource>.ValueCollection resourceCosts, double multiplier)
+		public bool TryUseResource(ICollection<Resource> resourceCosts, double multiplier)
 		{
 			foreach (var cost in resourceCosts)
 			{
@@ -99,8 +99,18 @@ namespace IdleFactions
 		///		Special function for partial use of resources.
 		/// </summary>
 		/// <example> Living costs </example>
-		public bool TryUseLiveResource(Dictionary<ResourceType, Resource>.ValueCollection resourceCosts, double multiplier,
-			out double usedMultiplier)
+		/// <returns>If usedMultiplier was partial</returns>
+		public bool TryUsePartialLiveResource(ICollection<Resource> resourceCosts, double multiplier, out double usedMultiplier)
+		{
+			TryUsePartialResource(resourceCosts, multiplier, out usedMultiplier);
+
+			if (usedMultiplier == 1d)
+				usedMultiplier = Faction.MaxLiveBonusMultiplier;
+
+			return usedMultiplier < 1d;
+		}
+
+		public void TryUsePartialResource(ICollection<Resource> resourceCosts, double multiplier, out double usedMultiplier)
 		{
 			double[] usedMultipliers = new double[resourceCosts.Count];
 			for (int i = 0; i < resourceCosts.Count; i++)
@@ -108,14 +118,14 @@ namespace IdleFactions
 				var cost = resourceCosts.ElementAt(i);
 				if (!_resources.ContainsKey(cost.Type))
 				{
-					usedMultiplier = 0;
-					return false;
+					usedMultipliers[i] = 0;
+					continue;
 				}
 
 				if (_resources[cost.Type].Value == 0)
 				{
-					usedMultiplier = 0;
-					return false;
+					usedMultipliers[i] = 0;
+					continue;
 				}
 
 				//Not enough resources
@@ -130,11 +140,7 @@ namespace IdleFactions
 
 			usedMultiplier = usedMultipliers.Min();
 			foreach (var cost in resourceCosts)
-			{
 				_resources[cost.Type].Remove(cost.Value * multiplier * usedMultiplier);
-			}
-
-			return usedMultiplier > 0;
 		}
 
 		public StoredResource GetResource(int index)

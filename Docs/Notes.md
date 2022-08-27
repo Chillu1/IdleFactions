@@ -26,25 +26,25 @@ Homm like factions/cities, with building choices.
 Factions interact with each other, using each other resources.
 
 
-| Faction          | Generates       | NeededToCreate       | NeedsToLive   | NeedsToGenerate      |
-|------------------|-----------------|----------------------|---------------|----------------------|
-| Divinity/Creator | Light           |                      |               |                      |
-| Necro            | Skeletons       | Human, Energy, Dark  | Food, Mana    | Dark                 |
-| Mage             | Mana            | Human, Energy, Light | Food, ?       | Energy               |
-| Human            | Food, Wood      | Plants, Light, Water | Food, Water   | Plants               |
-| Gobling/Ogre/w/e | Food, Stone     | Plants, Dark, Water  | Food, Water   |                      |
-| Ocean            | Water           | Light                | Light         |                      |
-| Warlock faction  | Magic/mana      | Human, ?             | Food, ?       |                      |
-| Demons/Fire      | Heat/fire/light |                      | Light?        |                      |
-| Nature           | Plants, Food-   |                      | Water, Light? | Light, Water         |
-| Treant           | Wood            | Light, Plants, Water | Light, Water  | Water, Light         |
-| Nature2?         | Wildlife        |                      | Light, Water  | Light, Water, Plants |
-| Dwarf?           | Gold/treasures  |                      | Food          |                      |
-| Void?Elders?	    | Dark            |                      |               | Light                |
-| Evil?            | Souls/bodies    |                      | Dark          | Human                |
-|                  | Energy/Essence  |                      |               |                      |
-| Golem            | Stone           |                      | Human?,       |                      |
-| Drowner          | Bodies          |                      | Water         | Human                |
+| Faction          | Generates       | NeededToCreate                                     | NeedsToLive   | NeedsToGenerate      |
+|------------------|-----------------|----------------------------------------------------|---------------|----------------------|
+| Divinity/Creator | Light           |                                                    |               |                      |
+| Necro            | Skeletons       | Human, Energy, Dark, Skeleton?                     | Food, Mana    | Dark                 |
+| Mage             | Mana            | Human, Energy, Light, Skeleton/Human?              | Food, ?       | Energy               |
+| Human            | Food, Wood      | Plants, Light, Water, Skeleton?, Lifeforce/Energy? | Food, Water   | Plants               |
+| Gobling/Ogre/w/e | Food, Stone     | Plants, Dark, Water, Skeleton?                     | Food, Water   |                      |
+| Ocean            | Water           | Light                                              | Light         |                      |
+| Warlock faction  | Magic/mana      | Human, ?                                           | Food, ?       |                      |
+| Demons/Fire      | Heat/fire/light |                                                    | Light?        |                      |
+| Nature           | Plants, Food-   |                                                    | Water, Light? | Light, Water         |
+| Treant           | Wood            | Light, Plants, Water                               | Light, Water  | Water, Light         |
+| Nature2?         | Wildlife        |                                                    | Light, Water  | Light, Water, Plants |
+| Dwarf?           | Gold/treasures  |                                                    | Food          |                      |
+| Void?Elders?	    | Dark            |                                                    |               | Light                |
+| Evil?            | Souls/bodies    |                                                    | Dark          | Human                |
+|                  | Energy/Essence  |                                                    |               |                      |
+| Golem            | Stone           |                                                    | Human?,       |                      |
+| Drowner          | Bodies          |                                                    | Water         | Human                |
 
 
 First you only have base factions

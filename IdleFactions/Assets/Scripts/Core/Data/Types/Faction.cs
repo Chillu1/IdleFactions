@@ -17,6 +17,7 @@ namespace IdleFactions
 
 		public const double MinPopulation = 1d;
 		public const double MinLiveMultiplier = 0.1d;
+		public const double MaxLiveBonusMultiplier = 1.2d;
 
 		private List<Upgrade> _upgrades;
 
@@ -48,11 +49,9 @@ namespace IdleFactions
 
 			double usedLiveMultiplier = 1d;
 			if (ResourceNeeds.LiveCost != null &&
-			    ResourceController.TryUseLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out usedLiveMultiplier))
+			    ResourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out usedLiveMultiplier))
 			{
-				//Partial use
-				if (usedLiveMultiplier < 1d)
-					Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
+				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
 					Population = MinPopulation;
 			}
@@ -61,13 +60,13 @@ namespace IdleFactions
 				return;
 
 			double usedGenMultiplier = 1d;
-			if (ResourceNeeds.GenerateCost == null ||
-			    ResourceController.TryUseLiveResource(ResourceNeeds.GenerateCost.Values, Population * delta, out usedGenMultiplier))
-			{
-				if (usedLiveMultiplier < MinLiveMultiplier)
-					usedLiveMultiplier = MinLiveMultiplier;
-				ResourceController.Add(ResourceNeeds.Generate.Values, Population * usedLiveMultiplier * usedGenMultiplier * delta);
-			}
+			if (ResourceNeeds.GenerateCost != null)
+				ResourceController.TryUsePartialResource(ResourceNeeds.GenerateCost.Values, Population * delta,
+					out usedGenMultiplier);
+
+			if (usedLiveMultiplier < MinLiveMultiplier)
+				usedLiveMultiplier = MinLiveMultiplier;
+			ResourceController.Add(ResourceNeeds.Generate.Values, Population * usedLiveMultiplier * usedGenMultiplier * delta);
 		}
 
 		public void Unlock()

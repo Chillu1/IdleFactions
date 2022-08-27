@@ -1,13 +1,67 @@
 using NUnit.Framework;
 
-public class FactionTests
+namespace IdleFactions.Tests
 {
-	//BuyPopulation
-	//PopulationDecay
-	//MinPopulation
-
-	[Test]
-	public void METHOD()
+	public class FactionTests
 	{
+		private ResourceController _resourceController;
+
+		//Resource Tests
+
+		[SetUp]
+		public void Setup()
+		{
+			_resourceController = new ResourceController();
+			Faction.Setup(_resourceController);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			_resourceController = null;
+		}
+
+		[Test]
+		public void LessPopulation()
+		{
+			const int startPopulation = 5;
+
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
+				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
+			}));
+			faction.Unlock();
+
+			faction.TryBuyPopulation(startPopulation);
+			Assert.AreEqual(startPopulation, faction.Population);
+
+			faction.Update((float)(1d * faction.PopulationDecay));
+			Assert.Less(faction.Population, startPopulation);
+		}
+
+		[Test]
+		public void MinPopulation()
+		{
+			const int startPopulation = 5;
+
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
+				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
+			}));
+			faction.Unlock();
+
+			faction.TryBuyPopulation(startPopulation);
+			Assert.AreEqual(startPopulation, faction.Population);
+
+			faction.Update((float)(1d * faction.PopulationDecay));
+			Assert.Greater(startPopulation, faction.Population);
+
+			faction.Update((float)(10d * faction.PopulationDecay));
+			Assert.AreEqual(Faction.MinPopulation, faction.Population);
+		}
 	}
 }

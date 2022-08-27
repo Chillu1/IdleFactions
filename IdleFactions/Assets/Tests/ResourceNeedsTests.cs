@@ -61,12 +61,12 @@ namespace IdleFactions.Tests
 		[Test]
 		public void BuyPopulationEnoughResources()
 		{
-			_resourceController.Add(ResourceType.Light, 5);
+			_resourceController.Add(ResourceType.Dark, 5);
 
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
-				CreateCost = new[] { new ResourceCost(ResourceType.Light, 5d) }
+				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
 			}));
 			faction.Unlock();
 
@@ -78,12 +78,12 @@ namespace IdleFactions.Tests
 		[Test]
 		public void BuyPopulationNotEnoughResources()
 		{
-			_resourceController.Add(ResourceType.Light, 5);
+			_resourceController.Add(ResourceType.Dark, 5);
 
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
-				CreateCost = new[] { new ResourceCost(ResourceType.Light, 10d) }
+				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 10d) }
 			}));
 			faction.Unlock();
 
@@ -97,12 +97,12 @@ namespace IdleFactions.Tests
 		[Test]
 		public void GenerateCost()
 		{
-			_resourceController.Add(ResourceType.Light, 5d);
+			_resourceController.Add(ResourceType.Dark, 5d);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
-				GenerateCost = new[] { new ResourceCost(ResourceType.Light, 5d) }
+				GenerateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
 			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
@@ -114,20 +114,22 @@ namespace IdleFactions.Tests
 		[Test]
 		public void GenerateCostNotEnough()
 		{
-			_resourceController.Add(ResourceType.Light, 3d);
+			_resourceController.Add(ResourceType.Dark, 3d);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
-				GenerateCost = new[] { new ResourceCost(ResourceType.Light, 5d) }
+				GenerateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
 			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.Greater(1, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.Greater(1, _resourceController.GetResource(ResourceType.Dark)?.Value);
 		}
 
 		//LiveCost Tests
+
+		//LiveCost = 1d = buff
 	}
 }
