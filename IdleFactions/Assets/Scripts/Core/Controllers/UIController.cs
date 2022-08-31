@@ -9,7 +9,7 @@ namespace IdleFactions
 	{
 		private const int MaxButtonUpgrades = 6; //TEMP
 
-		private ResourceController _resourceController;
+		private IResourceGettable _resourceController;
 		private FactionController _factionController;
 
 		private TMP_Text[] _resourceTexts;
@@ -25,7 +25,7 @@ namespace IdleFactions
 
 		private FactionType _currentFactionType;
 
-		public void Setup(ResourceController resourceController, FactionController factionController)
+		public void Setup(IResourceGettable resourceController, FactionController factionController)
 		{
 			_resourceController = resourceController;
 			_factionController = factionController;

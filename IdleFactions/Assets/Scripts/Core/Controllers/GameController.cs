@@ -9,7 +9,7 @@ namespace IdleFactions
 		private readonly FactionData _factionData;
 
 		private readonly FactionController _factionController;
-		private readonly ResourceController _resourceController;
+		private readonly IResourceController _resourceController;
 
 		public GameController(GameInitializer gameInitializer, UIController uiController)
 		{

@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class ResourceController
+	public class ResourceController : IResourceController
 	{
 		private Dictionary<ResourceType, StoredResource> _resources;
 

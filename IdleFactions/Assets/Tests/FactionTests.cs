@@ -4,7 +4,7 @@ namespace IdleFactions.Tests
 {
 	public class FactionTests
 	{
-		private ResourceController _resourceController;
+		private IResourceController _resourceController;
 
 		//Resource Tests
 

@@ -21,7 +21,7 @@ namespace IdleFactions
 
 		private List<Upgrade> _upgrades;
 
-		private static ResourceController ResourceController { get; set; }
+		private static IResourceController ResourceController { get; set; }
 
 		public Faction(FactionType type, ResourceNeeds resourceNeeds)
 		{
@@ -29,7 +29,7 @@ namespace IdleFactions
 			ResourceNeeds = resourceNeeds;
 		}
 
-		public static void Setup(ResourceController resourceController)
+		public static void Setup(IResourceController resourceController)
 		{
 			ResourceController = resourceController;
 		}

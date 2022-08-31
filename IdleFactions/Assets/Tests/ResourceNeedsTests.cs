@@ -4,7 +4,7 @@ namespace IdleFactions.Tests
 {
 	public class ResourceNeedsTests
 	{
-		private ResourceController _resourceController;
+		private IResourceController _resourceController;
 		//NeedsTests
 		//Generate - Generate no cost 
 		//CreateCost - Create no cost, Cost, Not Enough 
