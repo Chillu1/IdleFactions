@@ -9,7 +9,7 @@ namespace IdleFactions
 
 		public bool Bought { get; private set; }
 
-		private static IResourceRemovable _resourceController;
+		private static IResourceController _resourceController;
 		private Faction _faction;
 
 		public Upgrade(string id, ResourceCost cost, params UpgradeAction[] upgradeActions) :
@@ -24,7 +24,7 @@ namespace IdleFactions
 			UpgradeActions = upgradeActions;
 		}
 
-		public static void Setup(IResourceRemovable resourceController)
+		public static void Setup(IResourceController resourceController)
 		{
 			_resourceController = resourceController;
 		}

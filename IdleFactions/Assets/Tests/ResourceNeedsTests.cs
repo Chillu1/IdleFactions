@@ -130,6 +130,25 @@ namespace IdleFactions.Tests
 
 		//LiveCost Tests
 
+		[Test]
+		public void LiveCost()
+		{
+			_resourceController.Add(ResourceType.Dark, 5d);
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
+				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
+			}));
+			faction.Unlock();
+			faction.TryBuyPopulation(1);
+
+			faction.Update(1f);
+
+			Assert.AreNotEqual(1, faction.Population);
+			//TODO Finish?
+		}
+
 		//LiveCost = 1d = buff
 	}
 }
