@@ -23,5 +23,9 @@ namespace IdleFactions
 		Gold,
 		Heat,
 		Metal,
+
+		//Specials?
+		Essence,
+		Time,
 	}
 }

@@ -12,7 +12,13 @@ namespace IdleFactions
 			_factions = new Dictionary<FactionType, Faction>();
 
 			foreach (var type in FactionTypeHelper.AllFactionTypes)
-				AddFaction(factionData.Get(type));
+			{
+				var faction = factionData.Get(type);
+				if (faction == null)
+					continue;
+
+				AddFaction(faction);
+			}
 		}
 
 		public void Update(float delta)

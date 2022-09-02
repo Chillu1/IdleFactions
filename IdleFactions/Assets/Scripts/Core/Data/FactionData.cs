@@ -25,6 +25,7 @@ namespace IdleFactions
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Light));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Essence));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
 				var faction = AddFaction(new Faction(FactionType.Divinity, new ResourceNeeds(properties)));
@@ -51,6 +52,7 @@ namespace IdleFactions
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Dark));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Essence));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
 				var faction = AddFaction(new Faction(FactionType.Void, new ResourceNeeds(properties)));

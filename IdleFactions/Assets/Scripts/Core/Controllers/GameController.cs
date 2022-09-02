@@ -19,8 +19,8 @@ namespace IdleFactions
 			Faction.Setup(_resourceController);
 			_factionController = new FactionController(_factionData);
 
-			_resourceController.Add(ResourceType.Light, 10);
-			_resourceController.Add(ResourceType.Dark, 10);
+			_resourceController.Add(ResourceType.Light, 1);
+			_resourceController.Add(ResourceType.Dark, 1);
 
 			_factionController.GetFaction(FactionType.Divinity)?.Unlock();
 			_factionController.GetFaction(FactionType.Void)?.Unlock();

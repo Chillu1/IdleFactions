@@ -1,10 +1,9 @@
 # TODO:
 
-* Unit Tests
 * Light & Water => Nature
 * Faction UI
+  * Faction art
 * Basic progression. Light/Dark, Water, Nature, Human
-* Scaling CreateCost
 
 ## Misc
 
