@@ -131,7 +131,7 @@ namespace IdleFactions
 				//Not enough resources
 				if (_resources[cost.Type].Value < cost.Value * multiplier)
 				{
-					usedMultipliers[i] = _resources[cost.Type].Value / cost.Value * multiplier;
+					usedMultipliers[i] = _resources[cost.Type].Value / (cost.Value * multiplier);
 					continue;
 				}
 

@@ -5,11 +5,6 @@ namespace IdleFactions.Tests
 	public class ResourceNeedsTests
 	{
 		private IResourceController _resourceController;
-		//NeedsTests
-		//Generate - Generate no cost 
-		//CreateCost - Create no cost, Cost, Not Enough 
-		//GenerateCost - Generate cost, generate not enough
-		//LiveCost - Cost, Not Enough - , Zero
 
 		[SetUp]
 		public void Setup()
@@ -145,7 +140,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void GenerateCostNotEnough()
 		{
-			_resourceController.Add(ResourceType.Dark, 3d);
+			_resourceController.Add(ResourceType.Dark, 2.5d);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
@@ -156,7 +151,9 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.Greater(1, _resourceController.GetResource(ResourceType.Dark)?.Value);
+
+			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.AreEqual(0.5, _resourceController.GetResource(ResourceType.Light)?.Value);
 		}
 
 		//LiveCost Tests
@@ -176,6 +173,27 @@ namespace IdleFactions.Tests
 			faction.Update(1f);
 
 			Assert.Less(faction.Population, 10);
+		}
+
+		[Test]
+		public void LiveCostHalf()
+		{
+			_resourceController.Add(ResourceType.Dark, 2.5d);
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
+				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
+			}));
+			faction.Unlock();
+			faction.TryBuyPopulation(5);
+
+			faction.Update(1f);
+
+			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.AreEqual(5 - 1 * 0.5, faction.Population);
+			//Not 2.5, because 0.5 population is gone, making it: 4.5 * 0.5 * 1 * 1 = 2.25
+			Assert.AreEqual(2.25, _resourceController.GetResource(ResourceType.Light)?.Value);
 		}
 
 		//LiveCost = 1d = buff
