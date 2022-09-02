@@ -31,7 +31,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
-			}));
+			}), null);
 			faction.Unlock();
 
 			faction.TryBuyPopulation(startPopulation);
@@ -51,7 +51,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
-			}));
+			}), null);
 			faction.Unlock();
 
 			faction.TryBuyPopulation(startPopulation);

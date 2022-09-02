@@ -19,42 +19,91 @@ namespace IdleFactions
 			LiveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 		}
 
-		public void ChangeMultiplier(UpgradeAction upgradeAction)
+		public void ActivateUpgradeAction(IUpgradeAction action)
 		{
-			ChangeMultiplier(upgradeAction.ResourceNeedsType, upgradeAction.ResourceType, upgradeAction.Multiplier);
+			switch (action)
+			{
+				case UpgradeActionMultiplier actionMultiplier:
+					ChangeMultiplier(actionMultiplier.ResourceNeedsType, actionMultiplier.ResourceType, actionMultiplier.Multiplier);
+					break;
+				case UpgradeActionNewResource actionNewResource:
+					AddNewResource(actionNewResource.ResourceNeedsType, actionNewResource.ResourceType, actionNewResource.Value);
+					break;
+				default:
+					Log.Error("Unknown action type: " + action.GetType());
+					break;
+			}
 		}
 
-		public void ChangeMultiplier(ResourceNeedsType needsType, ResourceType resourceType, double multiplier)
+		private void ChangeMultiplier(ResourceNeedsType needsType, ResourceType resourceType, double multiplier)
 		{
 			switch (needsType)
 			{
 				case ResourceNeedsType.Generate:
-					ChangeMultiplier(Generate, resourceType, multiplier);
+					ChangeMultiplier(Generate);
 					break;
 				case ResourceNeedsType.CreateCost:
-					ChangeMultiplier(CreateCost, resourceType, multiplier);
+					ChangeMultiplier(CreateCost);
 					break;
 				case ResourceNeedsType.GenerateCost:
-					ChangeMultiplier(GenerateCost, resourceType, multiplier);
+					ChangeMultiplier(GenerateCost);
 					break;
 				case ResourceNeedsType.LiveCost:
-					ChangeMultiplier(LiveCost, resourceType, multiplier);
+					ChangeMultiplier(LiveCost);
 					break;
 				default:
 					Log.Error("Invalid ResourceNeedsType: " + needsType);
 					break;
 			}
+
+			void ChangeMultiplier(Dictionary<ResourceType, Resource> source)
+			{
+				if (!source.ContainsKey(resourceType))
+				{
+					Log.Warning($"Creating resource type {resourceType} before it exists. Need to check if works");
+					source.Add(resourceType, new Resource(resourceType));
+					return;
+				}
+
+				source[resourceType].TimesMultiplier(multiplier);
+			}
 		}
 
-		private static void ChangeMultiplier(Dictionary<ResourceType, Resource> source, ResourceType type, double multiplier)
+		private void AddNewResource(ResourceNeedsType needsType, ResourceType resourceType, double value)
 		{
-			if (!source.ContainsKey(type))
+			switch (needsType)
 			{
-				Log.Error("Invalid ResourceType: " + type);
-				return;
+				case ResourceNeedsType.Generate:
+					AddNewResource(Generate);
+					break;
+				case ResourceNeedsType.CreateCost:
+					AddNewResource(CreateCost);
+					break;
+				case ResourceNeedsType.GenerateCost:
+					AddNewResource(GenerateCost);
+					break;
+				case ResourceNeedsType.LiveCost:
+					AddNewResource(LiveCost);
+					break;
+				default:
+					Log.Error("Invalid ResourceNeedsType: " + needsType);
+					break;
 			}
 
-			source[type].TimesMultiplier(multiplier);
+			void AddNewResource(Dictionary<ResourceType, Resource> source)
+			{
+				if (source.TryGetValue(resourceType, out var resource))
+				{
+					//Add to base
+					resource.Add(value);
+					return;
+				}
+
+				var newResource = new Resource(resourceType);
+				newResource.Add(value);
+
+				source.Add(resourceType, newResource);
+			}
 		}
 	}
 }

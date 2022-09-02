@@ -3,12 +3,16 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class FactionData
+	public class FactionData : IDataStore<FactionType, Faction>
 	{
 		private readonly Dictionary<FactionType, Faction> _factions;
 
-		public FactionData()
+		private readonly UpgradeData _upgradeData;
+
+		public FactionData(UpgradeData upgradeData)
 		{
+			_upgradeData = upgradeData;
+
 			_factions = new Dictionary<FactionType, Faction>();
 			SetupFactions();
 		}
@@ -28,26 +32,7 @@ namespace IdleFactions
 				properties.SetCreateCost(new ResourceCost(ResourceType.Essence));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
-				var faction = AddFaction(new Faction(FactionType.Divinity, new ResourceNeeds(properties)));
-
-				var upgrades = new List<Upgrade>();
-				upgrades.Add(new Upgrade("More light",
-					new ResourceCost(ResourceType.Light, 5),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
-				upgrades.Add(new Upgrade("More light 2",
-					new ResourceCost(ResourceType.Light, 10),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
-				upgrades.Add(new Upgrade("More light 3",
-					new ResourceCost(ResourceType.Light, 15),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)));
-
-				upgrades.Add(new Upgrade("More dark consumption, more light",
-					new ResourceCost(ResourceType.Light, 15),
-					new UpgradeAction(ResourceNeedsType.LiveCost, ResourceType.Dark, 2),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Light, 2)
-				));
-
-				faction.SetupUpgrades(upgrades);
+				AddFaction(FactionType.Divinity, properties);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
@@ -55,27 +40,7 @@ namespace IdleFactions
 				properties.SetCreateCost(new ResourceCost(ResourceType.Essence));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
-				var faction = AddFaction(new Faction(FactionType.Void, new ResourceNeeds(properties)));
-
-				var upgrades = new List<Upgrade>();
-
-				upgrades.Add(new Upgrade("More dark",
-					new ResourceCost(ResourceType.Light, 5),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
-				upgrades.Add(new Upgrade("More dark 2",
-					new ResourceCost(ResourceType.Light, 10),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
-				upgrades.Add(new Upgrade("More dark 3",
-					new ResourceCost(ResourceType.Light, 15),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)));
-
-				upgrades.Add(new Upgrade("More light consumption, more dark",
-					new ResourceCost(ResourceType.Dark, 100),
-					new UpgradeAction(ResourceNeedsType.LiveCost, ResourceType.Light, 2),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Dark, 2)
-				));
-
-				faction.SetupUpgrades(upgrades);
+				AddFaction(FactionType.Void, properties);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
@@ -83,7 +48,7 @@ namespace IdleFactions
 				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 100d));
 				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d));
 
-				AddFaction(new Faction(FactionType.Ocean, new ResourceNeeds(properties)));
+				AddFaction(FactionType.Ocean, properties);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
@@ -103,16 +68,7 @@ namespace IdleFactions
 					new ResourceCost(ResourceType.Water, 2d)
 				});
 
-				var faction = AddFaction(new Faction(FactionType.Nature, new ResourceNeeds(properties)));
-
-				//Upgrade, TODO MOVE?
-				var upgrades = new List<Upgrade>();
-				//ResourceCost, UpgradeEffectType, ref to faction?
-				upgrades.Add(new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
-					new UpgradeAction(ResourceNeedsType.Generate, ResourceType.Food, 1.5)));
-				upgrades.Add(new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
-					new UpgradeAction(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9)));
-				faction.SetupUpgrades(upgrades);
+				AddFaction(FactionType.Nature, properties);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
@@ -132,21 +88,20 @@ namespace IdleFactions
 					new ResourceCost(ResourceType.Water, 0.2d)
 				});
 
-				AddFaction(new Faction(FactionType.Nature2, new ResourceNeeds(properties)));
+				AddFaction(FactionType.Nature2, properties);
 			}
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new[]
 				{
-					new ResourceCost(ResourceType.Food, 2d),
-					new ResourceCost(ResourceType.Wood),
-					new ResourceCost(ResourceType.Stone)
+					new ResourceCost(ResourceType.Stone, 0.1d)
 				});
 				properties.SetCreateCost(new[]
 				{
 					new ResourceCost(ResourceType.Light, 100),
 					new ResourceCost(ResourceType.Nature, 10),
-					new ResourceCost(ResourceType.Water, 5)
+					new ResourceCost(ResourceType.Water, 5),
+					new ResourceCost(ResourceType.Soul, 1)
 				});
 				properties.SetLiveCost(new[]
 				{
@@ -162,14 +117,13 @@ namespace IdleFactions
 					new ResourceCost(ResourceType.Wildlife, 1d)
 				});
 
-				AddFaction(new Faction(FactionType.Human, new ResourceNeeds(properties)));
+				AddFaction(FactionType.Human, properties);
 			}
-		}
 
-		private Faction AddFaction(Faction faction)
-		{
-			_factions.Add(faction.Type, faction);
-			return faction;
+			void AddFaction(FactionType type, ResourceNeedsProperties properties)
+			{
+				_factions.Add(type, new Faction(type, new ResourceNeeds(properties), _upgradeData.Get(type)));
+			}
 		}
 	}
 }

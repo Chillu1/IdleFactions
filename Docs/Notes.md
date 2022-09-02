@@ -2,6 +2,11 @@
 
 ## Temp Notes
 
+Light = Active play resource?
+Dark = Passive play resource?
+
+Time resource, how to balance for afk time being 2 strong? Less time resource production the more we have it? Or a capped resource amount, 24h?
+
 TimeFaction? Creating a special resource, time?
 Extra resource "time", that get's generated when game is offline/afk?
 

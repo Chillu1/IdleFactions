@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using IdleFactions.Utils;
 using JetBrains.Annotations;
 
 namespace IdleFactions
@@ -19,27 +20,24 @@ namespace IdleFactions
 		public const double MinLiveMultiplier = 0.1d;
 		public const double MaxLiveBonusMultiplier = 1.2d;
 
-		private List<Upgrade> _upgrades;
+		private IReadOnlyList<Upgrade> Upgrades { get; }
 
 		private static IResourceController ResourceController { get; set; }
 
-		public Faction(FactionType type, ResourceNeeds resourceNeeds)
+		public Faction(FactionType type, ResourceNeeds resourceNeeds, IReadOnlyList<Upgrade> upgrades)
 		{
 			Type = type;
 			ResourceNeeds = resourceNeeds;
+
+			foreach (var upgrade in upgrades.EmptyIfNull())
+				upgrade.SetupFaction(this);
+
+			Upgrades = upgrades;
 		}
 
 		public static void Setup(IResourceController resourceController)
 		{
 			ResourceController = resourceController;
-		}
-
-		public void SetupUpgrades(List<Upgrade> upgrades)
-		{
-			foreach (var upgrade in upgrades)
-				upgrade.SetupFaction(this);
-
-			_upgrades = upgrades;
 		}
 
 		public void Update(float delta)
@@ -90,7 +88,7 @@ namespace IdleFactions
 
 		public bool TryBuyUpgrade(int index)
 		{
-			var upgrade = _upgrades[index];
+			var upgrade = Upgrades[index];
 			if (upgrade.TryBuy())
 			{
 				//_upgrades.RemoveAt(index);
@@ -103,15 +101,15 @@ namespace IdleFactions
 		[CanBeNull]
 		public Upgrade GetUpgrade(int index)
 		{
-			if (index < 0 || index >= _upgrades.Count)
+			if (index < 0 || index >= Upgrades.Count)
 				return null;
 
-			return _upgrades[index];
+			return Upgrades[index];
 		}
 
 		public string GetUpgradeId(int i)
 		{
-			return i >= _upgrades?.Count ? "Id" : _upgrades?[i].Id;
+			return i >= Upgrades?.Count ? "Id" : Upgrades?[i].Id;
 		}
 
 		public void ChangePopulation(double amount)

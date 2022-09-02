@@ -6,6 +6,7 @@ namespace IdleFactions
 	[SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
 	public class GameController
 	{
+		private readonly UpgradeData _upgradeData;
 		private readonly FactionData _factionData;
 
 		private readonly FactionController _factionController;
@@ -13,7 +14,8 @@ namespace IdleFactions
 
 		public GameController(GameInitializer gameInitializer, UIController uiController)
 		{
-			_factionData = new FactionData();
+			_upgradeData = new UpgradeData();
+			_factionData = new FactionData(_upgradeData);
 			_resourceController = new ResourceController();
 			Upgrade.Setup(_resourceController);
 			Faction.Setup(_resourceController);

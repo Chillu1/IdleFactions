@@ -5,19 +5,19 @@ namespace IdleFactions
 		public string Id { get; }
 
 		private ResourceCost[] Costs { get; }
-		private UpgradeAction[] UpgradeActions { get; }
+		private IUpgradeAction[] UpgradeActions { get; }
 
 		public bool Bought { get; private set; }
 
 		private static IResourceController _resourceController;
 		private Faction _faction;
 
-		public Upgrade(string id, ResourceCost cost, params UpgradeAction[] upgradeActions) :
+		public Upgrade(string id, ResourceCost cost, params IUpgradeAction[] upgradeActions) :
 			this(id, new[] { cost }, upgradeActions)
 		{
 		}
 
-		public Upgrade(string id, ResourceCost[] costs, params UpgradeAction[] upgradeActions)
+		public Upgrade(string id, ResourceCost[] costs, params IUpgradeAction[] upgradeActions)
 		{
 			Id = id;
 			Costs = costs;
@@ -45,8 +45,8 @@ namespace IdleFactions
 
 		private void Buy()
 		{
-			foreach (var upgradeAction in UpgradeActions)
-				_faction.ResourceNeeds.ChangeMultiplier(upgradeAction);
+			foreach (var action in UpgradeActions)
+				_faction.ResourceNeeds.ActivateUpgradeAction(action);
 
 			Bought = true;
 		}
