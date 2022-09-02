@@ -22,11 +22,6 @@ namespace IdleFactions.Editor
 
 			if (GUILayout.Button("Test"))
 			{
-				//Pop0, 0+5+5, 10
-				// 5, 10-5,
-				//Pop0, 0+10, 10
-				Log.Info(Faction.CalculateFormula(5), Faction.CalculateFormula(10) - Faction.CalculateFormula(5));
-				Log.Info(Faction.CalculateFormula(0), Faction.CalculateFormula(10));
 			}
 
 			serializedObject.ApplyModifiedProperties();

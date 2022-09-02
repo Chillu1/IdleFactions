@@ -79,7 +79,7 @@ namespace IdleFactions
 			if (!IsUnlocked)
 				return false;
 
-			double multiplier = CalculateFormula((int)(Population + amount)) - CalculateFormula((int)Population);
+			double multiplier = GetPopulationCostMultiplier(amount, Population);
 
 			if (!ResourceController.TryUseResource(ResourceNeeds.CreateCost.Values, multiplier))
 				return false;
@@ -129,10 +129,15 @@ namespace IdleFactions
 			return Type.GetHashCode();
 		}
 
+		public static double GetPopulationCostMultiplier(double amount, double population)
+		{
+			return GetScalingFormula((int) (population + amount)) - GetScalingFormula((int) population);
+		}
+
 		/// <summary>
 		///		Sum of n ^ 0.15 for n = 0 to n
 		/// </summary>
-		public static double CalculateFormula(int n)
+		private static double GetScalingFormula(int n)
 		{
 			if (n == 1)
 				return 1;

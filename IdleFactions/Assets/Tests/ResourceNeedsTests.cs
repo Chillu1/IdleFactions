@@ -91,6 +91,37 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(0, faction.Population);
 		}
+		
+		//Scaling CreateCost
+		[Test]
+		public void BuyPopulationScalingCost()
+		{
+			double resourceUsed = 0d;
+			_resourceController.Add(ResourceType.Dark, 10);
+
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
+			}));
+			faction.Unlock();
+
+			Assert.AreEqual(0, faction.Population);
+			faction.TryBuyPopulation(1);
+			Assert.AreEqual(1, faction.Population);
+
+			double multiplier = Faction.GetPopulationCostMultiplier(1, 0);
+			resourceUsed += 1d * multiplier;
+			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
+			
+			faction.TryBuyPopulation(1);
+			Assert.AreEqual(2, faction.Population);
+			
+			multiplier = Faction.GetPopulationCostMultiplier(1, 1);
+			resourceUsed += 1d * multiplier;
+
+			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
+		}
 
 		//Generate Cost Tests
 
@@ -133,7 +164,6 @@ namespace IdleFactions.Tests
 		[Test]
 		public void LiveCost()
 		{
-			_resourceController.Add(ResourceType.Dark, 5d);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
@@ -146,9 +176,25 @@ namespace IdleFactions.Tests
 			faction.Update(1f);
 
 			Assert.AreNotEqual(1, faction.Population);
-			//TODO Finish?
 		}
 
 		//LiveCost = 1d = buff
+		[Test]
+		public void LiveGenerationBonusMultiplier()
+		{
+			_resourceController.Add(ResourceType.Dark, 5d);
+			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			{
+				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
+				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
+				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
+			}));
+			faction.Unlock();
+			faction.TryBuyPopulation(1);
+
+			faction.Update(1f);
+
+			Assert.AreEqual(1d * Faction.MaxLiveBonusMultiplier, _resourceController.GetResource(ResourceType.Light)?.Value);
+		}
 	}
 }
