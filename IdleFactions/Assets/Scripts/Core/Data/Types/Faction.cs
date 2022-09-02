@@ -131,7 +131,7 @@ namespace IdleFactions
 
 		public static double GetPopulationCostMultiplier(double amount, double population)
 		{
-			return GetScalingFormula((int) (population + amount)) - GetScalingFormula((int) population);
+			return GetScalingFormula((int)(population + amount)) - GetScalingFormula((int)population);
 		}
 
 		/// <summary>

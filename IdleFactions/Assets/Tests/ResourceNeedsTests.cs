@@ -91,7 +91,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(0, faction.Population);
 		}
-		
+
 		//Scaling CreateCost
 		[Test]
 		public void BuyPopulationScalingCost()
@@ -113,10 +113,10 @@ namespace IdleFactions.Tests
 			double multiplier = Faction.GetPopulationCostMultiplier(1, 0);
 			resourceUsed += 1d * multiplier;
 			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
-			
+
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(2, faction.Population);
-			
+
 			multiplier = Faction.GetPopulationCostMultiplier(1, 1);
 			resourceUsed += 1d * multiplier;
 
@@ -171,11 +171,11 @@ namespace IdleFactions.Tests
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
 			}));
 			faction.Unlock();
-			faction.TryBuyPopulation(1);
+			faction.TryBuyPopulation(10);
 
 			faction.Update(1f);
 
-			Assert.AreNotEqual(1, faction.Population);
+			Assert.Less(faction.Population, 10);
 		}
 
 		//LiveCost = 1d = buff
