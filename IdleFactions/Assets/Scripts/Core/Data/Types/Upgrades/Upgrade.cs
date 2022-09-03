@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public class Upgrade
+	public class Upgrade : IRevertible
 	{
 		public string Id { get; }
 
@@ -9,8 +9,10 @@ namespace IdleFactions
 
 		public bool Bought { get; private set; }
 
-		private static IResourceController _resourceController;
 		private Faction _faction;
+
+		private static IRevertController _revertController;
+		private static IResourceController _resourceController;
 
 		public Upgrade(string id, ResourceCost cost, params IUpgradeAction[] upgradeActions) :
 			this(id, new[] { cost }, upgradeActions)
@@ -24,8 +26,9 @@ namespace IdleFactions
 			UpgradeActions = upgradeActions;
 		}
 
-		public static void Setup(IResourceController resourceController)
+		public static void Setup(IRevertController revertController, IResourceController resourceController)
 		{
+			_revertController = revertController;
 			_resourceController = resourceController;
 		}
 
@@ -40,7 +43,16 @@ namespace IdleFactions
 				return false;
 
 			Buy();
+			_revertController.AddAction(this);
 			return true;
+		}
+
+		public void Revert()
+		{
+			_resourceController.Add(Costs);
+			Bought = false;
+			foreach (var action in UpgradeActions)
+				_faction.ResourceNeeds.RevertUpgradeAction(action);
 		}
 
 		private void Buy()

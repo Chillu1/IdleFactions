@@ -10,7 +10,7 @@ namespace IdleFactions.Tests
 		public void Setup()
 		{
 			_resourceController = new ResourceController();
-			Faction.Setup(_resourceController);
+			Faction.Setup(new RevertController(), _resourceController);
 		}
 
 		[TearDown]
@@ -102,17 +102,17 @@ namespace IdleFactions.Tests
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
+			double multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(1, faction.Population);
 
-			double multiplier = Faction.GetPopulationCostMultiplier(1, 0);
 			resourceUsed += 1d * multiplier;
 			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
 
+			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(2, faction.Population);
 
-			multiplier = Faction.GetPopulationCostMultiplier(1, 1);
 			resourceUsed += 1d * multiplier;
 
 			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);

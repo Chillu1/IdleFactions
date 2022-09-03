@@ -35,6 +35,22 @@ namespace IdleFactions
 			}
 		}
 
+		public void RevertUpgradeAction(IUpgradeAction action)
+		{
+			switch (action)
+			{
+				case UpgradeActionMultiplier actionMultiplier:
+					ChangeMultiplier(actionMultiplier.ResourceNeedsType, actionMultiplier.ResourceType, 1d / actionMultiplier.Multiplier);
+					break;
+				case UpgradeActionNewResource actionNewResource:
+					RemoveNewResource(actionNewResource.ResourceNeedsType, actionNewResource.ResourceType, actionNewResource.Value);
+					break;
+				default:
+					Log.Error("Unknown action type: " + action.GetType());
+					break;
+			}
+		}
+
 		private void ChangeMultiplier(ResourceNeedsType needsType, ResourceType resourceType, double multiplier)
 		{
 			switch (needsType)
@@ -62,7 +78,6 @@ namespace IdleFactions
 				{
 					Log.Warning($"Creating resource type {resourceType} before it exists. Need to check if works");
 					source.Add(resourceType, new Resource(resourceType));
-					return;
 				}
 
 				source[resourceType].TimesMultiplier(multiplier);
@@ -103,6 +118,40 @@ namespace IdleFactions
 				newResource.Add(value);
 
 				source.Add(resourceType, newResource);
+			}
+		}
+
+		private void RemoveNewResource(ResourceNeedsType needsType, ResourceType resourceType, double value)
+		{
+			switch (needsType)
+			{
+				case ResourceNeedsType.Generate:
+					RemoveNewResource(Generate);
+					break;
+				case ResourceNeedsType.CreateCost:
+					RemoveNewResource(CreateCost);
+					break;
+				case ResourceNeedsType.GenerateCost:
+					RemoveNewResource(GenerateCost);
+					break;
+				case ResourceNeedsType.LiveCost:
+					RemoveNewResource(LiveCost);
+					break;
+				default:
+					Log.Error("Invalid ResourceNeedsType: " + needsType);
+					break;
+			}
+
+			void RemoveNewResource(Dictionary<ResourceType, Resource> source)
+			{
+				if (!source.TryGetValue(resourceType, out var resource))
+				{
+					Log.Error("Trying to remove resource that doesn't exist");
+					return;
+				}
+
+				//Remove from base
+				resource.Remove(value);
 			}
 		}
 	}

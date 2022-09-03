@@ -12,7 +12,7 @@ namespace IdleFactions.Tests
 		public void Setup()
 		{
 			_resourceController = new ResourceController();
-			Faction.Setup(_resourceController);
+			Faction.Setup(new RevertController(), _resourceController);
 		}
 
 		[TearDown]

@@ -22,7 +22,8 @@ namespace IdleFactions
 
 		private IReadOnlyList<Upgrade> Upgrades { get; }
 
-		private static IResourceController ResourceController { get; set; }
+		private static IRevertController _revertController;
+		private static IResourceController _resourceController;
 
 		public Faction(FactionType type, ResourceNeeds resourceNeeds, IReadOnlyList<Upgrade> upgrades)
 		{
@@ -35,9 +36,10 @@ namespace IdleFactions
 			Upgrades = upgrades;
 		}
 
-		public static void Setup(IResourceController resourceController)
+		public static void Setup(IRevertController revertController, IResourceController resourceController)
 		{
-			ResourceController = resourceController;
+			_revertController = revertController;
+			_resourceController = resourceController;
 		}
 
 		public void Update(float delta)
@@ -47,7 +49,7 @@ namespace IdleFactions
 
 			double usedLiveMultiplier = 1d;
 			if (ResourceNeeds.LiveCost != null &&
-			    ResourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out usedLiveMultiplier))
+			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out usedLiveMultiplier))
 			{
 				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
@@ -59,12 +61,12 @@ namespace IdleFactions
 
 			double usedGenMultiplier = 1d;
 			if (ResourceNeeds.GenerateCost != null)
-				ResourceController.TryUsePartialResource(ResourceNeeds.GenerateCost.Values, Population * delta,
+				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost.Values, Population * delta,
 					out usedGenMultiplier);
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
-			ResourceController.Add(ResourceNeeds.Generate.Values, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+			_resourceController.Add(ResourceNeeds.Generate.Values, Population * usedLiveMultiplier * usedGenMultiplier * delta);
 		}
 
 		public void Unlock()
@@ -77,13 +79,20 @@ namespace IdleFactions
 			if (!IsUnlocked)
 				return false;
 
-			double multiplier = GetPopulationCostMultiplier(amount, Population);
+			double multiplier = GetPopulationCostMultiplier(amount);
 
-			if (!ResourceController.TryUseResource(ResourceNeeds.CreateCost.Values, multiplier))
+			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCost.Values, multiplier))
 				return false;
 
+			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));
 			ChangePopulation(amount);
 			return true;
+		}
+
+		public void RevertPopulation(double amount, double multiplier)
+		{
+			_resourceController.Add(ResourceNeeds.CreateCost.Values, multiplier);
+			ChangePopulation(-amount);
 		}
 
 		public bool TryBuyUpgrade(int index)
@@ -122,13 +131,18 @@ namespace IdleFactions
 			IsGenerationOn = !IsGenerationOn;
 		}
 
-		public override int GetHashCode()
+		public double GetPopulationCostMultiplier(double amount)
 		{
-			return Type.GetHashCode();
+			return GetPopulationCostMultiplier(amount, Population);
 		}
 
-		public static double GetPopulationCostMultiplier(double amount, double population)
+		private static double GetPopulationCostMultiplier(double amount, double population)
 		{
+			if (amount + population <= 1)
+				return 1d;
+
+			//population -= 1; //Scratch that, no need to offset since since only the first purchase should be 1 //Offset population, to make the first purchase 1X, and next to be scaled accordingly
+
 			return GetScalingFormula((int)(population + amount)) - GetScalingFormula((int)population);
 		}
 
@@ -137,9 +151,6 @@ namespace IdleFactions
 		/// </summary>
 		private static double GetScalingFormula(int n)
 		{
-			if (n == 1)
-				return 1;
-
 			const double fifth = 0.0001616362;
 			const double fourth = 0.0049091246;
 			const double third = 0.1112719416;
@@ -148,6 +159,11 @@ namespace IdleFactions
 
 			//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 0.15 for n = 0 to n
 			return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+		}
+
+		public override int GetHashCode()
+		{
+			return Type.GetHashCode();
 		}
 	}
 }

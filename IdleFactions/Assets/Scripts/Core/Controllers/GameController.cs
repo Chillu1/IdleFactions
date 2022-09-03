@@ -9,6 +9,7 @@ namespace IdleFactions
 		private readonly UpgradeData _upgradeData;
 		private readonly FactionData _factionData;
 
+		private readonly IRevertController _revertController;
 		private readonly FactionController _factionController;
 		private readonly IResourceController _resourceController;
 
@@ -16,9 +17,10 @@ namespace IdleFactions
 		{
 			_upgradeData = new UpgradeData();
 			_factionData = new FactionData(_upgradeData);
+			_revertController = new RevertController();
 			_resourceController = new ResourceController();
-			Upgrade.Setup(_resourceController);
-			Faction.Setup(_resourceController);
+			Upgrade.Setup(_revertController, _resourceController);
+			Faction.Setup(_revertController, _resourceController);
 			_factionController = new FactionController(_factionData);
 
 			_resourceController.Add(ResourceType.Light, 1);
@@ -38,6 +40,7 @@ namespace IdleFactions
 
 		public void Update(float delta)
 		{
+			_revertController.Update(delta);
 			_factionController.Update(delta);
 		}
 	}

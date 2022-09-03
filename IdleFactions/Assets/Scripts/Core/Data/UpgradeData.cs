@@ -81,8 +81,10 @@ namespace IdleFactions
 			{
 				var upgradeList = new List<Upgrade>
 				{
-					new Upgrade("Human fishers", new ResourceCost(ResourceType.Light), new UpgradeActionNewResource
-						(ResourceNeedsType.Generate, ResourceType.Food, 0.5d))
+					new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
+						new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5d)),
+					new Upgrade("Learn to chop wood", new ResourceCost(ResourceType.Light, 100),
+						new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Wood, 0.5d))
 				};
 
 				_upgrades.Add(FactionType.Human, upgradeList);

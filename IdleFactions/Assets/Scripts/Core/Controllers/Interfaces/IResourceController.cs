@@ -6,6 +6,8 @@ namespace IdleFactions
 	{
 		void Add(ResourceType type, double value);
 		void Add(IReadOnlyCollection<Resource> resources, double usedGenMultiplier);
+		void Add(ResourceCost[] resourceCosts);
+
 		bool TryUseResource(ResourceCost[] resourceCosts);
 
 		bool TryUseResource(ICollection<Resource> resourceCosts, double multiplier);

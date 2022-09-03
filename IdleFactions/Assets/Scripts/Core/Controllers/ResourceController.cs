@@ -35,6 +35,12 @@ namespace IdleFactions
 				Add(cost.Type, cost.Value * usedGenMultiplier);
 		}
 
+		public void Add(ResourceCost[] resourceCosts)
+		{
+			foreach (var cost in resourceCosts)
+				Add(cost.Type, cost.Value);
+		}
+
 		public bool TryUseResource((ResourceType type, double value)[] resources, double multiplier)
 		{
 			foreach (var resource in resources)
