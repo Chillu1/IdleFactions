@@ -23,20 +23,22 @@ namespace IdleFactions
 			Faction.Setup(_revertController, _resourceController);
 			_factionController = new FactionController(_factionData);
 
-			_resourceController.Add(ResourceType.Light, 1);
-			_resourceController.Add(ResourceType.Dark, 1);
-
-			_factionController.GetFaction(FactionType.Creation)?.Unlock();
-
-			_factionController.GetFaction(FactionType.Creation)?.ChangePopulation(1);
-
 			uiController.Setup(_resourceController, _factionController);
+
+			NewGame();
 		}
 
 		public void Update(float delta)
 		{
 			_revertController.Update(delta);
 			_factionController.Update(delta);
+		}
+
+		private void NewGame()
+		{
+			_factionController.GetFaction(FactionType.Creation)!.Unlock();
+
+			_factionController.GetFaction(FactionType.Creation)!.ChangePopulation(1);
 		}
 	}
 }

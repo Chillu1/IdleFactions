@@ -28,5 +28,7 @@ namespace IdleFactions
 		//Specials?
 		Essence,
 		Time,
+
+		Infinity,
 	}
 }

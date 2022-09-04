@@ -29,6 +29,13 @@ namespace IdleFactions
 			//Early game
 			{
 				var properties = new ResourceNeedsProperties();
+				properties.SetGenerate(new ResourceCost(ResourceType.Essence));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Infinity));
+
+				AddFaction(FactionType.Creation, properties);
+			}
+			{
+				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Light));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Essence));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));

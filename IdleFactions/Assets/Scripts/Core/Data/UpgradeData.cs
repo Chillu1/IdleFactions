@@ -24,7 +24,15 @@ namespace IdleFactions
 		private void SetupUpgrades()
 		{
 			{
-				var upgradeList = new List<Upgrade>
+				_upgrades.Add(FactionType.Creation, new List<Upgrade>
+				{
+					new Upgrade("More essence",
+						new ResourceCost(ResourceType.Infinity, 5), false,
+						new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Essence, 2)),
+				});
+			}
+			{
+				_upgrades.Add(FactionType.Divinity, new List<Upgrade>
 				{
 					new Upgrade("Unlock the light", new ResourceCost(ResourceType.Essence), true,
 						upgradeActions: new UpgradeActionUnlock()),
@@ -42,13 +50,11 @@ namespace IdleFactions
 						new ResourceCost(ResourceType.Light, 15), false,
 						new UpgradeActionMultiplier(ResourceNeedsType.LiveCost, ResourceType.Dark, 2),
 						new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2))
-				};
-
-				_upgrades.Add(FactionType.Divinity, upgradeList);
+				});
 			}
 
 			{
-				var upgradeList = new List<Upgrade>
+				_upgrades.Add(FactionType.Void, new List<Upgrade>
 				{
 					new Upgrade("Unlock the void", new ResourceCost(ResourceType.Essence), true, new UpgradeActionUnlock()),
 
@@ -66,43 +72,37 @@ namespace IdleFactions
 						new UpgradeActionMultiplier(ResourceNeedsType.LiveCost, ResourceType.Light, 2),
 						new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Dark, 2)
 					)
-				};
-
-				_upgrades.Add(FactionType.Void, upgradeList);
+				});
 			}
 
 			{
-				var upgradeList = new List<Upgrade>
+				_upgrades.Add(FactionType.Heat, new List<Upgrade>
 				{
 					new Upgrade("Unlock lava",
 						new[] { new ResourceCost(ResourceType.Light, 100), new ResourceCost(ResourceType.Dark, 100) }, true,
 						new UpgradeActionUnlock()
 					),
-				};
+				});
 			}
 
 			{
-				var upgradeList = new List<Upgrade>
+				_upgrades.Add(FactionType.Nature, new List<Upgrade>
 				{
 					new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
 						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Food, 1.5)),
 					new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
 						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9))
-				};
-
-				_upgrades.Add(FactionType.Nature, upgradeList);
+				});
 			}
 
 			{
-				var upgradeList = new List<Upgrade>
+				_upgrades.Add(FactionType.Human, new List<Upgrade>
 				{
 					new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
 						upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5d)),
 					new Upgrade("Learn to chop wood", new ResourceCost(ResourceType.Light, 100),
 						upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Wood, 0.5d))
-				};
-
-				_upgrades.Add(FactionType.Human, upgradeList);
+				});
 			}
 		}
 	}

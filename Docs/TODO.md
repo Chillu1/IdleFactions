@@ -14,4 +14,5 @@
 
 * Rates
 * Buying 1-10-25-100-10%-25%-50%-Max population
-* Revertable actions? Recording last 2-3 actions (command pattern?). Probably not worth it
+* https://github.com/Razenpok/BreakInfinity.cs
+* https://github.com/jtmueller/Collections.Pooled

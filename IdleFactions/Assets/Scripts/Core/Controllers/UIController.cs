@@ -17,6 +17,7 @@ namespace IdleFactions
 
 		//Faction Tab
 		private TMP_Text _factionType;
+		private TMP_Text _factionBuyPopulationText;
 		private Button[] _upgradeButtons;
 		private TMP_Text[] _upgradeButtonTexts;
 		private TMP_Text _population;
@@ -48,8 +49,12 @@ namespace IdleFactions
 			var factionTab = canvas.Find("FactionTab");
 			_factionType = factionTab.Find("FactionType").GetComponent<TMP_Text>();
 
-			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() => _factionController
-				.GetFaction(_currentFactionType)?.TryBuyPopulation(1));
+			_factionBuyPopulationText = factionTab.Find("BuyPopulation").GetComponentInChildren<TMP_Text>();
+			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				_factionController.GetFaction(_currentFactionType)?.TryBuyPopulation(1);
+				UpdateFactionTabPopulationInfo();
+			});
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _factionController
 				.GetFaction(_currentFactionType)?.ToggleGeneration());
 
@@ -107,6 +112,8 @@ namespace IdleFactions
 						});
 				}*/
 			}
+
+			SwitchFactionTab(FactionType.Creation);
 		}
 
 		private void Update()
@@ -148,7 +155,20 @@ namespace IdleFactions
 				? "LiveCost: " + string.Join(", ", faction.ResourceNeeds.LiveCost.Select(r => r.Value.ToString()))
 				: "LiveCost: None";
 
+			UpdateFactionTabPopulationInfo();
 			//TODO _rates
+		}
+
+		private void UpdateFactionTabPopulationInfo()
+		{
+			var faction = _factionController.GetFaction(_currentFactionType);
+			if (faction == null)
+				return;
+
+			double multiplier = faction.GetPopulationCostMultiplier(1);
+			string costs = string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r =>
+				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
+			_factionBuyPopulationText.text = "Buy 1 population: " + costs;
 		}
 	}
 }
