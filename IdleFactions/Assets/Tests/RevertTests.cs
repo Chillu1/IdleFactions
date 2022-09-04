@@ -41,7 +41,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Light)?.Value);
 
 			var upgrade = new Upgrade("TestMultiplier", new ResourceCost(ResourceType.Dark),
-				new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2d));
+				upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2d));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 
@@ -70,7 +70,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
 
 			var upgrade = new Upgrade("TestNewResource", new ResourceCost(ResourceType.Water),
-				new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Dark, 1d));
+				upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Dark, 1d));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 

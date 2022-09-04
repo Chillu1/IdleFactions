@@ -26,6 +26,7 @@ namespace IdleFactions
 
 		private void SetupFactions()
 		{
+			//Early game
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Light));
@@ -44,12 +45,22 @@ namespace IdleFactions
 			}
 			{
 				var properties = new ResourceNeedsProperties();
+				properties.SetGenerate(new ResourceCost(ResourceType.Lava));
+				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 100d), new ResourceCost(ResourceType.Dark, 100d) });
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.5d));
+
+				AddFaction(FactionType.Heat, properties);
+			}
+			{
+				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Water));
-				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 100d));
-				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d));
+				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 1000d), new ResourceCost(ResourceType.Dark, 1000d) });
+				properties.SetGenerateCost(new[] { new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d) });
 
 				AddFaction(FactionType.Ocean, properties);
 			}
+
+			//Mid game
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new[]
@@ -70,6 +81,8 @@ namespace IdleFactions
 
 				AddFaction(FactionType.Nature, properties);
 			}
+
+			//Late game
 			{
 				var properties = new ResourceNeedsProperties();
 				properties.SetGenerate(new[]

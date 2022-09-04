@@ -26,14 +26,9 @@ namespace IdleFactions
 			_resourceController.Add(ResourceType.Light, 1);
 			_resourceController.Add(ResourceType.Dark, 1);
 
-			_factionController.GetFaction(FactionType.Divinity)?.Unlock();
-			_factionController.GetFaction(FactionType.Void)?.Unlock();
-			_factionController.GetFaction(FactionType.Ocean)?.Unlock();
-			_factionController.GetFaction(FactionType.Nature)?.Unlock();
-			_factionController.GetFaction(FactionType.Human)?.Unlock();
+			_factionController.GetFaction(FactionType.Creation)?.Unlock();
 
-			_factionController.GetFaction(FactionType.Divinity)?.ChangePopulation(1);
-			_factionController.GetFaction(FactionType.Void)?.ChangePopulation(1);
+			_factionController.GetFaction(FactionType.Creation)?.ChangePopulation(1);
 
 			uiController.Setup(_resourceController, _factionController);
 		}

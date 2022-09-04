@@ -121,6 +121,30 @@ namespace IdleFactions
 			return i >= Upgrades?.Count ? "Id" : Upgrades?[i].Id;
 		}
 
+		public void ActivateUpgradeAction(IUpgradeAction action)
+		{
+			switch (action)
+			{
+				case UpgradeActionUnlock actionUnlock:
+					Unlock();
+					return;
+			}
+
+			ResourceNeeds.ActivateUpgradeAction(action);
+		}
+
+		public void RevertUpgradeAction(IUpgradeAction action)
+		{
+			switch (action)
+			{
+				case UpgradeActionUnlock actionUnlock:
+					IsUnlocked = false;
+					return;
+			}
+
+			ResourceNeeds.RevertUpgradeAction(action);
+		}
+
 		public void ChangePopulation(double amount)
 		{
 			Population += amount;

@@ -2,6 +2,52 @@
 
 ## Temp Notes
 
+Prox progression:
+1 Essence Gen
+1 Light or dark?
+Light upgrades, 10 light = 2x light prod, 10 dark = 2x light prod
+Dark upgrades, 10 dark = 2x dark prod, 10 light = 2x dark prod
+
+1000 light, 1000 dark = unlock lava
+
+lava needs 0.5 light to live
+
+
+Early game:
+
+Light
+Essence
+ark
+Lava
+Heat
+Water,
+
+
+Mid game:
+
+Nature Plants
+Mages
+Warlocks
+Necro
+Skeletons
+Demons
+Golem
+Monsters/Fantasy?..
+Goblins
+Ogres
+Dwarfs
+Elves
+
+
+Nature Wildlife
+Treant
+
+
+Late game?:
+
+Human
+Drowner
+
 Light = Active play resource?
 Dark = Passive play resource?
 
@@ -47,7 +93,7 @@ Factions interact with each other, using each other resources.
 | Dwarf?           | Gold/treasures  |                                                    | Food          |                      |
 | Void?Elders?	    | Dark            |                                                    |               | Light                |
 | Evil?            | Souls/bodies    |                                                    | Dark          | Human                |
-|                  | Energy/Essence  |                                                    |               |                      |
+| Creation         | Energy/Essence  |                                                    |               |                      |
 | Golem            | Stone           |                                                    | Human?,       |                      |
 | Drowner          | Bodies          |                                                    | Water         | Human                |
 

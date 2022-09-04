@@ -130,7 +130,7 @@ namespace IdleFactions
 
 			for (int i = 0; i < _upgradeButtons.Length; i++)
 			{
-				_upgradeButtons[i].interactable = faction.GetUpgrade(i)?.Bought == false;
+				_upgradeButtons[i].interactable = faction.GetUpgrade(i) is { Unlocked: true, Bought: false };
 				_upgradeButtonTexts[i].text = faction.GetUpgradeId(i);
 			}
 

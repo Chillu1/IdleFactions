@@ -6,8 +6,10 @@ namespace IdleFactions
 	public enum FactionType
 	{
 		None,
+		Creation,
 		Divinity,
 		Void,
+		Heat,
 		Ocean,
 
 		Nature,

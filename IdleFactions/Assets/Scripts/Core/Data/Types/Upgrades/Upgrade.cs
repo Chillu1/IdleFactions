@@ -7,6 +7,7 @@ namespace IdleFactions
 		private ResourceCost[] Costs { get; }
 		private IUpgradeAction[] UpgradeActions { get; }
 
+		public bool Unlocked { get; private set; }
 		public bool Bought { get; private set; }
 
 		private Faction _faction;
@@ -14,14 +15,15 @@ namespace IdleFactions
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
 
-		public Upgrade(string id, ResourceCost cost, params IUpgradeAction[] upgradeActions) :
-			this(id, new[] { cost }, upgradeActions)
+		public Upgrade(string id, ResourceCost cost, bool unlocked = false, params IUpgradeAction[] upgradeActions) :
+			this(id, new[] { cost }, unlocked, upgradeActions)
 		{
 		}
 
-		public Upgrade(string id, ResourceCost[] costs, params IUpgradeAction[] upgradeActions)
+		public Upgrade(string id, ResourceCost[] costs, bool unlocked = false, params IUpgradeAction[] upgradeActions)
 		{
 			Id = id;
+			Unlocked = unlocked;
 			Costs = costs;
 			UpgradeActions = upgradeActions;
 		}
@@ -52,13 +54,13 @@ namespace IdleFactions
 			_resourceController.Add(Costs);
 			Bought = false;
 			foreach (var action in UpgradeActions)
-				_faction.ResourceNeeds.RevertUpgradeAction(action);
+				_faction.RevertUpgradeAction(action);
 		}
 
 		private void Buy()
 		{
 			foreach (var action in UpgradeActions)
-				_faction.ResourceNeeds.ActivateUpgradeAction(action);
+				_faction.ActivateUpgradeAction(action);
 
 			Bought = true;
 		}

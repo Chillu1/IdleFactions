@@ -5,6 +5,7 @@ namespace IdleFactions
 		None,
 		Light,
 		Dark,
+		Lava,
 		Water,
 
 		Nature,

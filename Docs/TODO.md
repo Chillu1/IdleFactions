@@ -1,9 +1,9 @@
 # TODO:
 
-* Light & Water => Nature
+* Unlockable faction upgrades, to unlock on X, or set resource amount
 * Faction UI
   * Faction art
-* Basic progression. Light/Dark, Water, Nature, Human
+* Basic progression. Light/Dark, Water, Nature, Human?
   * Light:
   * Dark:
   * Water: Costs light 2x prod, costs nature (seaweed) 2x prod
