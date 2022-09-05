@@ -147,12 +147,12 @@ namespace IdleFactions
 		private void UpdateFactionTabInfo(Faction faction)
 		{
 			_needs[0].text = "Generation: " + string.Join(", ", faction.ResourceNeeds.Generate.Select(r => r.Value.ToString()));
-			_needs[1].text = "CreateCost: " + string.Join(", ", faction.ResourceNeeds.CreateCostRead.Select(r => r.Value.ToString()));
-			_needs[2].text = faction.ResourceNeeds.GenerateCostRead != null
-				? "GenerateCost: " + string.Join(", ", faction.ResourceNeeds.GenerateCostRead.Select(r => r.Value.ToString()))
+			_needs[1].text = "CreateCost: " + string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r => r.Value.ToString()));
+			_needs[2].text = faction.ResourceNeeds.GenerateCost != null
+				? "GenerateCost: " + string.Join(", ", faction.ResourceNeeds.GenerateCost.Select(r => r.Value.ToString()))
 				: "GenerateCost: None";
-			_needs[3].text = faction.ResourceNeeds.LiveCostRead != null
-				? "LiveCost: " + string.Join(", ", faction.ResourceNeeds.LiveCostRead.Select(r => r.Value.ToString()))
+			_needs[3].text = faction.ResourceNeeds.LiveCost != null
+				? "LiveCost: " + string.Join(", ", faction.ResourceNeeds.LiveCost.Select(r => r.Value.ToString()))
 				: "LiveCost: None";
 
 			UpdateFactionTabPopulationInfo();
@@ -166,7 +166,7 @@ namespace IdleFactions
 				return;
 
 			double multiplier = faction.GetPopulationCostMultiplier(1);
-			string costs = string.Join(", ", faction.ResourceNeeds.CreateCostRead.Select(r =>
+			string costs = string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r =>
 				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
 			_factionBuyPopulationText.text = "Buy 1 population: " + costs;
 		}

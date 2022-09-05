@@ -7,9 +7,9 @@ namespace IdleFactions
 	public class ResourceNeeds //TODO Rename
 	{
 		public IReadOnlyDictionary<ResourceType, Resource> Generate => _generate;
-		public IReadOnlyDictionary<ResourceType, Resource> CreateCostRead => _createCost;
-		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> GenerateCostRead => _generateCost;
-		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> LiveCostRead => _liveCost;
+		public IReadOnlyDictionary<ResourceType, Resource> CreateCost => _createCost;
+		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> GenerateCost => _generateCost;
+		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> LiveCost => _liveCost;
 
 		private readonly Dictionary<ResourceType, Resource> _generate;
 		private readonly Dictionary<ResourceType, Resource> _createCost;
@@ -24,7 +24,11 @@ namespace IdleFactions
 		{
 			_generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			_createCost = properties.CreateCost.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			//AddNewResource(CreateCost, ResourceType.Essence, 1d);//TODOPRIO
+			if (_createCost.ContainsKey(ResourceType.Essence))
+				Log.Error("ResourceNeeds: Essence is automatically applied to create cost(?). Do we want custom essence amounts?");
+			if (_createCost == null)
+				_createCost = new Dictionary<ResourceType, Resource>();
+			AddNewResource(_createCost, ResourceType.Essence, 1d);
 			_generateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			_liveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 		}

@@ -48,8 +48,8 @@ namespace IdleFactions
 				return;
 
 			double usedLiveMultiplier = 1d;
-			if (ResourceNeeds.LiveCostRead != null &&
-			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCostRead, Population * delta, out usedLiveMultiplier))
+			if (ResourceNeeds.LiveCost != null &&
+			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost, Population * delta, out usedLiveMultiplier))
 			{
 				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
@@ -60,8 +60,8 @@ namespace IdleFactions
 				return;
 
 			double usedGenMultiplier = 1d;
-			if (ResourceNeeds.GenerateCostRead != null)
-				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCostRead, Population * delta,
+			if (ResourceNeeds.GenerateCost != null)
+				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost, Population * delta,
 					out usedGenMultiplier);
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
@@ -81,7 +81,7 @@ namespace IdleFactions
 
 			double multiplier = GetPopulationCostMultiplier(amount);
 
-			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCostRead, multiplier))
+			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCost, multiplier))
 				return false;
 
 			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));
@@ -91,7 +91,7 @@ namespace IdleFactions
 
 		public void RevertPopulation(double amount, double multiplier)
 		{
-			_resourceController.Add(ResourceNeeds.CreateCostRead, multiplier);
+			_resourceController.Add(ResourceNeeds.CreateCost, multiplier);
 			ChangePopulation(-amount);
 		}
 

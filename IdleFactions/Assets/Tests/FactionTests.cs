@@ -26,6 +26,7 @@ namespace IdleFactions.Tests
 		{
 			const int startPopulation = 5;
 
+			_resourceController.Add(ResourceType.Essence, double.MaxValue);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
@@ -46,6 +47,7 @@ namespace IdleFactions.Tests
 		{
 			const int startPopulation = 5;
 
+			_resourceController.Add(ResourceType.Essence, double.MaxValue);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },

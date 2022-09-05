@@ -16,6 +16,7 @@ namespace IdleFactions.Tests
 			_resourceController = new ResourceController();
 			Upgrade.Setup(_revertController, _resourceController);
 			Faction.Setup(_revertController, _resourceController);
+			_resourceController.Add(ResourceType.Essence, double.MaxValue);
 		}
 
 		[TearDown]
