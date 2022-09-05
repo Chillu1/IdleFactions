@@ -9,9 +9,14 @@
     Skeletons (like humans, but far worse, can be upgraded to do, food, stone, wood, etc?)
     Demons
 
+## Tests
+
+* UpgradeActionGeneralMultiplier
+
 ## Misc
 
 * General multiplier upgrade needs, instead of X resources
+* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Separate generated population & bought?
 * Capping population/auto toggle generation to a limit (ex. so we don't have 1000 skeletons draining all dark & magic)
 * Rates

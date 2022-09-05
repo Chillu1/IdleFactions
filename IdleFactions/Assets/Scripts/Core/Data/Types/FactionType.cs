@@ -25,7 +25,8 @@ namespace IdleFactions
 		Golem,
 		Drowner,
 		Necro,
-		Skeleton
+		Skeleton,
+		Elf
 	}
 
 	public static class FactionTypeHelper

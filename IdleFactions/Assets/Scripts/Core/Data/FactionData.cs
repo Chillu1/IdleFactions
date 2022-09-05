@@ -138,6 +138,68 @@ namespace IdleFactions
 
 				AddFaction(factionType, properties);
 			}
+			{
+				var factionType = FactionType.Demon;
+				var properties = new ResourceNeedsProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Heat, 0.2d),
+					new ResourceCost(ResourceType.Fire, 1d)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Dark, 1000d),
+					new ResourceCost(ResourceType.Magic, 2000d),
+					new ResourceCost(ResourceType.Fire, 1000d)
+				});
+				properties.SetLiveCost(new[]
+				{
+					new ResourceCost(ResourceType.Dark, 0.2d),
+					new ResourceCost(ResourceType.Magic, 0.4d),
+					new ResourceCost(ResourceType.Fire, 0.5d)
+				});
+				properties.SetGenerateCost(new[]
+				{
+					new ResourceCost(ResourceType.Heat, 0.1d)
+				});
+
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Dwarf;
+				var properties = new ResourceNeedsProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Stone, 0.6d),
+					new ResourceCost(ResourceType.Ore, 0.2d),
+					new ResourceCost(ResourceType.Gold, 0.1d),
+					new ResourceCost(ResourceType.Bones, 0.01d),
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Light, 1000d),
+					new ResourceCost(ResourceType.Dark, 1000d),
+					new ResourceCost(ResourceType.Magic, 1000d),
+					new ResourceCost(ResourceType.Stone, 1000d),
+					new ResourceCost(ResourceType.Soul),
+				});
+				properties.SetLiveCost(new[]
+				{
+					new ResourceCost(ResourceType.Food, 0.8d),
+					new ResourceCost(ResourceType.Light, 0.2d),
+					new ResourceCost(ResourceType.Dark, 0.2d),
+					new ResourceCost(ResourceType.Magic, 0.2d)
+				});
+				properties.SetGenerateCost(new[]
+				{
+					new ResourceCost(ResourceType.Stone, 0.2d),
+					new ResourceCost(ResourceType.Wood, 0.1d),
+					new ResourceCost(ResourceType.Metal, 0.1d),
+				});
+				//Upg: Smelting, lava, ore to gold/metal.
+
+				AddFaction(factionType, properties);
+			}
 
 			//Late game
 			{

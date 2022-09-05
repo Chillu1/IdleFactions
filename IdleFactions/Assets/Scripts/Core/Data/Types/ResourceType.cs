@@ -19,9 +19,14 @@ namespace IdleFactions
 		Wildlife,
 		Plant,
 		Stone,
+		Ore,
 		Magic,
 		Mana,
 		Fire,
+
+		/// <summary>
+		///		Used for creation of: Human, Warlock, Dwarf, Necro, Elves
+		/// </summary>
 		Soul,
 		Energy,
 

@@ -40,6 +40,9 @@ namespace IdleFactions
 				case UpgradeActionMultiplier actionMultiplier:
 					ChangeMultiplier(actionMultiplier.ResourceNeedsType, actionMultiplier.ResourceType, actionMultiplier.Multiplier);
 					break;
+				case UpgradeActionGeneralMultiplier actionGeneralMultiplier:
+					ChangeGeneralMultiplier(actionGeneralMultiplier.ResourceNeedsType, actionGeneralMultiplier.Multiplier);
+					break;
 				case UpgradeActionNewResource actionNewResource:
 					AddNewResource(actionNewResource.ResourceNeedsType, actionNewResource.ResourceType, actionNewResource.Value);
 					break;
@@ -55,6 +58,9 @@ namespace IdleFactions
 			{
 				case UpgradeActionMultiplier actionMultiplier:
 					ChangeMultiplier(actionMultiplier.ResourceNeedsType, actionMultiplier.ResourceType, 1d / actionMultiplier.Multiplier);
+					break;
+				case UpgradeActionGeneralMultiplier actionGeneralMultiplier:
+					ChangeGeneralMultiplier(actionGeneralMultiplier.ResourceNeedsType, 1d / actionGeneralMultiplier.Multiplier);
 					break;
 				case UpgradeActionNewResource actionNewResource:
 					RemoveNewResource(actionNewResource.ResourceNeedsType, actionNewResource.ResourceType, actionNewResource.Value);
@@ -95,6 +101,34 @@ namespace IdleFactions
 				}
 
 				source[resourceType].TimesMultiplier(multiplier);
+			}
+		}
+
+		private void ChangeGeneralMultiplier(ResourceNeedsType needsType, double multiplier)
+		{
+			switch (needsType)
+			{
+				case ResourceNeedsType.Generate:
+					ChangeGeneralMultiplier(_generate);
+					break;
+				case ResourceNeedsType.CreateCost:
+					ChangeGeneralMultiplier(_createCost);
+					break;
+				case ResourceNeedsType.GenerateCost:
+					ChangeGeneralMultiplier(_generateCost);
+					break;
+				case ResourceNeedsType.LiveCost:
+					ChangeGeneralMultiplier(_liveCost);
+					break;
+				default:
+					Log.Error("Invalid ResourceNeedsType: " + needsType);
+					break;
+			}
+
+			void ChangeGeneralMultiplier(Dictionary<ResourceType, Resource> source)
+			{
+				foreach (var resource in source.Values)
+					resource.TimesMultiplier(multiplier);
 			}
 		}
 
