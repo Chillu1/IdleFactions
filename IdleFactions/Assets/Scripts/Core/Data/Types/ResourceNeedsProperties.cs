@@ -6,6 +6,7 @@ namespace IdleFactions
 	{
 		public ResourceCost[] Generate;
 
+		[CanBeNull]
 		public ResourceCost[] CreateCost;
 
 		[CanBeNull]

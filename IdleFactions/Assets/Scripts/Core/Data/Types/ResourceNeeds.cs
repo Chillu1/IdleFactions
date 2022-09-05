@@ -23,11 +23,11 @@ namespace IdleFactions
 		public ResourceNeeds(ResourceNeedsProperties properties)
 		{
 			_generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			_createCost = properties.CreateCost.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			if (_createCost.ContainsKey(ResourceType.Essence))
-				Log.Error("ResourceNeeds: Essence is automatically applied to create cost(?). Do we want custom essence amounts?");
+			_createCost = properties.CreateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			if (_createCost == null)
 				_createCost = new Dictionary<ResourceType, Resource>();
+			if (_createCost.ContainsKey(ResourceType.Essence))
+				Log.Error("ResourceNeeds: Essence is automatically applied to create cost(?). Do we want custom essence amounts?");
 			AddNewResource(_createCost, ResourceType.Essence, 1d);
 			_generateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 			_liveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));

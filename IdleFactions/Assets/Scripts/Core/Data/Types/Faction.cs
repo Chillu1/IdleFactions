@@ -110,6 +110,8 @@ namespace IdleFactions
 		[CanBeNull]
 		public Upgrade GetUpgrade(int index)
 		{
+			if (Upgrades == null)
+				return null;
 			if (index < 0 || index >= Upgrades.Count)
 				return null;
 
