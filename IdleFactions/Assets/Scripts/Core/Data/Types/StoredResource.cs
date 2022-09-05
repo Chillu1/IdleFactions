@@ -4,7 +4,7 @@ namespace IdleFactions
 {
 	public class StoredResource
 	{
-		public ResourceType Type { get; }
+		private ResourceType Type { get; }
 		public double Value { get; private set; }
 
 		public StoredResource(ResourceType type)

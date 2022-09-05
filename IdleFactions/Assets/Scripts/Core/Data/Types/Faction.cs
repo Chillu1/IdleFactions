@@ -7,7 +7,7 @@ namespace IdleFactions
 {
 	public class Faction
 	{
-		public FactionType Type { get; }
+		private FactionType Type { get; }
 		public ResourceNeeds ResourceNeeds { get; }
 
 		public double Population { get; private set; }
@@ -48,8 +48,8 @@ namespace IdleFactions
 				return;
 
 			double usedLiveMultiplier = 1d;
-			if (ResourceNeeds.LiveCost != null &&
-			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost.Values, Population * delta, out usedLiveMultiplier))
+			if (ResourceNeeds.LiveCostRead != null &&
+			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCostRead, Population * delta, out usedLiveMultiplier))
 			{
 				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
@@ -60,13 +60,13 @@ namespace IdleFactions
 				return;
 
 			double usedGenMultiplier = 1d;
-			if (ResourceNeeds.GenerateCost != null)
-				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost.Values, Population * delta,
+			if (ResourceNeeds.GenerateCostRead != null)
+				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCostRead, Population * delta,
 					out usedGenMultiplier);
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
-			_resourceController.Add(ResourceNeeds.Generate.Values, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+			_resourceController.Add(ResourceNeeds.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
 		}
 
 		public void Unlock()
@@ -81,7 +81,7 @@ namespace IdleFactions
 
 			double multiplier = GetPopulationCostMultiplier(amount);
 
-			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCost.Values, multiplier))
+			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCostRead, multiplier))
 				return false;
 
 			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));
@@ -91,7 +91,7 @@ namespace IdleFactions
 
 		public void RevertPopulation(double amount, double multiplier)
 		{
-			_resourceController.Add(ResourceNeeds.CreateCost.Values, multiplier);
+			_resourceController.Add(ResourceNeeds.CreateCostRead, multiplier);
 			ChangePopulation(-amount);
 		}
 

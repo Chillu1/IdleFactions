@@ -6,7 +6,7 @@ namespace IdleFactions
 {
 	public class ResourceController : IResourceController
 	{
-		private Dictionary<ResourceType, StoredResource> _resources;
+		private readonly Dictionary<ResourceType, StoredResource> _resources;
 
 		public ResourceController()
 		{
@@ -29,10 +29,10 @@ namespace IdleFactions
 			}
 		}
 
-		public void Add(IReadOnlyCollection<Resource> resources, double usedGenMultiplier)
+		public void Add(IReadOnlyDictionary<ResourceType, Resource> resources, double usedGenMultiplier)
 		{
 			foreach (var cost in resources)
-				Add(cost.Type, cost.Value * usedGenMultiplier);
+				Add(cost.Key, cost.Value.Value * usedGenMultiplier);
 		}
 
 		public void Add(ResourceCost[] resourceCosts)
@@ -85,18 +85,18 @@ namespace IdleFactions
 			return true;
 		}
 
-		public bool TryUseResource(ICollection<Resource> resourceCosts, double multiplier)
+		public bool TryUseResource(IReadOnlyDictionary<ResourceType, Resource> resourceCosts, double multiplier)
 		{
 			foreach (var cost in resourceCosts)
 			{
-				if (!_resources.ContainsKey(cost.Type))
+				if (!_resources.ContainsKey(cost.Key))
 					return false;
-				if (_resources[cost.Type].Value < cost.Value * multiplier)
+				if (_resources[cost.Key].Value < cost.Value.Value * multiplier)
 					return false;
 			}
 
 			foreach (var cost in resourceCosts)
-				_resources[cost.Type].Remove(cost.Value * multiplier);
+				_resources[cost.Key].Remove(cost.Value.Value * multiplier);
 
 			return true;
 		}
@@ -106,7 +106,8 @@ namespace IdleFactions
 		/// </summary>
 		/// <example> Living costs </example>
 		/// <returns>If usedMultiplier was partial</returns>
-		public bool TryUsePartialLiveResource(ICollection<Resource> resourceCosts, double multiplier, out double usedMultiplier)
+		public bool TryUsePartialLiveResource(IReadOnlyDictionary<ResourceType, Resource> resourceCosts, double multiplier,
+			out double usedMultiplier)
 		{
 			TryUsePartialResource(resourceCosts, multiplier, out usedMultiplier);
 
@@ -116,28 +117,29 @@ namespace IdleFactions
 			return usedMultiplier < 1d;
 		}
 
-		public void TryUsePartialResource(ICollection<Resource> resourceCosts, double multiplier, out double usedMultiplier)
+		public void TryUsePartialResource(IReadOnlyDictionary<ResourceType, Resource> resourceCosts, double multiplier,
+			out double usedMultiplier)
 		{
 			double[] usedMultipliers = new double[resourceCosts.Count];
 			for (int i = 0; i < resourceCosts.Count; i++)
 			{
 				var cost = resourceCosts.ElementAt(i);
-				if (!_resources.ContainsKey(cost.Type))
+				if (!_resources.ContainsKey(cost.Key))
 				{
 					usedMultipliers[i] = 0;
 					continue;
 				}
 
-				if (_resources[cost.Type].Value == 0)
+				if (_resources[cost.Key].Value == 0)
 				{
 					usedMultipliers[i] = 0;
 					continue;
 				}
 
 				//Not enough resources
-				if (_resources[cost.Type].Value < cost.Value * multiplier)
+				if (_resources[cost.Key].Value < cost.Value.Value * multiplier)
 				{
-					usedMultipliers[i] = _resources[cost.Type].Value / (cost.Value * multiplier);
+					usedMultipliers[i] = _resources[cost.Key].Value / (cost.Value.Value * multiplier);
 					continue;
 				}
 
@@ -146,7 +148,7 @@ namespace IdleFactions
 
 			usedMultiplier = usedMultipliers.Min();
 			foreach (var cost in resourceCosts)
-				_resources[cost.Type].Remove(cost.Value * multiplier * usedMultiplier);
+				_resources[cost.Key].Remove(cost.Value.Value * multiplier * usedMultiplier);
 		}
 
 		public StoredResource GetResource(int index)

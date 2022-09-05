@@ -17,7 +17,7 @@ namespace IdleFactions
 				if (faction == null)
 					continue;
 
-				AddFaction(faction);
+				_factions.Add(type, faction);
 			}
 		}
 
@@ -32,11 +32,6 @@ namespace IdleFactions
 		{
 			_factions.TryGetValue(type, out var faction);
 			return faction;
-		}
-
-		private void AddFaction(Faction faction)
-		{
-			_factions.Add(faction.Type, faction);
 		}
 	}
 }

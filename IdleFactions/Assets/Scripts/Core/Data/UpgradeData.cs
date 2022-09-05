@@ -96,6 +96,36 @@ namespace IdleFactions
 			}
 
 			{
+				_upgrades.Add(FactionType.Skeleton, new List<Upgrade>
+				{
+					new Upgrade("Unlock skeleton faction",
+						new[]
+						{
+							new ResourceCost(ResourceType.Dark, 1000), new ResourceCost(ResourceType.Magic, 100),
+							new ResourceCost(ResourceType.Bones, 100)
+						},
+						upgradeActions: new UpgradeActionUnlock()),
+
+					new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
+						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Food, 1.5)),
+					new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
+						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9))
+				});
+			}
+			{
+				_upgrades.Add(FactionType.Necro, new List<Upgrade>
+				{
+					new Upgrade("Unlock necro faction",
+						new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
+
+					new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
+						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Food, 1.5)),
+					new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
+						upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.CreateCost, ResourceType.Food, 0.9))
+				});
+			}
+
+			{
 				_upgrades.Add(FactionType.Human, new List<Upgrade>
 				{
 					new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),

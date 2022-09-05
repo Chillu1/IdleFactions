@@ -3,6 +3,11 @@ namespace IdleFactions
 	public enum ResourceType
 	{
 		None,
+
+		/// <summary>
+		///		Use for every single "creature"/entity
+		/// </summary>
+		Essence,
 		Light,
 		Dark,
 		Lava,
@@ -14,21 +19,28 @@ namespace IdleFactions
 		Wildlife,
 		Plant,
 		Stone,
-		Magic, //Mana?
+		Magic,
+		Mana,
 		Fire,
 		Soul,
-		Energy, //Essence?
+		Energy,
 
 		Body,
+		Bones,
 		Skeleton,
 		Gold,
 		Heat,
 		Metal,
 
-		//Specials?
-		Essence,
+		//Specials
+		/// <summary>
+		///		Special possible resource that is generated with time
+		/// </summary>
 		Time,
 
+		/// <summary>
+		///		Temp resource to represent infinity (impossible to get)
+		/// </summary>
 		Infinity,
 	}
 }

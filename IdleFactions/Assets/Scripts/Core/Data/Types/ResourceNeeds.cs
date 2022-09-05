@@ -6,17 +6,27 @@ namespace IdleFactions
 {
 	public class ResourceNeeds //TODO Rename
 	{
-		public Dictionary<ResourceType, Resource> Generate { get; }
-		public Dictionary<ResourceType, Resource> CreateCost { get; }
-		[CanBeNull] public Dictionary<ResourceType, Resource> GenerateCost { get; }
-		[CanBeNull] public Dictionary<ResourceType, Resource> LiveCost { get; }
+		public IReadOnlyDictionary<ResourceType, Resource> Generate => _generate;
+		public IReadOnlyDictionary<ResourceType, Resource> CreateCostRead => _createCost;
+		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> GenerateCostRead => _generateCost;
+		[CanBeNull] public IReadOnlyDictionary<ResourceType, Resource> LiveCostRead => _liveCost;
+
+		private readonly Dictionary<ResourceType, Resource> _generate;
+		private readonly Dictionary<ResourceType, Resource> _createCost;
+
+		[CanBeNull]
+		private readonly Dictionary<ResourceType, Resource> _generateCost;
+
+		[CanBeNull]
+		private readonly Dictionary<ResourceType, Resource> _liveCost;
 
 		public ResourceNeeds(ResourceNeedsProperties properties)
 		{
-			Generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			CreateCost = properties.CreateCost.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			GenerateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
-			LiveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			_generate = properties.Generate.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			_createCost = properties.CreateCost.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			//AddNewResource(CreateCost, ResourceType.Essence, 1d);//TODOPRIO
+			_generateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
+			_liveCost = properties.LiveCost?.ToDictionary(cost => cost.Type, cost => new Resource(cost));
 		}
 
 		public void ActivateUpgradeAction(IUpgradeAction action)
@@ -56,16 +66,16 @@ namespace IdleFactions
 			switch (needsType)
 			{
 				case ResourceNeedsType.Generate:
-					ChangeMultiplier(Generate);
+					ChangeMultiplier(_generate);
 					break;
 				case ResourceNeedsType.CreateCost:
-					ChangeMultiplier(CreateCost);
+					ChangeMultiplier(_createCost);
 					break;
 				case ResourceNeedsType.GenerateCost:
-					ChangeMultiplier(GenerateCost);
+					ChangeMultiplier(_generateCost);
 					break;
 				case ResourceNeedsType.LiveCost:
-					ChangeMultiplier(LiveCost);
+					ChangeMultiplier(_liveCost);
 					break;
 				default:
 					Log.Error("Invalid ResourceNeedsType: " + needsType);
@@ -89,36 +99,36 @@ namespace IdleFactions
 			switch (needsType)
 			{
 				case ResourceNeedsType.Generate:
-					AddNewResource(Generate);
+					AddNewResource(_generate, resourceType, value);
 					break;
 				case ResourceNeedsType.CreateCost:
-					AddNewResource(CreateCost);
+					AddNewResource(_createCost, resourceType, value);
 					break;
 				case ResourceNeedsType.GenerateCost:
-					AddNewResource(GenerateCost);
+					AddNewResource(_generateCost, resourceType, value);
 					break;
 				case ResourceNeedsType.LiveCost:
-					AddNewResource(LiveCost);
+					AddNewResource(_liveCost, resourceType, value);
 					break;
 				default:
 					Log.Error("Invalid ResourceNeedsType: " + needsType);
 					break;
 			}
+		}
 
-			void AddNewResource(Dictionary<ResourceType, Resource> source)
+		private static void AddNewResource(Dictionary<ResourceType, Resource> source, ResourceType resourceType, double value)
+		{
+			if (source.TryGetValue(resourceType, out var resource))
 			{
-				if (source.TryGetValue(resourceType, out var resource))
-				{
-					//Add to base
-					resource.Add(value);
-					return;
-				}
-
-				var newResource = new Resource(resourceType);
-				newResource.Add(value);
-
-				source.Add(resourceType, newResource);
+				//Add to base
+				resource.Add(value);
+				return;
 			}
+
+			var newResource = new Resource(resourceType);
+			newResource.Add(value);
+
+			source.Add(resourceType, newResource);
 		}
 
 		private void RemoveNewResource(ResourceNeedsType needsType, ResourceType resourceType, double value)
@@ -126,16 +136,16 @@ namespace IdleFactions
 			switch (needsType)
 			{
 				case ResourceNeedsType.Generate:
-					RemoveNewResource(Generate);
+					RemoveNewResource(_generate);
 					break;
 				case ResourceNeedsType.CreateCost:
-					RemoveNewResource(CreateCost);
+					RemoveNewResource(_createCost);
 					break;
 				case ResourceNeedsType.GenerateCost:
-					RemoveNewResource(GenerateCost);
+					RemoveNewResource(_generateCost);
 					break;
 				case ResourceNeedsType.LiveCost:
-					RemoveNewResource(LiveCost);
+					RemoveNewResource(_liveCost);
 					break;
 				default:
 					Log.Error("Invalid ResourceNeedsType: " + needsType);

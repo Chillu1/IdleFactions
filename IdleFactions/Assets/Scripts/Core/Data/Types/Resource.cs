@@ -4,7 +4,7 @@ namespace IdleFactions
 {
 	public class Resource // : IResource
 	{
-		public ResourceType Type { get; }
+		private ResourceType Type { get; }
 
 		public double Value => _baseValue * _multiplier;
 
