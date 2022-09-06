@@ -2,9 +2,9 @@ using System;
 
 namespace IdleFactions
 {
-	public class StoredResource
+	public class StoredResource : IStoredResource
 	{
-		private ResourceType Type { get; }
+		public ResourceType Type { get; }
 		public double Value { get; private set; }
 
 		public StoredResource(ResourceType type)

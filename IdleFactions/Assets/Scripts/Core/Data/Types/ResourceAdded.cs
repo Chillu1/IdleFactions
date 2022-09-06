@@ -17,7 +17,7 @@ namespace IdleFactions
 			_multipliers = new List<double>(_addedResources.Length);
 		}
 
-		public double GetMultiplier(IReadOnlyDictionary<ResourceType, double> resourceMultipliers)
+		public double GetMultiplier(IDictionary<ResourceType, double> resourceMultipliers)
 		{
 			if (_addedResources.Length == 0)
 				return 1d;
@@ -35,6 +35,9 @@ namespace IdleFactions
 
 			double multiplier = _multipliers.Min();
 			_multipliers.Clear();
+
+			if (multiplier <= Faction.MinMultiplier)
+				multiplier = Faction.MinMultiplier;
 
 			return multiplier;
 		}

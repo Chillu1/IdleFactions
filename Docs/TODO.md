@@ -1,5 +1,6 @@
 # TODO:
 
+* Fix resource classes
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Separate generated population & bought?
 * Unlockable faction upgrades, to unlock on X, or set resource amount
@@ -7,6 +8,7 @@
 ## Tests
 
 * UpgradeActionGeneralMultiplier
+* Added tests
 
 ## Ideal Product
 
@@ -23,4 +25,4 @@
 * Rates
 * Buying 1-10-25-100-10%-25%-50%-Max population
 * https://github.com/Razenpok/BreakInfinity.cs
-* https://github.com/jtmueller/Collections.Pooled
+* https://github.com/jtmueller/Collections.Pooled or ArrayPool, but seems that pooled is worse performance wise?

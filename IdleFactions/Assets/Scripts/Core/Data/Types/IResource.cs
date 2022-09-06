@@ -1,9 +1,7 @@
 namespace IdleFactions
 {
-	public interface IResource : IBaseResource
+	public interface IResource : IStoredResource
 	{
-		void Add(double value);
-		void Remove(double value);
 		void TimesMultiplier(double multiplier);
 	}
 }

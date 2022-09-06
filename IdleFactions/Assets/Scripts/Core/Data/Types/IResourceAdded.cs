@@ -4,6 +4,6 @@ namespace IdleFactions
 {
 	public interface IResourceAdded : IResource
 	{
-		double GetMultiplier(IReadOnlyDictionary<ResourceType, double> resourceMultipliers);
+		double GetMultiplier(IDictionary<ResourceType, double> resourceMultipliers);
 	}
 }

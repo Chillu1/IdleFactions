@@ -17,10 +17,6 @@ namespace IdleFactions
 			_baseValue = value;
 		}
 
-		public Resource(ResourceCost cost) : this(cost.Type, cost.Value)
-		{
-		}
-
 		public void Add(double value)
 		{
 			_baseValue += value;

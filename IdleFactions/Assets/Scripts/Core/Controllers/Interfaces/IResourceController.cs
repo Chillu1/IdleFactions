@@ -7,7 +7,7 @@ namespace IdleFactions
 		void Add(ResourceType type, double value);
 		void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier);
 
-		void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IReadOnlyDictionary<ResourceType, double> multipliers,
+		void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IDictionary<ResourceType, double> multipliers,
 			double multiplier);
 
 		void Add(ResourceCost[] resourceCosts);
@@ -30,10 +30,10 @@ namespace IdleFactions
 			out double usedMultiplier);
 
 		void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IResourceAdded> resourceCosts, double multiplier,
-			Dictionary<ResourceType, double> resourceMultipliers);
+			IDictionary<ResourceType, double> resourceMultipliers);
 
-		StoredResource GetResource(int index);
+		IStoredResource GetResource(int index);
 
-		StoredResource GetResource(ResourceType type);
+		IStoredResource GetResource(ResourceType type);
 	}
 }

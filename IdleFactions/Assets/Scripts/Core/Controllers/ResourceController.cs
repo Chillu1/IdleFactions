@@ -6,11 +6,11 @@ namespace IdleFactions
 {
 	public class ResourceController : IResourceController
 	{
-		private readonly Dictionary<ResourceType, StoredResource> _resources;
+		private readonly Dictionary<ResourceType, IStoredResource> _resources;
 
 		public ResourceController()
 		{
-			_resources = new Dictionary<ResourceType, StoredResource>();
+			_resources = new Dictionary<ResourceType, IStoredResource>();
 			_resources.Add(ResourceType.Light, new StoredResource(ResourceType.Light));
 			_resources.Add(ResourceType.Dark, new StoredResource(ResourceType.Dark));
 		}
@@ -35,7 +35,7 @@ namespace IdleFactions
 				Add(cost.Key, cost.Value.Value * usedGenMultiplier);
 		}
 
-		public void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IReadOnlyDictionary<ResourceType, double> multipliers,
+		public void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IDictionary<ResourceType, double> multipliers,
 			double multiplier)
 		{
 			foreach (var cost in resources)
@@ -163,7 +163,7 @@ namespace IdleFactions
 		}
 
 		public void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IResourceAdded> resourceCosts, double multiplier,
-			Dictionary<ResourceType, double> resourceMultipliers)
+			IDictionary<ResourceType, double> resourceMultipliers)
 		{
 			foreach (var cost in resourceCosts)
 			{
@@ -196,7 +196,7 @@ namespace IdleFactions
 			}
 		}
 
-		public StoredResource GetResource(int index)
+		public IStoredResource GetResource(int index)
 		{
 			if (index < 0 || index >= _resources.Count)
 				return null;
@@ -205,7 +205,7 @@ namespace IdleFactions
 		}
 
 		[CanBeNull]
-		public StoredResource GetResource(ResourceType type)
+		public IStoredResource GetResource(ResourceType type)
 		{
 			_resources.TryGetValue(type, out var resource);
 			return resource;

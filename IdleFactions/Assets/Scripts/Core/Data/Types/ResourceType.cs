@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace IdleFactions
 {
 	public enum ResourceType
@@ -47,5 +50,11 @@ namespace IdleFactions
 		///		Temp resource to represent infinity (impossible to get)
 		/// </summary>
 		Infinity,
+	}
+
+	public static class ResourceTypeHelper
+	{
+		public static readonly ResourceType[] ResourceTypes =
+			Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>().Skip(1).ToArray();
 	}
 }
