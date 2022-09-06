@@ -15,6 +15,7 @@
 * UI
   * Faction
     * Upgrade
+      * Hover over for info panel
     * Population 1-100%
     * Art
     * Rates
@@ -25,4 +26,5 @@
 * Rates
 * Buying 1-10-25-100-10%-25%-50%-Max population
 * https://github.com/Razenpok/BreakInfinity.cs
-* https://github.com/jtmueller/Collections.Pooled or ArrayPool, but seems that pooled is worse performance wise?
+* https://github.com/jtmueller/Collections.Pooled or ArrayPool, but seems that they mean pooled by pooled collections & not their items...
+  * Do we even need any pooling? The objects we use frequently are all value types.

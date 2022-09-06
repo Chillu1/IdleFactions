@@ -37,7 +37,7 @@ namespace IdleFactions
 
 		public override string ToString()
 		{
-			return $"Resource: {Type}. Value: {Value:F1}";
+			return $"{Type}: {Value:F1}";
 		}
 
 		public override int GetHashCode()

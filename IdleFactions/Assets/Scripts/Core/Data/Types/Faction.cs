@@ -7,12 +7,13 @@ namespace IdleFactions
 {
 	public class Faction
 	{
-		private FactionType Type { get; }
+		public FactionType Type { get; }
 		public ResourceNeeds ResourceNeeds { get; }
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
 
+		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;
 
@@ -20,6 +21,9 @@ namespace IdleFactions
 		public const double MinMultiplier = 0.1d;
 		public const double MinLiveMultiplier = 0.1d;
 		public const double MaxLiveBonusMultiplier = 1.2d;
+
+		public static event Action<Faction> Discovered;
+		public static event Action<Faction> Unlocked;
 
 		private readonly Dictionary<ResourceType, double> _resourceCostAddedMultipliers;
 
@@ -49,7 +53,7 @@ namespace IdleFactions
 
 		public void Update(float delta)
 		{
-			if (!IsUnlocked || Population <= 0)
+			if (!IsDiscovered || !IsUnlocked || Population <= 0)
 				return;
 
 			double usedLiveMultiplier = 1d;
@@ -83,14 +87,21 @@ namespace IdleFactions
 			_resourceCostAddedMultipliers.Clear();
 		}
 
+		public void Discover()
+		{
+			IsDiscovered = true;
+			Discovered?.Invoke(this);
+		}
+
 		public void Unlock()
 		{
 			IsUnlocked = true;
+			Unlocked?.Invoke(this);
 		}
 
 		public bool TryBuyPopulation(double amount)
 		{
-			if (!IsUnlocked)
+			if (!IsDiscovered || !IsUnlocked)
 				return false;
 
 			double multiplier = GetPopulationCostMultiplier(amount);
@@ -169,6 +180,12 @@ namespace IdleFactions
 		public void ToggleGeneration()
 		{
 			IsGenerationOn = !IsGenerationOn;
+		}
+
+		public static void CleanUp()
+		{
+			Discovered = null;
+			Unlocked = null;
 		}
 
 		public double GetPopulationCostMultiplier(double amount)

@@ -4,8 +4,12 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
+	public delegate void ResourceAddedHandler(IStoredResource resource);
+
 	public class ResourceController : IResourceController
 	{
+		public event ResourceAddedHandler Added;
+
 		private readonly Dictionary<ResourceType, IStoredResource> _resources;
 
 		public ResourceController()
@@ -27,6 +31,9 @@ namespace IdleFactions
 			{
 				_resources[type].Add(value);
 			}
+
+			//Added?.Invoke(this, new ResourceEventArgs(type, value));
+			Added?.Invoke(_resources[type]);
 		}
 
 		public void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier)

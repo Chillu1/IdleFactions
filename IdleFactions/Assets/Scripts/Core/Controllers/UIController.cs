@@ -12,6 +12,8 @@ namespace IdleFactions
 		private IResourceController _resourceController;
 		private FactionController _factionController;
 
+		private Button[] _factionTabButtons;
+
 		private TMP_Text[] _resourceTexts;
 		private Button[][] _factionUpgradeButtons;
 
@@ -37,13 +39,14 @@ namespace IdleFactions
 			var canvas = GameObject.Find("Canvas").transform;
 
 			var factions = canvas.Find("Factions");
-			Button[] buttons = factions.GetComponentsInChildren<Button>();
-			for (int i = 0; i < buttons.Length; i++)
+			_factionTabButtons = factions.GetComponentsInChildren<Button>();
+			for (int i = 0; i < _factionTabButtons.Length; i++)
 			{
-				var button = buttons[i];
+				var button = _factionTabButtons[i];
 				var factionType = (FactionType)i + 1;
 				button.GetComponentInChildren<TMP_Text>().text = factionType.ToString();
 				button.onClick.AddListener(() => SwitchFactionTab(factionType));
+				button.gameObject.SetActive(_factionController.GetFaction(factionType)?.IsDiscovered == true);
 			}
 
 			var factionTab = canvas.Find("FactionTab");
@@ -123,6 +126,11 @@ namespace IdleFactions
 				var resourceText = _resourceTexts[i];
 				resourceText.text = _resourceController.GetResource(i)?.ToString();
 			}
+		}
+
+		public void UpdateTab(Faction faction)
+		{
+			_factionTabButtons[(int)faction.Type - 1].gameObject.SetActive(true);
 		}
 
 		private void SwitchFactionTab(FactionType type)

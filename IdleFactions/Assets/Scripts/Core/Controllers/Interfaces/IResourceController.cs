@@ -4,6 +4,8 @@ namespace IdleFactions
 {
 	public interface IResourceController
 	{
+		event ResourceAddedHandler Added;
+
 		void Add(ResourceType type, double value);
 		void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier);
 

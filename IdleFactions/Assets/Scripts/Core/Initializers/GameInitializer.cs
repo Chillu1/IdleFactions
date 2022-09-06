@@ -15,5 +15,11 @@ namespace IdleFactions.Core
 		{
 			GameController.Update(Time.deltaTime);
 		}
+
+		private void OnApplicationQuit()
+		{
+			//TODO Also on moving to main menu
+			GameController.CleanUp();
+		}
 	}
 }
