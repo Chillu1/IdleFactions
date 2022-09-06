@@ -89,12 +89,17 @@ namespace IdleFactions
 
 		public void Discover()
 		{
+			if (IsDiscovered)
+				return;
 			IsDiscovered = true;
 			Discovered?.Invoke(this);
 		}
 
 		public void Unlock()
 		{
+			Discover();
+			if (IsUnlocked)
+				return;
 			IsUnlocked = true;
 			Unlocked?.Invoke(this);
 		}
