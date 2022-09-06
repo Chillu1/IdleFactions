@@ -2,6 +2,34 @@
 
 ## Temp Notes
 
+So resource needs to store a reference to what Needs Type its linked & Resource Type or the specific upgrade action somehow?
+So we get all multipliers of base, but also return a pooled dict of new resources & their multipliers.
+
+Base dependent on base.
+New dependent on new & baseLive (not gen?).
+
+Create Base LiveCosts & GenerateCosts, that every Generate
+
+* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
+Ex. Skeleton:
+  properties.SetGenerate(new[]
+  {
+  new ResourceCost(ResourceType.Bones, 1d) Depends 100% on Dark & Magic (all base LiveCost & GenCost), and nothing else
+  });
+  properties.SetCreateCost(new[]
+  {
+  new ResourceCost(ResourceType.Dark, 10d),
+  new ResourceCost(ResourceType.Magic, 20d)
+  });
+  properties.SetLiveCost(new[]
+  {
+  new ResourceCost(ResourceType.Dark, 0.1d),
+  new ResourceCost(ResourceType.Magic, 0.2d)
+  });
+
+  new Upgrade("Add food generation", new ResourceCost(ResourceType.Magic, 500d),
+  upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5)), Would Depend 100% on Dark & Magic, and 100% on wildlife
+
 Prox progression:
 1 Essence Gen
 1 Light or dark?

@@ -71,7 +71,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
 
 			var upgrade = new Upgrade("TestNewResource", new ResourceCost(ResourceType.Water),
-				upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Dark, 1d));
+				upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded, new ResourceAdded(ResourceType.Dark, 1d)));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 

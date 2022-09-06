@@ -1,16 +1,14 @@
 namespace IdleFactions
 {
-	public readonly struct UpgradeActionNewResource : IUpgradeAction
+	public readonly struct UpgradeActionNewResource : IUpgradeAction // TODO Only allowe added?
 	{
 		public ResourceNeedsType ResourceNeedsType { get; }
-		public ResourceType ResourceType { get; }
-		public double Value { get; }
+		public IResource Resource { get; }
 
-		public UpgradeActionNewResource(ResourceNeedsType resourceNeedsType, ResourceType resourceType, double amount)
+		public UpgradeActionNewResource(ResourceNeedsType resourceNeedsType, Resource resource)
 		{
 			ResourceNeedsType = resourceNeedsType;
-			ResourceType = resourceType;
-			Value = amount;
+			Resource = resource;
 		}
 	}
 }

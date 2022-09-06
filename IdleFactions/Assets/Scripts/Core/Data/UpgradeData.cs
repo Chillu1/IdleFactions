@@ -101,8 +101,10 @@ namespace IdleFactions
 					upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.LiveCost, ResourceType.Dark, 0.95)),
 				new Upgrade("Lower living cost", new ResourceCost(ResourceType.Magic, 150d),
 					upgradeActions: new UpgradeActionGeneralMultiplier(ResourceNeedsType.CreateCost, 0.95)),
-				new Upgrade("Add food generation", new ResourceCost(ResourceType.Magic, 500d),
-					upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5)),
+				new Upgrade("Add food generation", new ResourceCost(ResourceType.Magic, 500d), false,
+					new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded,
+						new ResourceAdded(ResourceType.Food, 0.5, ResourceType.Wildlife)),
+					new UpgradeActionNewResource(ResourceNeedsType.GenerateCostAdded, new Resource(ResourceType.Wildlife, 0.5))),
 				new Upgrade("Add bones generation", new ResourceCost(ResourceType.Magic, 1000d),
 					upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Bones, 2)),
 			});
@@ -122,16 +124,20 @@ namespace IdleFactions
 					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
 
 				new Upgrade("More food", new ResourceCost(ResourceType.Magic, 1000d), false,
-					new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Metal, 0.4d),
-					new UpgradeActionNewResource(ResourceNeedsType.GenerateCost, ResourceType.Ore, 0.2d)),
+					new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded,
+						new ResourceAdded(ResourceType.Metal, 0.4d, ResourceType.Ore)),
+					new UpgradeActionNewResource(ResourceNeedsType.GenerateCostAdded, new Resource(ResourceType.Ore, 0.2d))
+				)
 			});
 
 			_upgrades.Add(FactionType.Human, new List<Upgrade>
 			{
 				new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
-					upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5d)),
+					upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded,
+						new ResourceAdded(ResourceType.Food, 0.5d))),
 				new Upgrade("Learn to chop wood", new ResourceCost(ResourceType.Light, 100),
-					upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Wood, 0.5d))
+					upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded,
+						new ResourceAdded(ResourceType.Wood, 0.5d)))
 			});
 		}
 	}

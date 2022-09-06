@@ -20,6 +20,8 @@ namespace IdleFactions
 		public const double MinLiveMultiplier = 0.1d;
 		public const double MaxLiveBonusMultiplier = 1.2d;
 
+		private readonly Dictionary<ResourceType, double> _resourceCostAddedMultipliers;
+
 		private IReadOnlyList<Upgrade> Upgrades { get; }
 
 		private static IRevertController _revertController;
@@ -34,6 +36,8 @@ namespace IdleFactions
 				upgrade.SetupFaction(this);
 
 			Upgrades = upgrades;
+
+			_resourceCostAddedMultipliers = new Dictionary<ResourceType, double>();
 		}
 
 		public static void Setup(IRevertController revertController, IResourceController resourceController)
@@ -66,7 +70,16 @@ namespace IdleFactions
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
+
 			_resourceController.Add(ResourceNeeds.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+
+			if (ResourceNeeds.GenerateCostAdded != null)
+				_resourceController.TryUsePartialResourceAdded(ResourceNeeds.GenerateCostAdded, Population * delta,
+					_resourceCostAddedMultipliers);
+			_resourceController.Add(ResourceNeeds.GenerateAdded, _resourceCostAddedMultipliers,
+				Population * usedLiveMultiplier * usedGenMultiplier * delta);
+
+			_resourceCostAddedMultipliers.Clear();
 		}
 
 		public void Unlock()

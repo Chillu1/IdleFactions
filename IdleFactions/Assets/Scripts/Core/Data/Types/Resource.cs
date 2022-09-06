@@ -2,24 +2,23 @@ using System;
 
 namespace IdleFactions
 {
-	public class Resource // : IResource
+	public class Resource : IResource
 	{
-		private ResourceType Type { get; }
+		public ResourceType Type { get; }
 
 		public double Value => _baseValue * _multiplier;
 
 		private double _baseValue;
 		private double _multiplier = 1d;
 
-		public Resource(ResourceType type)
+		public Resource(ResourceType type, double value = 0d)
 		{
 			Type = type;
+			_baseValue = value;
 		}
 
-		public Resource(ResourceCost cost)
+		public Resource(ResourceCost cost) : this(cost.Type, cost.Value)
 		{
-			Type = cost.Type;
-			_baseValue = cost.Value;
 		}
 
 		public void Add(double value)

@@ -7,5 +7,9 @@ namespace IdleFactions
 		CreateCost,
 		GenerateCost,
 		LiveCost,
+
+		GenerateAdded,
+		GenerateCostAdded,
+		LiveCostAdded,
 	}
 }

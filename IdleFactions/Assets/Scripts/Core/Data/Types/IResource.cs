@@ -1,8 +1,9 @@
 namespace IdleFactions
 {
-	public interface IResource
+	public interface IResource : IBaseResource
 	{
-		ResourceType Type { get; }
-		double Value { get; }
+		void Add(double value);
+		void Remove(double value);
+		void TimesMultiplier(double multiplier);
 	}
 }
