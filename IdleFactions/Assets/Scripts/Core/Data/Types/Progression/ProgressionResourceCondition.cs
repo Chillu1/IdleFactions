@@ -2,11 +2,11 @@ namespace IdleFactions
 {
 	public struct ProgressionResourceCondition : IProgressionCondition
 	{
-		public ResourceCost ResourceCost { get; }
+		public double Value { get; }
 
-		public ProgressionResourceCondition(ResourceCost resourceCost)
+		public ProgressionResourceCondition(double value)
 		{
-			ResourceCost = resourceCost;
+			Value = value;
 		}
 	}
 }

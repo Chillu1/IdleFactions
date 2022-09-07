@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using IdleFactions.Utils;
 using JetBrains.Annotations;
 
@@ -145,6 +146,12 @@ namespace IdleFactions
 				return null;
 
 			return Upgrades[index];
+		}
+
+		[CanBeNull]
+		public Upgrade GetUpgrade(string id)
+		{
+			return Upgrades == null ? null : Upgrades.FirstOrDefault(u => u.Id == id);
 		}
 
 		public string GetUpgradeId(int i)

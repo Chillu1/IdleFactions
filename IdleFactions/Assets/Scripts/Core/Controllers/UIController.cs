@@ -10,7 +10,7 @@ namespace IdleFactions
 		private const int MaxButtonUpgrades = 6; //TEMP
 
 		private IResourceController _resourceController;
-		private FactionController _factionController;
+		private IFactionController _factionController;
 
 		private Button[] _factionTabButtons;
 
@@ -28,7 +28,7 @@ namespace IdleFactions
 
 		private FactionType _currentFactionType;
 
-		public void Setup(IResourceController resourceController, FactionController factionController)
+		public void Setup(IResourceController resourceController, IFactionController factionController)
 		{
 			_resourceController = resourceController;
 			_factionController = factionController;
@@ -46,7 +46,7 @@ namespace IdleFactions
 				var factionType = (FactionType)i + 1;
 				button.GetComponentInChildren<TMP_Text>().text = factionType.ToString();
 				button.onClick.AddListener(() => SwitchFactionTab(factionType));
-				button.gameObject.SetActive(_factionController.GetFaction(factionType)?.IsDiscovered == true);
+				button.gameObject.SetActive(_factionController.Get(factionType)?.IsDiscovered == true);
 			}
 
 			var factionTab = canvas.Find("FactionTab");
@@ -55,11 +55,11 @@ namespace IdleFactions
 			_factionBuyPopulationText = factionTab.Find("BuyPopulation").GetComponentInChildren<TMP_Text>();
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				_factionController.GetFaction(_currentFactionType)?.TryBuyPopulation(1);
+				_factionController.Get(_currentFactionType)?.TryBuyPopulation(1);
 				UpdateFactionTabPopulationInfo();
 			});
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _factionController
-				.GetFaction(_currentFactionType)?.ToggleGeneration());
+				.Get(_currentFactionType)?.ToggleGeneration());
 
 			var upgrades = factionTab.Find("Upgrades");
 			int upgradesChildCount = upgrades.childCount;
@@ -74,7 +74,7 @@ namespace IdleFactions
 				upgradeButton.onClick.AddListener(() =>
 				{
 					//TODO upgradeIndex will be wrong/not dynamic, unless we do some special logic in faction
-					if (_factionController.GetFaction(_currentFactionType)?.TryBuyUpgrade(upgradeIndex) == true)
+					if (_factionController.Get(_currentFactionType)?.TryBuyUpgrade(upgradeIndex) == true)
 					{
 						upgradeButton.interactable = false;
 					}
@@ -135,7 +135,7 @@ namespace IdleFactions
 
 		private void SwitchFactionTab(FactionType type)
 		{
-			var faction = _factionController.GetFaction(type);
+			var faction = _factionController.Get(type);
 			if (faction == null)
 				return;
 
@@ -169,7 +169,7 @@ namespace IdleFactions
 
 		private void UpdateFactionTabPopulationInfo()
 		{
-			var faction = _factionController.GetFaction(_currentFactionType);
+			var faction = _factionController.Get(_currentFactionType);
 			if (faction == null)
 				return;
 

@@ -2,18 +2,32 @@ namespace IdleFactions
 {
 	public class Progression
 	{
-		public IProgressionCondition Condition { get; }
-		public IProgressionAction Action { get; }
+		public IProgressionEntry CurrentEntry { get; private set; }
+		public bool IsCompleted { get; private set; }
 
-		public Progression(IProgressionCondition condition, IProgressionAction action)
+		private readonly IProgressionEntry[] _entries;
+		private int _currentEntryIndex;
+
+		public Progression(params IProgressionEntry[] entries)
 		{
-			Condition = condition;
-			Action = action;
+			_entries = entries;
+			CurrentEntry = _entries[_currentEntryIndex];
 		}
 
 		public void Increment()
 		{
-			//TODOPRIO
+			if (IsCompleted)
+				return;
+
+			_currentEntryIndex++;
+
+			if (_currentEntryIndex >= _entries.Length)
+			{
+				IsCompleted = true;
+				return;
+			}
+
+			CurrentEntry = _entries[_currentEntryIndex];
 		}
 	}
 }

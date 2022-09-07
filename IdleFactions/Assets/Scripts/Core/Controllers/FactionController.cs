@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class FactionController
+	public class FactionController : IFactionController
 	{
 		private readonly Dictionary<FactionType, Faction> _factions;
 
@@ -28,7 +28,7 @@ namespace IdleFactions
 		}
 
 		[CanBeNull]
-		public Faction GetFaction(FactionType type)
+		public Faction Get(FactionType type)
 		{
 			_factions.TryGetValue(type, out var faction);
 			return faction;

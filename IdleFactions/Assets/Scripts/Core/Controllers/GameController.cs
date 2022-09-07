@@ -6,16 +6,18 @@ namespace IdleFactions
 	[SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
 	public class GameController
 	{
+		private readonly ProgressionData _progressionData;
 		private readonly UpgradeData _upgradeData;
 		private readonly FactionData _factionData;
 
 		private readonly IRevertController _revertController;
 		private readonly FactionController _factionController;
 		private readonly IResourceController _resourceController;
-		private readonly ProgressionData _progressionData;
+		private readonly ProgressionController _progressionController;
 
 		public GameController(GameInitializer gameInitializer, UIController uiController)
 		{
+			_progressionData = new ProgressionData();
 			_upgradeData = new UpgradeData();
 			_factionData = new FactionData(_upgradeData);
 			_revertController = new RevertController();
@@ -23,9 +25,9 @@ namespace IdleFactions
 			Upgrade.Setup(_revertController, _resourceController);
 			Faction.Setup(_revertController, _resourceController);
 			_factionController = new FactionController(_factionData);
-			_progressionData = new ProgressionData(_factionController);
+			_progressionController = new ProgressionController(_progressionData, _factionController);
 
-			_resourceController.Added += _progressionData.OnAddResource;
+			_resourceController.Added += _progressionController.OnAddResource;
 
 			NewGame();
 
@@ -38,7 +40,7 @@ namespace IdleFactions
 		{
 			_revertController.Update(delta);
 			_factionController.Update(delta);
-			_progressionData.Update(delta);
+			_progressionController.Update(delta);
 		}
 
 		public void CleanUp()
@@ -48,10 +50,10 @@ namespace IdleFactions
 
 		private void NewGame()
 		{
-			_factionController.GetFaction(FactionType.Creation)!.Discover();
-			_factionController.GetFaction(FactionType.Creation)!.Unlock();
+			_factionController.Get(FactionType.Creation)!.Discover();
+			_factionController.Get(FactionType.Creation)!.Unlock();
 
-			_factionController.GetFaction(FactionType.Creation)!.ChangePopulation(1);
+			_factionController.Get(FactionType.Creation)!.ChangePopulation(1);
 		}
 	}
 }

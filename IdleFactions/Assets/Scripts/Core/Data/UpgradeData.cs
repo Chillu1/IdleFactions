@@ -23,13 +23,13 @@ namespace IdleFactions
 
 		private void SetupUpgrades()
 		{
-			_upgrades.Add(FactionType.Creation, new List<Upgrade>
+			_upgrades.Add(FactionType.Creation, new[]
 			{
 				new Upgrade("More essence",
 					new ResourceCost(ResourceType.Infinity, 5), false,
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Essence, 2)),
 			});
-			_upgrades.Add(FactionType.Divinity, new List<Upgrade>
+			_upgrades.Add(FactionType.Divinity, new[]
 			{
 				new Upgrade("Unlock the light", new ResourceCost(ResourceType.Essence), true,
 					upgradeActions: new UpgradeActionUnlock()),
@@ -49,7 +49,7 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2))
 			});
 
-			_upgrades.Add(FactionType.Void, new List<Upgrade>
+			_upgrades.Add(FactionType.Void, new[]
 			{
 				new Upgrade("Unlock the void", new ResourceCost(ResourceType.Essence), true, new UpgradeActionUnlock()),
 
@@ -69,7 +69,7 @@ namespace IdleFactions
 				)
 			});
 
-			_upgrades.Add(FactionType.Heat, new List<Upgrade>
+			_upgrades.Add(FactionType.Heat, new[]
 			{
 				new Upgrade("Unlock lava",
 					new[] { new ResourceCost(ResourceType.Light, 100), new ResourceCost(ResourceType.Dark, 100) }, true,
@@ -77,7 +77,7 @@ namespace IdleFactions
 				),
 			});
 
-			_upgrades.Add(FactionType.Nature, new List<Upgrade>
+			_upgrades.Add(FactionType.Nature, new[]
 			{
 				new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
 					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Food, 1.5)),
@@ -85,7 +85,7 @@ namespace IdleFactions
 					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9))
 			});
 
-			_upgrades.Add(FactionType.Skeleton, new List<Upgrade>
+			_upgrades.Add(FactionType.Skeleton, new[]
 			{
 				new Upgrade("Unlock skeleton faction",
 					new[]
@@ -108,7 +108,7 @@ namespace IdleFactions
 				new Upgrade("Add bones generation", new ResourceCost(ResourceType.Magic, 1000d),
 					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Bones, 2)),
 			});
-			_upgrades.Add(FactionType.Necro, new List<Upgrade>
+			_upgrades.Add(FactionType.Necro, new[]
 			{
 				new Upgrade("Unlock necro faction",
 					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
@@ -118,7 +118,7 @@ namespace IdleFactions
 				new Upgrade("Lower living cost", new ResourceCost(ResourceType.Magic, 1000d),
 					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9))
 			});
-			_upgrades.Add(FactionType.Dwarf, new List<Upgrade>
+			_upgrades.Add(FactionType.Dwarf, new[]
 			{
 				new Upgrade("Unlock dwarf faction todo",
 					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
@@ -130,7 +130,7 @@ namespace IdleFactions
 				)
 			});
 
-			_upgrades.Add(FactionType.Human, new List<Upgrade>
+			_upgrades.Add(FactionType.Human, new[]
 			{
 				new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
 					upgradeActions: new UpgradeActionNewResource(FactionResourceType.GenerateAdded,

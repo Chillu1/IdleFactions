@@ -24,3 +24,4 @@
 * Capping population/auto toggle generation to a limit (ex. so we don't have 1000 skeletons draining all dark & magic)
 * Rates
 * Buying 1-10-25-100-10%-25%-50%-Max population
+* Update current UI unlocked upgrade if factionType is same as UI

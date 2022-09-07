@@ -39,6 +39,11 @@ namespace IdleFactions
 			_faction = faction;
 		}
 
+		public void Unlock()
+		{
+			Unlocked = true;
+		}
+
 		public bool TryBuy()
 		{
 			if (!_resourceController.TryUseResource(Costs))
