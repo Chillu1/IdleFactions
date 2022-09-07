@@ -1,6 +1,5 @@
 # TODO:
 
-* Fix resource classes
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Separate generated population & bought?
 * Unlockable faction upgrades, to unlock on X, or set resource amount

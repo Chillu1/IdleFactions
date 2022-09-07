@@ -11,6 +11,11 @@ namespace IdleFactions
 		private readonly ResourceType[] _addedResources;
 		private readonly List<double> _multipliers;
 
+		/// <summary>
+		///		Added resource modifier can be 0, since we don't want to generate any new resources with 0 genCost
+		/// </summary>
+		private const double MinMultiplier = 0.0d;
+
 		public AddedResource(ResourceType type, double value, params ResourceType[] addedResources) : base(type, value)
 		{
 			_addedResources = addedResources;
@@ -36,8 +41,8 @@ namespace IdleFactions
 			double multiplier = _multipliers.Min();
 			_multipliers.Clear();
 
-			if (multiplier <= Faction.MinMultiplier)
-				multiplier = Faction.MinMultiplier;
+			if (multiplier <= MinMultiplier)
+				multiplier = MinMultiplier;
 
 			return multiplier;
 		}

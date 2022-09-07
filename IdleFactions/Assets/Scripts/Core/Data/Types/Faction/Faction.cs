@@ -18,7 +18,6 @@ namespace IdleFactions
 		public bool IsGenerationOn { get; private set; } = true;
 
 		public const double MinPopulation = 1d;
-		public const double MinMultiplier = 0.1d;
 		public const double MinLiveMultiplier = 0.1d;
 		public const double MaxLiveBonusMultiplier = 1.2d;
 

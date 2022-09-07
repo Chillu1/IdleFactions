@@ -2,14 +2,10 @@ using System;
 
 namespace IdleFactions
 {
-	public class StoredResource : IChangeableResource
+	public class ChangeableResource : Resource, IChangeableResource
 	{
-		public ResourceType Type { get; }
-		public double Value { get; private set; }
-
-		public StoredResource(ResourceType type)
+		public ChangeableResource(ResourceType type, double value = 0d) : base(type, value)
 		{
-			Type = type;
 		}
 
 		public void Add(double value)
@@ -17,32 +13,11 @@ namespace IdleFactions
 			Value += value;
 		}
 
-		public bool TryRemove(double value)
-		{
-			if (Value >= value)
-			{
-				Remove(value);
-				return true;
-			}
-
-			return false;
-		}
-
 		public void Remove(double value)
 		{
 			Value -= Math.Abs(value);
 			if (Value < 0)
 				Value = 0;
-		}
-
-		public override string ToString()
-		{
-			return $"{Type}: {Value:F1}";
-		}
-
-		public override int GetHashCode()
-		{
-			return Type.GetHashCode();
 		}
 	}
 }

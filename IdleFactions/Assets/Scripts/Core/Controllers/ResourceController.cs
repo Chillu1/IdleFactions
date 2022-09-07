@@ -15,16 +15,15 @@ namespace IdleFactions
 		public ResourceController()
 		{
 			_resources = new Dictionary<ResourceType, IChangeableResource>();
-			_resources.Add(ResourceType.Light, new StoredResource(ResourceType.Light));
-			_resources.Add(ResourceType.Dark, new StoredResource(ResourceType.Dark));
+			_resources.Add(ResourceType.Light, new ChangeableResource(ResourceType.Light));
+			_resources.Add(ResourceType.Dark, new ChangeableResource(ResourceType.Dark));
 		}
 
 		public void Add(ResourceType type, double value)
 		{
 			if (!_resources.ContainsKey(type))
 			{
-				var resource = new StoredResource(type);
-				resource.Add(value);
+				var resource = new ChangeableResource(type, value);
 				_resources.Add(type, resource);
 			}
 			else
