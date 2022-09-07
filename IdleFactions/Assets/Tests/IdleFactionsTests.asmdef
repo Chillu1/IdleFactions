@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "IdleFactions",
-        "Unity.PerformanceTesting"
+        "Unity.PerformanceTesting",
+        "BreakInfinity"
     ],
     "includePlatforms": [
         "Editor"

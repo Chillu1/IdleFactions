@@ -1,5 +1,6 @@
 # TODO:
 
+* Equals in assert is wrong, because double checks for equality, instead of big double
 * Fix resource classes
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Separate generated population & bought?

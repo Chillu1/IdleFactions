@@ -1,23 +1,24 @@
 using System;
+using BreakInfinity;
 
 namespace IdleFactions
 {
 	public class StoredResource : IStoredResource
 	{
 		public ResourceType Type { get; }
-		public double Value { get; private set; }
+		public BigDouble Value { get; private set; }
 
 		public StoredResource(ResourceType type)
 		{
 			Type = type;
 		}
 
-		public void Add(double value)
+		public void Add(BigDouble value)
 		{
 			Value += value;
 		}
 
-		public bool TryRemove(double value)
+		public bool TryRemove(BigDouble value)
 		{
 			if (Value >= value)
 			{
@@ -28,9 +29,9 @@ namespace IdleFactions
 			return false;
 		}
 
-		public void Remove(double value)
+		public void Remove(BigDouble value)
 		{
-			Value -= Math.Abs(value);
+			Value -= BigDouble.Abs(value);
 			if (Value < 0)
 				Value = 0;
 		}

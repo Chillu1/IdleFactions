@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BreakInfinity;
 using IdleFactions.Utils;
 using JetBrains.Annotations;
 
@@ -10,7 +11,7 @@ namespace IdleFactions
 		public FactionType Type { get; }
 		public ResourceNeeds ResourceNeeds { get; }
 
-		public double Population { get; private set; }
+		public BigDouble Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
 
 		public bool IsDiscovered { get; private set; }
@@ -58,7 +59,7 @@ namespace IdleFactions
 
 			double usedLiveMultiplier = 1d;
 			if (ResourceNeeds.LiveCost != null &&
-			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost, Population * delta, out usedLiveMultiplier))
+			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost, (double)(Population * delta), out usedLiveMultiplier))
 			{
 				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
@@ -70,19 +71,19 @@ namespace IdleFactions
 
 			double usedGenMultiplier = 1d;
 			if (ResourceNeeds.GenerateCost != null)
-				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost, Population * delta,
+				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost, (double)(Population * delta),
 					out usedGenMultiplier);
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
 
-			_resourceController.Add(ResourceNeeds.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+			_resourceController.Add(ResourceNeeds.Generate, (double)(Population * (usedLiveMultiplier * usedGenMultiplier * delta)));
 
 			if (ResourceNeeds.GenerateCostAdded != null)
-				_resourceController.TryUsePartialResourceAdded(ResourceNeeds.GenerateCostAdded, Population * delta,
+				_resourceController.TryUsePartialResourceAdded(ResourceNeeds.GenerateCostAdded, (double)(Population * delta),
 					_resourceCostAddedMultipliers);
 			_resourceController.Add(ResourceNeeds.GenerateAdded, _resourceCostAddedMultipliers,
-				Population * usedLiveMultiplier * usedGenMultiplier * delta);
+				(double)(Population * (usedLiveMultiplier * usedGenMultiplier * delta)));
 
 			_resourceCostAddedMultipliers.Clear();
 		}
@@ -104,12 +105,12 @@ namespace IdleFactions
 			Unlocked?.Invoke(this);
 		}
 
-		public bool TryBuyPopulation(double amount)
+		public bool TryBuyPopulation(BigDouble amount)
 		{
 			if (!IsDiscovered || !IsUnlocked)
 				return false;
 
-			double multiplier = GetPopulationCostMultiplier(amount);
+			double multiplier = (double)GetPopulationCostMultiplier(amount); //TODOPRIO
 
 			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCost, multiplier))
 				return false;
@@ -119,7 +120,7 @@ namespace IdleFactions
 			return true;
 		}
 
-		public void RevertPopulation(double amount, double multiplier)
+		public void RevertPopulation(BigDouble amount, double multiplier)
 		{
 			_resourceController.Add(ResourceNeeds.CreateCost, multiplier);
 			ChangePopulation(-amount);
@@ -177,7 +178,7 @@ namespace IdleFactions
 			ResourceNeeds.RevertUpgradeAction(action);
 		}
 
-		public void ChangePopulation(double amount)
+		public void ChangePopulation(BigDouble amount)
 		{
 			Population += amount;
 		}
@@ -193,12 +194,12 @@ namespace IdleFactions
 			Unlocked = null;
 		}
 
-		public double GetPopulationCostMultiplier(double amount)
+		public BigDouble GetPopulationCostMultiplier(BigDouble amount)
 		{
 			return GetPopulationCostMultiplier(amount, Population);
 		}
 
-		private static double GetPopulationCostMultiplier(double amount, double population)
+		private static BigDouble GetPopulationCostMultiplier(BigDouble amount, BigDouble population)
 		{
 			if (amount + population <= 1)
 				return 1d;
@@ -211,7 +212,7 @@ namespace IdleFactions
 		/// <summary>
 		///		Sum of n ^ 0.15 for n = 0 to n
 		/// </summary>
-		private static double GetScalingFormula(int n)
+		private static BigDouble GetScalingFormula(int n)
 		{
 			const double fifth = 0.0001616362;
 			const double fourth = 0.0049091246;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BreakInfinity;
 using JetBrains.Annotations;
 
 namespace IdleFactions
@@ -19,7 +20,7 @@ namespace IdleFactions
 			_resources.Add(ResourceType.Dark, new StoredResource(ResourceType.Dark));
 		}
 
-		public void Add(ResourceType type, double value)
+		public void Add(ResourceType type, BigDouble value)
 		{
 			if (!_resources.ContainsKey(type))
 			{
@@ -55,10 +56,10 @@ namespace IdleFactions
 		public void Add(ResourceCost[] resourceCosts)
 		{
 			foreach (var cost in resourceCosts)
-				Add(cost.Type, cost.Value);
+				Add(cost.Type, (BigDouble)cost.Value);
 		}
 
-		public bool TryUseResource((ResourceType type, double value)[] resources, double multiplier)
+		public bool TryUseResource((ResourceType type, BigDouble value)[] resources, double multiplier)
 		{
 			foreach (var resource in resources)
 			{
@@ -74,7 +75,7 @@ namespace IdleFactions
 			return true;
 		}
 
-		public bool TryUseResource(ResourceType neededResourceType, double value)
+		public bool TryUseResource(ResourceType neededResourceType, BigDouble value)
 		{
 			if (!_resources.ContainsKey(neededResourceType))
 				return false;
@@ -157,7 +158,7 @@ namespace IdleFactions
 				//Not enough resources
 				if (_resources[cost.Key].Value < cost.Value.Value * multiplier)
 				{
-					usedMultipliers[i] = _resources[cost.Key].Value / (cost.Value.Value * multiplier);
+					usedMultipliers[i] = (double)(_resources[cost.Key].Value / (cost.Value.Value * multiplier));
 					continue;
 				}
 
@@ -189,7 +190,7 @@ namespace IdleFactions
 				//Not enough resources
 				if (_resources[cost.Key].Value < cost.Value.Value * multiplier)
 				{
-					resourceMultipliers.Add(cost.Key, _resources[cost.Key].Value / (cost.Value.Value * multiplier));
+					resourceMultipliers.Add(cost.Key, (double)(_resources[cost.Key].Value / (cost.Value.Value * multiplier)));
 					continue;
 				}
 

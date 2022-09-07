@@ -1,12 +1,14 @@
+using BreakInfinity;
+
 namespace IdleFactions
 {
 	public readonly struct PopulationPurchase : IRevertible
 	{
 		private readonly Faction _faction;
-		private readonly double _amount;
+		private readonly BigDouble _amount;
 		private readonly double _multiplier;
 
-		public PopulationPurchase(Faction faction, double amount, double multiplier)
+		public PopulationPurchase(Faction faction, BigDouble amount, double multiplier)
 		{
 			_faction = faction;
 			_amount = amount;

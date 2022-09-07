@@ -173,7 +173,7 @@ namespace IdleFactions
 			if (faction == null)
 				return;
 
-			double multiplier = faction.GetPopulationCostMultiplier(1);
+			double multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			string costs = string.Join(", ", faction.ResourceNeeds.CreateCost.Select(r =>
 				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
 			_factionBuyPopulationText.text = "Buy 1 population: " + costs;

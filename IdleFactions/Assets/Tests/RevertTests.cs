@@ -1,3 +1,4 @@
+using BreakInfinity;
 using NUnit.Framework;
 
 namespace IdleFactions.Tests
@@ -87,7 +88,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void RevertLastPopulationPurchase()
 		{
-			double usedResource = 0d;
+			BigDouble usedResource = 0d;
 			_resourceController.Add(ResourceType.Dark, 10d);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
 			{
@@ -96,31 +97,31 @@ namespace IdleFactions.Tests
 			}), null);
 			faction.Unlock();
 
-			double multiplier = faction.GetPopulationCostMultiplier(1);
+			double multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 			Assert.AreEqual(1, faction.Population);
 			Assert.AreEqual(10 - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value);
 
-			multiplier = faction.GetPopulationCostMultiplier(1);
+			multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
 			Assert.AreEqual(10d - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value);
 			Assert.AreEqual(2, faction.Population);
 
-			multiplier = faction.GetPopulationCostMultiplier(1);
+			multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
-			Assert.AreEqual(10d - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
+			Assert.AreEqual((double)(10d - usedResource), (double)_resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
 			Assert.AreEqual(3, faction.Population);
 
 			_revertController.RevertLastAction();
 
-			multiplier = faction.GetPopulationCostMultiplier(1);
+			multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			usedResource -= 1d * multiplier;
-			Assert.AreEqual(10 - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
+			Assert.AreEqual((double)(10 - usedResource), (double)_resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
 			Assert.AreEqual(2, faction.Population);
 		}
 	}

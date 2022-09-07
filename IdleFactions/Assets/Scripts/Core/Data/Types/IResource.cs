@@ -1,3 +1,5 @@
+using BreakInfinity;
+
 namespace IdleFactions
 {
 	public interface IResource : IStoredResource

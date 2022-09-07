@@ -1,3 +1,4 @@
+using BreakInfinity;
 using NUnit.Framework;
 
 namespace IdleFactions.Tests
@@ -24,7 +25,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void LessPopulation()
 		{
-			const int startPopulation = 5;
+			BigDouble startPopulation = 5;
 
 			_resourceController.Add(ResourceType.Essence, double.MaxValue);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
@@ -45,7 +46,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void MinPopulation()
 		{
-			const int startPopulation = 5;
+			BigDouble startPopulation = 5;
 
 			_resourceController.Add(ResourceType.Essence, double.MaxValue);
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
@@ -63,7 +64,7 @@ namespace IdleFactions.Tests
 			Assert.Greater(startPopulation, faction.Population);
 
 			faction.Update((float)(10d * faction.PopulationDecay));
-			Assert.AreEqual(Faction.MinPopulation, faction.Population);
+			Assert.AreEqual(faction.Population, Faction.MinPopulation);
 		}
 	}
 }

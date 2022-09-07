@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BreakInfinity;
 
 namespace IdleFactions
 {
@@ -11,7 +12,7 @@ namespace IdleFactions
 		private readonly ResourceType[] _addedResources;
 		private readonly List<double> _multipliers;
 
-		public ResourceAdded(ResourceType type, double value, params ResourceType[] addedResources) : base(type, value)
+		public ResourceAdded(ResourceType type, BigDouble value, params ResourceType[] addedResources) : base(type, value)
 		{
 			_addedResources = addedResources;
 			_multipliers = new List<double>(_addedResources.Length);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BreakInfinity;
 
 namespace IdleFactions
 {
@@ -6,7 +7,7 @@ namespace IdleFactions
 	{
 		event ResourceAddedHandler Added;
 
-		void Add(ResourceType type, double value);
+		void Add(ResourceType type, BigDouble value);
 		void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier);
 
 		void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IDictionary<ResourceType, double> multipliers,

@@ -1,3 +1,4 @@
+using BreakInfinity;
 using NUnit.Framework;
 
 namespace IdleFactions.Tests
@@ -66,9 +67,9 @@ namespace IdleFactions.Tests
 			}), null);
 			faction.Unlock();
 
-			Assert.AreEqual(0, faction.Population);
+			Assert.AreEqual(BigDouble.Zero, faction.Population);
 			faction.TryBuyPopulation(1);
-			Assert.AreEqual(1, faction.Population);
+			Assert.AreEqual(BigDouble.One, faction.Population);
 		}
 
 		[Test]
@@ -92,7 +93,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void BuyPopulationScalingCost()
 		{
-			double resourceUsed = 0d;
+			BigDouble resourceUsed = 0d;
 			_resourceController.Add(ResourceType.Dark, 10);
 
 			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
@@ -103,14 +104,14 @@ namespace IdleFactions.Tests
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
-			double multiplier = faction.GetPopulationCostMultiplier(1);
+			double multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(1, faction.Population);
 
 			resourceUsed += 1d * multiplier;
 			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
 
-			multiplier = faction.GetPopulationCostMultiplier(1);
+			multiplier = (double)faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			Assert.AreEqual(2, faction.Population);
 

@@ -1,4 +1,5 @@
 using System;
+using BreakInfinity;
 
 namespace IdleFactions
 {
@@ -6,25 +7,25 @@ namespace IdleFactions
 	{
 		public ResourceType Type { get; }
 
-		public double Value => _baseValue * _multiplier;
+		public BigDouble Value => _baseValue * _multiplier;
 
-		private double _baseValue;
+		private BigDouble _baseValue;
 		private double _multiplier = 1d;
 
-		public Resource(ResourceType type, double value = 0d)
+		public Resource(ResourceType type, BigDouble value = default)
 		{
 			Type = type;
 			_baseValue = value;
 		}
 
-		public void Add(double value)
+		public void Add(BigDouble value)
 		{
 			_baseValue += value;
 		}
 
-		public void Remove(double value)
+		public void Remove(BigDouble value)
 		{
-			_baseValue -= Math.Abs(value);
+			_baseValue -= BigDouble.Abs(value);
 			if (_baseValue < 0)
 				_baseValue = 0;
 		}
