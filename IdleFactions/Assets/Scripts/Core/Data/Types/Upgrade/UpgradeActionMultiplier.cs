@@ -2,13 +2,13 @@ namespace IdleFactions
 {
 	public readonly struct UpgradeActionMultiplier : IUpgradeAction
 	{
-		public ResourceNeedsType ResourceNeedsType { get; }
+		public FactionResourceType FactionResourceType { get; }
 		public ResourceType ResourceType { get; }
 		public double Multiplier { get; }
 
-		public UpgradeActionMultiplier(ResourceNeedsType resourceNeedsType, ResourceType resourceType, double multiplier)
+		public UpgradeActionMultiplier(FactionResourceType factionResourceType, ResourceType resourceType, double multiplier)
 		{
-			ResourceNeedsType = resourceNeedsType;
+			FactionResourceType = factionResourceType;
 			ResourceType = resourceType;
 			Multiplier = multiplier;
 		}

@@ -2,6 +2,12 @@
 
 ## Temp Notes
 
+Resource classes:
+Base resource                                           , type, value
+Stored resource, stored resources in controller         , type, value,                        add, remove
+Need resource                                           , type, value, baseValue, multiplier, add, remove
+Cost resource                                           , type, value
+
 So resource needs to store a reference to what Needs Type its linked & Resource Type or the specific upgrade action somehow?
 So we get all multipliers of base, but also return a pooled dict of new resources & their multipliers.
 

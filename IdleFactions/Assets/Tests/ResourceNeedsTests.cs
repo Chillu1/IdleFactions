@@ -25,7 +25,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void Generate()
 		{
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -42,7 +42,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void BuyPopulationNoResources()
 		{
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -59,7 +59,7 @@ namespace IdleFactions.Tests
 		{
 			_resourceController.Add(ResourceType.Dark, 5);
 
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
@@ -76,7 +76,7 @@ namespace IdleFactions.Tests
 		{
 			_resourceController.Add(ResourceType.Dark, 5);
 
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 10d) }
@@ -95,7 +95,7 @@ namespace IdleFactions.Tests
 			double resourceUsed = 0d;
 			_resourceController.Add(ResourceType.Dark, 10);
 
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
@@ -125,7 +125,7 @@ namespace IdleFactions.Tests
 		public void GenerateCost()
 		{
 			_resourceController.Add(ResourceType.Dark, 5d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
@@ -142,7 +142,7 @@ namespace IdleFactions.Tests
 		public void GenerateCostNotEnough()
 		{
 			_resourceController.Add(ResourceType.Dark, 2.5d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
@@ -162,7 +162,7 @@ namespace IdleFactions.Tests
 		[Test]
 		public void LiveCost()
 		{
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
@@ -180,7 +180,7 @@ namespace IdleFactions.Tests
 		public void LiveCostHalf()
 		{
 			_resourceController.Add(ResourceType.Dark, 2.5d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
@@ -202,7 +202,7 @@ namespace IdleFactions.Tests
 		public void LiveGenerationBonusMultiplier()
 		{
 			_resourceController.Add(ResourceType.Dark, 5d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },

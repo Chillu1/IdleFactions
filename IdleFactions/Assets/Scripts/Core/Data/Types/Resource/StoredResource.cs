@@ -2,7 +2,7 @@ using System;
 
 namespace IdleFactions
 {
-	public class StoredResource : IStoredResource
+	public class StoredResource : IChangeableResource
 	{
 		public ResourceType Type { get; }
 		public double Value { get; private set; }

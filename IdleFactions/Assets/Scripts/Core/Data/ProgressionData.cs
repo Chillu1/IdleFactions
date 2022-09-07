@@ -32,7 +32,7 @@ namespace IdleFactions
 			_calledResources.Clear();
 		}
 
-		public void OnAddResource(IStoredResource resource)
+		public void OnAddResource(IChangeableResource resource)
 		{
 			if (!_resourceProgressions.TryGetValue(resource.Type, out var progression))
 				return;

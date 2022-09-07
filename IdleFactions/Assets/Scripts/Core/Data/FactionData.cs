@@ -29,7 +29,7 @@ namespace IdleFactions
 			//Early game
 			{
 				var factionType = FactionType.Creation;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Essence));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Infinity));
 
@@ -37,7 +37,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Divinity;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Light));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
 
@@ -45,7 +45,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Void;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Dark));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 0.01d));
 
@@ -53,7 +53,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Heat;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Lava));
 				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 100d), new ResourceCost(ResourceType.Dark, 100d) });
 				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.5d));
@@ -62,7 +62,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Ocean;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Water));
 				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 1000d), new ResourceCost(ResourceType.Dark, 1000d) });
 				properties.SetGenerateCost(new[] { new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d) });
@@ -73,7 +73,7 @@ namespace IdleFactions
 			//Mid game
 			{
 				var factionType = FactionType.Nature;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Plant, 2d),
@@ -94,7 +94,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Skeleton;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Bones, 1d)
@@ -114,7 +114,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Necro;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Skeleton, 0.1d)
@@ -140,7 +140,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Demon;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Heat, 0.2d),
@@ -167,7 +167,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Dwarf;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Stone, 0.6d),
@@ -204,7 +204,7 @@ namespace IdleFactions
 			//Late game
 			{
 				var factionType = FactionType.Nature2;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Wildlife),
@@ -225,7 +225,7 @@ namespace IdleFactions
 			}
 			{
 				var factionType = FactionType.Human;
-				var properties = new ResourceNeedsProperties();
+				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new[]
 				{
 					new ResourceCost(ResourceType.Stone, 0.1d)
@@ -254,9 +254,9 @@ namespace IdleFactions
 				AddFaction(factionType, properties);
 			}
 
-			void AddFaction(FactionType type, ResourceNeedsProperties properties)
+			void AddFaction(FactionType type, FactionResourceProperties properties)
 			{
-				_factions.Add(type, new Faction(type, new ResourceNeeds(properties), _upgradeData.Get(type)));
+				_factions.Add(type, new Faction(type, new FactionResources(properties), _upgradeData.Get(type)));
 			}
 		}
 	}

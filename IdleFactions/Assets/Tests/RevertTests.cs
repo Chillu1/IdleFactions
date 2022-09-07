@@ -30,7 +30,7 @@ namespace IdleFactions.Tests
 		public void RevertMultiplier()
 		{
 			_resourceController.Add(ResourceType.Dark, 1d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -42,7 +42,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Light)?.Value);
 
 			var upgrade = new Upgrade("TestMultiplier", new ResourceCost(ResourceType.Dark),
-				upgradeActions: new UpgradeActionMultiplier(ResourceNeedsType.Generate, ResourceType.Light, 2d));
+				upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2d));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 
@@ -59,7 +59,7 @@ namespace IdleFactions.Tests
 		public void RevertNewResource()
 		{
 			_resourceController.Add(ResourceType.Water, 1d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -71,7 +71,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
 
 			var upgrade = new Upgrade("TestNewResource", new ResourceCost(ResourceType.Water),
-				upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.GenerateAdded, new ResourceAdded(ResourceType.Dark, 1d)));
+				upgradeActions: new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Dark, 1d)));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 
@@ -89,7 +89,7 @@ namespace IdleFactions.Tests
 		{
 			double usedResource = 0d;
 			_resourceController.Add(ResourceType.Dark, 10d);
-			var faction = new Faction(FactionType.Divinity, new ResourceNeeds(new ResourceNeedsProperties()
+			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }

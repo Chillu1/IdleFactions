@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace IdleFactions
 {
-	public interface IResourceAdded : IResource
+	public interface IAddedResource : IFactionResource
 	{
 		double GetMultiplier(IDictionary<ResourceType, double> resourceMultipliers);
 	}

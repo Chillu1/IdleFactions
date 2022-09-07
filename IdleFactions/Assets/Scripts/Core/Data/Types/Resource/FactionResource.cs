@@ -2,7 +2,7 @@ using System;
 
 namespace IdleFactions
 {
-	public class Resource : IResource
+	public class FactionResource : IFactionResource
 	{
 		public ResourceType Type { get; }
 
@@ -11,7 +11,7 @@ namespace IdleFactions
 		private double _baseValue;
 		private double _multiplier = 1d;
 
-		public Resource(ResourceType type, double value = 0d)
+		public FactionResource(ResourceType type, double value = 0d)
 		{
 			Type = type;
 			_baseValue = value;

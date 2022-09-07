@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public interface IBaseResource
+	public interface IResource
 	{
 		ResourceType Type { get; }
 		double Value { get; }

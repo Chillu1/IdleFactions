@@ -8,7 +8,7 @@ namespace IdleFactions
 	public class Faction
 	{
 		public FactionType Type { get; }
-		public ResourceNeeds ResourceNeeds { get; }
+		public FactionResources FactionResources { get; }
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 1d;
@@ -32,10 +32,10 @@ namespace IdleFactions
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
 
-		public Faction(FactionType type, ResourceNeeds resourceNeeds, IReadOnlyList<Upgrade> upgrades)
+		public Faction(FactionType type, FactionResources factionResources, IReadOnlyList<Upgrade> upgrades)
 		{
 			Type = type;
-			ResourceNeeds = resourceNeeds;
+			FactionResources = factionResources;
 
 			foreach (var upgrade in upgrades.EmptyIfNull())
 				upgrade.SetupFaction(this);
@@ -57,8 +57,8 @@ namespace IdleFactions
 				return;
 
 			double usedLiveMultiplier = 1d;
-			if (ResourceNeeds.LiveCost != null &&
-			    _resourceController.TryUsePartialLiveResource(ResourceNeeds.LiveCost, Population * delta, out usedLiveMultiplier))
+			if (FactionResources.LiveCost != null &&
+			    _resourceController.TryUsePartialLiveResource(FactionResources.LiveCost, Population * delta, out usedLiveMultiplier))
 			{
 				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
 				if (Population < MinPopulation)
@@ -69,19 +69,19 @@ namespace IdleFactions
 				return;
 
 			double usedGenMultiplier = 1d;
-			if (ResourceNeeds.GenerateCost != null)
-				_resourceController.TryUsePartialResource(ResourceNeeds.GenerateCost, Population * delta,
+			if (FactionResources.GenerateCost != null)
+				_resourceController.TryUsePartialResource(FactionResources.GenerateCost, Population * delta,
 					out usedGenMultiplier);
 
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
 
-			_resourceController.Add(ResourceNeeds.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+			_resourceController.Add(FactionResources.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
 
-			if (ResourceNeeds.GenerateCostAdded != null)
-				_resourceController.TryUsePartialResourceAdded(ResourceNeeds.GenerateCostAdded, Population * delta,
+			if (FactionResources.GenerateCostAdded != null)
+				_resourceController.TryUsePartialResourceAdded(FactionResources.GenerateCostAdded, Population * delta,
 					_resourceCostAddedMultipliers);
-			_resourceController.Add(ResourceNeeds.GenerateAdded, _resourceCostAddedMultipliers,
+			_resourceController.Add(FactionResources.GenerateAdded, _resourceCostAddedMultipliers,
 				Population * usedLiveMultiplier * usedGenMultiplier * delta);
 
 			_resourceCostAddedMultipliers.Clear();
@@ -111,7 +111,7 @@ namespace IdleFactions
 
 			double multiplier = GetPopulationCostMultiplier(amount);
 
-			if (!_resourceController.TryUseResource(ResourceNeeds.CreateCost, multiplier))
+			if (!_resourceController.TryUseResource(FactionResources.CreateCost, multiplier))
 				return false;
 
 			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));
@@ -121,7 +121,7 @@ namespace IdleFactions
 
 		public void RevertPopulation(double amount, double multiplier)
 		{
-			_resourceController.Add(ResourceNeeds.CreateCost, multiplier);
+			_resourceController.Add(FactionResources.CreateCost, multiplier);
 			ChangePopulation(-amount);
 		}
 
@@ -162,7 +162,7 @@ namespace IdleFactions
 					return;
 			}
 
-			ResourceNeeds.ActivateUpgradeAction(action);
+			FactionResources.ActivateUpgradeAction(action);
 		}
 
 		public void RevertUpgradeAction(IUpgradeAction action)
@@ -174,7 +174,7 @@ namespace IdleFactions
 					return;
 			}
 
-			ResourceNeeds.RevertUpgradeAction(action);
+			FactionResources.RevertUpgradeAction(action);
 		}
 
 		public void ChangePopulation(double amount)

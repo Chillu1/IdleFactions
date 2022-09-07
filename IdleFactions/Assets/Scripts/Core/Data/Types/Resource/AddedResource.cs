@@ -6,12 +6,12 @@ namespace IdleFactions
 	/// <summary>
 	///		Special resource for added resources that need to hold info of the added resources, to get the right multiplier
 	/// </summary>
-	public class ResourceAdded : Resource, IResourceAdded
+	public class AddedResource : FactionResource, IAddedResource
 	{
 		private readonly ResourceType[] _addedResources;
 		private readonly List<double> _multipliers;
 
-		public ResourceAdded(ResourceType type, double value, params ResourceType[] addedResources) : base(type, value)
+		public AddedResource(ResourceType type, double value, params ResourceType[] addedResources) : base(type, value)
 		{
 			_addedResources = addedResources;
 			_multipliers = new List<double>(_addedResources.Length);

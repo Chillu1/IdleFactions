@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public enum ResourceNeedsType
+	public enum FactionResourceType
 	{
 		None,
 		Generate,

@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public struct ResourceCost : IBaseResource
+	public struct ResourceCost : IResource
 	{
 		public ResourceType Type { get; }
 		public double Value { get; }

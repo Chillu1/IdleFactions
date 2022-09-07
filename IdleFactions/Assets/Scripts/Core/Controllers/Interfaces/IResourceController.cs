@@ -7,16 +7,16 @@ namespace IdleFactions
 		event ResourceAddedHandler Added;
 
 		void Add(ResourceType type, double value);
-		void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier);
+		void Add(IReadOnlyDictionary<ResourceType, IFactionResource> resources, double usedGenMultiplier);
 
-		void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IDictionary<ResourceType, double> multipliers,
+		void Add(IReadOnlyDictionary<ResourceType, IAddedResource> resources, IDictionary<ResourceType, double> multipliers,
 			double multiplier);
 
 		void Add(ResourceCost[] resourceCosts);
 
 		bool TryUseResource(ResourceCost[] resourceCosts);
 
-		bool TryUseResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier);
+		bool TryUseResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier);
 		//bool TryUseResource((ResourceType type, double value)[] resources, double multiplier);
 		//bool TryUseResource(ResourceType neededResourceType, double value);
 
@@ -25,17 +25,17 @@ namespace IdleFactions
 		/// </summary>
 		/// <example> Living costs </example>
 		/// <returns>If usedMultiplier was partial</returns>
-		bool TryUsePartialLiveResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier,
+		bool TryUsePartialLiveResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier,
 			out double usedMultiplier);
 
-		void TryUsePartialResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier,
+		void TryUsePartialResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier,
 			out double usedMultiplier);
 
-		void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IResourceAdded> resourceCosts, double multiplier,
+		void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IAddedResource> resourceCosts, double multiplier,
 			IDictionary<ResourceType, double> resourceMultipliers);
 
-		IStoredResource GetResource(int index);
+		IChangeableResource GetResource(int index);
 
-		IStoredResource GetResource(ResourceType type);
+		IChangeableResource GetResource(ResourceType type);
 	}
 }

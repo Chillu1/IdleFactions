@@ -4,17 +4,17 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public delegate void ResourceAddedHandler(IStoredResource resource);
+	public delegate void ResourceAddedHandler(IChangeableResource resource);
 
 	public class ResourceController : IResourceController
 	{
 		public event ResourceAddedHandler Added;
 
-		private readonly Dictionary<ResourceType, IStoredResource> _resources;
+		private readonly Dictionary<ResourceType, IChangeableResource> _resources;
 
 		public ResourceController()
 		{
-			_resources = new Dictionary<ResourceType, IStoredResource>();
+			_resources = new Dictionary<ResourceType, IChangeableResource>();
 			_resources.Add(ResourceType.Light, new StoredResource(ResourceType.Light));
 			_resources.Add(ResourceType.Dark, new StoredResource(ResourceType.Dark));
 		}
@@ -36,13 +36,13 @@ namespace IdleFactions
 			Added?.Invoke(_resources[type]);
 		}
 
-		public void Add(IReadOnlyDictionary<ResourceType, IResource> resources, double usedGenMultiplier)
+		public void Add(IReadOnlyDictionary<ResourceType, IFactionResource> resources, double usedGenMultiplier)
 		{
 			foreach (var cost in resources)
 				Add(cost.Key, cost.Value.Value * usedGenMultiplier);
 		}
 
-		public void Add(IReadOnlyDictionary<ResourceType, IResourceAdded> resources, IDictionary<ResourceType, double> multipliers,
+		public void Add(IReadOnlyDictionary<ResourceType, IAddedResource> resources, IDictionary<ResourceType, double> multipliers,
 			double multiplier)
 		{
 			foreach (var cost in resources)
@@ -102,7 +102,7 @@ namespace IdleFactions
 			return true;
 		}
 
-		public bool TryUseResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier)
+		public bool TryUseResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier)
 		{
 			foreach (var cost in resourceCosts)
 			{
@@ -123,7 +123,7 @@ namespace IdleFactions
 		/// </summary>
 		/// <example> Living costs </example>
 		/// <returns>If usedMultiplier was partial</returns>
-		public bool TryUsePartialLiveResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier,
+		public bool TryUsePartialLiveResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier,
 			out double usedMultiplier)
 		{
 			TryUsePartialResource(resourceCosts, multiplier, out usedMultiplier);
@@ -135,7 +135,7 @@ namespace IdleFactions
 			return usedMultiplier < 1d;
 		}
 
-		public void TryUsePartialResource(IReadOnlyDictionary<ResourceType, IResource> resourceCosts, double multiplier,
+		public void TryUsePartialResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier,
 			out double usedMultiplier)
 		{
 			double[] usedMultipliers = new double[resourceCosts.Count];
@@ -169,7 +169,7 @@ namespace IdleFactions
 				_resources[cost.Key].Remove(cost.Value.Value * multiplier * usedMultiplier);
 		}
 
-		public void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IResourceAdded> resourceCosts, double multiplier,
+		public void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IAddedResource> resourceCosts, double multiplier,
 			IDictionary<ResourceType, double> resourceMultipliers)
 		{
 			foreach (var cost in resourceCosts)
@@ -203,7 +203,7 @@ namespace IdleFactions
 			}
 		}
 
-		public IStoredResource GetResource(int index)
+		public IChangeableResource GetResource(int index)
 		{
 			if (index < 0 || index >= _resources.Count)
 				return null;
@@ -212,7 +212,7 @@ namespace IdleFactions
 		}
 
 		[CanBeNull]
-		public IStoredResource GetResource(ResourceType type)
+		public IChangeableResource GetResource(ResourceType type)
 		{
 			_resources.TryGetValue(type, out var resource);
 			return resource;

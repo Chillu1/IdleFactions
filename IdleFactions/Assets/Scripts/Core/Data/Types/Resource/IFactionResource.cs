@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public interface IResource : IStoredResource
+	public interface IFactionResource : IChangeableResource
 	{
 		void TimesMultiplier(double multiplier);
 	}

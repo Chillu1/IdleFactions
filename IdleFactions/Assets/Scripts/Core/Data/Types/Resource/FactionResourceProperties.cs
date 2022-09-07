@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class ResourceNeedsProperties
+	public class FactionResourceProperties
 	{
 		public ResourceCost[] Generate;
 
