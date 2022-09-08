@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class Faction
+	public class Faction : IDeepClone<Faction>
 	{
 		public FactionType Type { get; }
 		public FactionResources FactionResources { get; }
@@ -227,6 +227,11 @@ namespace IdleFactions
 
 			//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 0.15 for n = 0 to n
 			return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+		}
+
+		public Faction DeepClone()
+		{
+			return new Faction(Type, FactionResources.DeepClone(), Upgrades?.Select(u => u.ShallowClone()).ToList());
 		}
 
 		public override int GetHashCode()

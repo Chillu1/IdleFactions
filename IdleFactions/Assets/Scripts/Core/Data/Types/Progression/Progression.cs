@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public class Progression
+	public class Progression : IShallowClone<Progression>
 	{
 		public IProgressionEntry CurrentEntry { get; private set; }
 		public bool IsCompleted { get; private set; }
@@ -28,6 +28,11 @@ namespace IdleFactions
 			}
 
 			CurrentEntry = _entries[_currentEntryIndex];
+		}
+
+		public Progression ShallowClone()
+		{
+			return new Progression(_entries);
 		}
 	}
 }

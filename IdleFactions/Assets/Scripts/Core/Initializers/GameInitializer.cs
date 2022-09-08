@@ -8,7 +8,8 @@ namespace IdleFactions.Core
 
 		private void Start()
 		{
-			GameController = new GameController(this, FindObjectOfType<UIController>());
+			var dataController = FindObjectOfType<DataInitializer>().DataController;
+			GameController = new GameController(this, dataController, GetComponent<UIController>());
 		}
 
 		private void Update()

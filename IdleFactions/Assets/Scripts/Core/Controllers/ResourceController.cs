@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
 	public delegate void ResourceAddedHandler(IChangeableResource resource);
 
-	public class ResourceController : IResourceController
+	public class ResourceController : IResourceController, ISavable
 	{
 		public event ResourceAddedHandler Added;
 
@@ -215,6 +217,16 @@ namespace IdleFactions
 		{
 			_resources.TryGetValue(type, out var resource);
 			return resource;
+		}
+
+		public void Save(JsonTextWriter writer)
+		{
+			//TODO
+		}
+
+		public void Load(JObject data)
+		{
+			//TODO
 		}
 	}
 }

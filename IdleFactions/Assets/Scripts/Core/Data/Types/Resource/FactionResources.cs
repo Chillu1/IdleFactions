@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class FactionResources
+	public class FactionResources : IDeepClone<FactionResources>
 	{
 		public IReadOnlyDictionary<ResourceType, IFactionResource> Generate => _generate;
 
@@ -36,8 +36,12 @@ namespace IdleFactions
 		[CanBeNull]
 		private readonly Dictionary<ResourceType, IAddedResource> _liveCostAdded;
 
+		private readonly FactionResourceProperties _properties;
+
 		public FactionResources(FactionResourceProperties properties)
 		{
+			_properties = properties;
+
 			_generate = properties.Generate.ToDictionary(cost => cost.Type,
 				cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
 			_createCost = properties.CreateCost?.ToDictionary(cost => cost.Type,
@@ -239,6 +243,11 @@ namespace IdleFactions
 				//Remove from base
 				localResource.Remove(resource.Value);
 			}
+		}
+
+		public FactionResources DeepClone()
+		{
+			return new FactionResources(_properties);
 		}
 	}
 }

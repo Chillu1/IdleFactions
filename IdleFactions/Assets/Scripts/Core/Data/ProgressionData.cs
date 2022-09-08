@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IdleFactions
 {
@@ -15,7 +16,8 @@ namespace IdleFactions
 
 		public IDictionary<ResourceType, Progression> GetProgressions()
 		{
-			return _resourceProgressions;
+			return _resourceProgressions.Select(x => new KeyValuePair<ResourceType, Progression>(x.Key, x.Value.ShallowClone()))
+				.ToDictionary(x => x.Key, x => x.Value);
 		}
 
 		private void SetupProgressions()

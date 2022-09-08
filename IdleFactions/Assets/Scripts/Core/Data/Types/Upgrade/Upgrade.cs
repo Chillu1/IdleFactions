@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public class Upgrade : IRevertible
+	public class Upgrade : IRevertible, IShallowClone<Upgrade>
 	{
 		public string Id { get; }
 
@@ -68,6 +68,11 @@ namespace IdleFactions
 				_faction.ActivateUpgradeAction(action);
 
 			Bought = true;
+		}
+
+		public Upgrade ShallowClone()
+		{
+			return new Upgrade(Id, Costs, Unlocked, UpgradeActions);
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace IdleFactions
 		public Faction Get(FactionType type)
 		{
 			_factions.TryGetValue(type, out var faction);
-			return faction;
+			return faction?.DeepClone();
 		}
 
 		private void SetupFactions()
@@ -253,11 +253,11 @@ namespace IdleFactions
 
 				AddFaction(factionType, properties);
 			}
+		}
 
-			void AddFaction(FactionType type, FactionResourceProperties properties)
-			{
-				_factions.Add(type, new Faction(type, new FactionResources(properties), _upgradeData.Get(type)));
-			}
+		private void AddFaction(FactionType type, FactionResourceProperties properties)
+		{
+			_factions.Add(type, new Faction(type, new FactionResources(properties), _upgradeData.Get(type)));
 		}
 	}
 }

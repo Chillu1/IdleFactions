@@ -1,35 +1,35 @@
 using System.Diagnostics.CodeAnalysis;
 using IdleFactions.Core;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace IdleFactions
 {
 	[SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
 	public class GameController
 	{
-		private readonly ProgressionData _progressionData;
-		private readonly UpgradeData _upgradeData;
-		private readonly FactionData _factionData;
+		public bool IsPaused => _manualPause;
+
+		private bool _manualPause;
 
 		private readonly IRevertController _revertController;
 		private readonly FactionController _factionController;
 		private readonly IResourceController _resourceController;
 		private readonly ProgressionController _progressionController;
 
-		public GameController(GameInitializer gameInitializer, UIController uiController)
+		public GameController(GameInitializer gameInitializer, DataController dataController, UIController uiController)
 		{
-			_progressionData = new ProgressionData();
-			_upgradeData = new UpgradeData();
-			_factionData = new FactionData(_upgradeData);
 			_revertController = new RevertController();
 			_resourceController = new ResourceController();
 			Upgrade.Setup(_revertController, _resourceController);
 			Faction.Setup(_revertController, _resourceController);
-			_factionController = new FactionController(_factionData);
-			_progressionController = new ProgressionController(_progressionData, _factionController);
+			_factionController = new FactionController(dataController.FactionData);
+			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController);
 
 			_resourceController.Added += _progressionController.OnAddResource;
 
-			NewGame();
+			if (!dataController.LoadSavedGame)
+				NewGame();
 
 			uiController.Setup(_resourceController, _factionController);
 			Faction.Discovered += uiController.UpdateTab;
@@ -38,6 +38,22 @@ namespace IdleFactions
 
 		public void Update(float delta)
 		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				//StateController.SaveCurrent();
+				CleanUp();
+				SceneManager.LoadScene("MainMenu");
+			}
+
+			if (Input.GetKeyDown(KeyCode.P))
+			{
+				_manualPause = !_manualPause;
+				Log.Verbose("Manual pause: " + _manualPause);
+			}
+
+			if (IsPaused)
+				return;
+
 			_revertController.Update(delta);
 			_factionController.Update(delta);
 			_progressionController.Update(delta);
