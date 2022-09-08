@@ -28,6 +28,7 @@ namespace IdleFactions
 		private TMP_Text[] _needs;
 		private TMP_Text[] _rates;
 
+		private int _currentPopulationAmount = 1;
 		private Faction _currentFaction;
 		private FactionType _currentFactionType;
 
@@ -58,9 +59,19 @@ namespace IdleFactions
 			_factionType = factionTab.Find("FactionType").GetComponent<TMP_Text>();
 
 			_factionBuyPopulationText = factionTab.Find("BuyPopulation").GetComponentInChildren<TMP_Text>();
+			var populationAmount = factionTab.Find("PopulationAmount");
+			var populationAmountText = populationAmount.GetComponentInChildren<TMP_Text>();
+			populationAmount.GetComponent<Button>().onClick.AddListener(() =>
+			{
+				//TODO 10%, 50%, 100%
+				_currentPopulationAmount *= 10;
+				if (_currentPopulationAmount > 100)
+					_currentPopulationAmount = 1;
+				populationAmountText.text = _currentPopulationAmount.ToString();
+			});
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				_currentFaction?.TryBuyPopulation(1);
+				_currentFaction?.TryBuyPopulation(_currentPopulationAmount);
 				UpdateFactionTabPopulationInfo();
 			});
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _currentFaction?.ToggleGeneration());
@@ -193,10 +204,10 @@ namespace IdleFactions
 
 			UpdateFactionTabPopulation();
 
-			double multiplier = _currentFaction.GetPopulationCostMultiplier(1);
+			double multiplier = _currentFaction.GetPopulationCostMultiplier(_currentPopulationAmount);
 			string costs = string.Join(", ", _currentFaction.FactionResources.CreateCost.Select(r =>
 				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
-			_factionBuyPopulationText.text = "Buy 1 population: " + costs;
+			_factionBuyPopulationText.text = $"Buy {_currentPopulationAmount} population: {costs}";
 		}
 
 		private void UpdateFactionTabPopulation()
