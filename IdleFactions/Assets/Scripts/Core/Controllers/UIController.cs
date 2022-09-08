@@ -12,6 +12,8 @@ namespace IdleFactions
 		private IResourceController _resourceController;
 		private IFactionController _factionController;
 
+		private Image _background;
+
 		private Button[] _factionTabButtons;
 
 		private TMP_Text[] _resourceTexts;
@@ -26,6 +28,7 @@ namespace IdleFactions
 		private TMP_Text[] _needs;
 		private TMP_Text[] _rates;
 
+		private Faction _currentFaction;
 		private FactionType _currentFactionType;
 
 		public void Setup(IResourceController resourceController, IFactionController factionController)
@@ -37,6 +40,8 @@ namespace IdleFactions
 		private void Start()
 		{
 			var canvas = GameObject.Find("Canvas").transform;
+
+			_background = canvas.Find("Background").GetComponent<Image>();
 
 			var factions = canvas.Find("Factions");
 			_factionTabButtons = factions.GetComponentsInChildren<Button>();
@@ -55,11 +60,10 @@ namespace IdleFactions
 			_factionBuyPopulationText = factionTab.Find("BuyPopulation").GetComponentInChildren<TMP_Text>();
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				_factionController.Get(_currentFactionType)?.TryBuyPopulation(1);
+				_currentFaction?.TryBuyPopulation(1);
 				UpdateFactionTabPopulationInfo();
 			});
-			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _factionController
-				.Get(_currentFactionType)?.ToggleGeneration());
+			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _currentFaction?.ToggleGeneration());
 
 			var upgrades = factionTab.Find("Upgrades");
 			int upgradesChildCount = upgrades.childCount;
@@ -74,7 +78,7 @@ namespace IdleFactions
 				upgradeButton.onClick.AddListener(() =>
 				{
 					//TODO upgradeIndex will be wrong/not dynamic, unless we do some special logic in faction
-					if (_factionController.Get(_currentFactionType)?.TryBuyUpgrade(upgradeIndex) == true)
+					if (_currentFaction?.TryBuyUpgrade(upgradeIndex) == true)
 					{
 						upgradeButton.interactable = false;
 					}
@@ -121,6 +125,7 @@ namespace IdleFactions
 
 		private void Update()
 		{
+			UpdateFactionTabPopulation();
 			for (int i = 0; i < _resourceTexts.Length; i++)
 			{
 				var resourceText = _resourceTexts[i];
@@ -135,33 +140,47 @@ namespace IdleFactions
 
 		private void SwitchFactionTab(FactionType type)
 		{
-			var faction = _factionController.Get(type);
-			if (faction == null)
+			_currentFaction = _factionController.Get(type);
+			if (_currentFaction == null)
 				return;
 
-			_currentFactionType = type;
+			_background.sprite = GetFactionBackground(type);
 
 			_factionType.text = type.ToString();
 
-			for (int i = 0; i < _upgradeButtons.Length; i++)
-			{
-				_upgradeButtons[i].interactable = faction.GetUpgrade(i) is { Unlocked: true, Bought: false };
-				_upgradeButtonTexts[i].text = faction.GetUpgradeId(i);
-			}
-
-			UpdateFactionTabInfo(faction);
+			UpdateFactionTabInfo();
 		}
 
-		private void UpdateFactionTabInfo(Faction faction)
+		private void UpdateFactionTabInfo() //TODO On unlock upgrade, update buttons
 		{
-			_needs[0].text = "Generation: " + string.Join(", ", faction.FactionResources.Generate.Select(r => r.Value.ToString()));
-			_needs[1].text = "CreateCost: " + string.Join(", ", faction.FactionResources.CreateCost.Select(r => r.Value.ToString()));
-			_needs[2].text = faction.FactionResources.GenerateCost != null
-				? "GenerateCost: " + string.Join(", ", faction.FactionResources.GenerateCost.Select(r => r.Value.ToString()))
+			for (int i = 0; i < _upgradeButtons.Length; i++)
+			{
+				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { Unlocked: true, Bought: false };
+				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
+			}
+
+			_needs[0].text = "Generation: " +
+			                 string.Join(", ", _currentFaction.FactionResources.Generate.Select(r => r.Value.ToString()));
+			if (_currentFaction.FactionResources.GenerateAdded != null && _currentFaction.FactionResources.GenerateAdded.Count > 0)
+				_needs[0].text += ". Added: " +
+				                  string.Join(", ", _currentFaction.FactionResources.GenerateAdded.Select(r => r.Value.ToString()));
+
+			_needs[1].text = "CreateCost: " +
+			                 string.Join(", ", _currentFaction.FactionResources.CreateCost.Select(r => r.Value.ToString()));
+
+			_needs[2].text = _currentFaction.FactionResources.GenerateCost != null
+				? "GenerateCost: " + string.Join(", ", _currentFaction.FactionResources.GenerateCost.Select(r => r.Value.ToString()))
 				: "GenerateCost: None";
-			_needs[3].text = faction.FactionResources.LiveCost != null
-				? "LiveCost: " + string.Join(", ", faction.FactionResources.LiveCost.Select(r => r.Value.ToString()))
+			if (_currentFaction.FactionResources.GenerateCostAdded != null && _currentFaction.FactionResources.GenerateCostAdded.Count > 0)
+				_needs[2].text += ". Added: " +
+				                  string.Join(", ", _currentFaction.FactionResources.GenerateCostAdded.Select(r => r.Value.ToString()));
+
+			_needs[3].text = _currentFaction.FactionResources.LiveCost != null
+				? "LiveCost: " + string.Join(", ", _currentFaction.FactionResources.LiveCost.Select(r => r.Value.ToString()))
 				: "LiveCost: None";
+			if (_currentFaction.FactionResources.LiveCostAdded != null && _currentFaction.FactionResources.LiveCostAdded.Count > 0)
+				_needs[3].text += ". Added: " +
+				                  string.Join(", ", _currentFaction.FactionResources.LiveCostAdded.Select(r => r.Value.ToString()));
 
 			UpdateFactionTabPopulationInfo();
 			//TODO _rates
@@ -169,14 +188,31 @@ namespace IdleFactions
 
 		private void UpdateFactionTabPopulationInfo()
 		{
-			var faction = _factionController.Get(_currentFactionType);
-			if (faction == null)
+			if (_currentFaction == null)
 				return;
 
-			double multiplier = faction.GetPopulationCostMultiplier(1);
-			string costs = string.Join(", ", faction.FactionResources.CreateCost.Select(r =>
+			UpdateFactionTabPopulation();
+
+			double multiplier = _currentFaction.GetPopulationCostMultiplier(1);
+			string costs = string.Join(", ", _currentFaction.FactionResources.CreateCost.Select(r =>
 				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
 			_factionBuyPopulationText.text = "Buy 1 population: " + costs;
+		}
+
+		private void UpdateFactionTabPopulation()
+		{
+			_population.color = Colors.GetColor(_currentFaction.PopulationValueRate);
+			_population.text = "Population: " + _currentFaction.Population.ToString("F1");
+		}
+
+		private static Sprite GetFactionBackground(FactionType type)
+		{
+			return Resources.Load<Sprite>("Textures/Faction/Backgrounds/" + type);
+		}
+
+		private static Sprite GetFactionIcon(FactionType type)
+		{
+			return Resources.Load<Sprite>("Textures/Faction/Icons/" + type);
 		}
 	}
 }

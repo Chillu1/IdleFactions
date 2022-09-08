@@ -1,6 +1,5 @@
 # TODO:
 
-* Separating data & controllers
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Separate generated population & bought?
 
@@ -15,6 +14,10 @@
   * Faction
     * Upgrade
       * Hover over for info panel
+        * Name
+        * Description
+        * Costs
+        * Effects
     * Population 1-100%
     * Art
     * Rates
@@ -27,3 +30,4 @@
 * Buying 1-10-25-100-10%-25%-50%-Max population
 * Update current UI unlocked upgrade if factionType is same as UI
 * Achivements
+  * Bonus multipliers? Then we should have more meaningful achievements, not "100 X resource"

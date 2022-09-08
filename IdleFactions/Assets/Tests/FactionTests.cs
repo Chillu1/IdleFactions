@@ -62,7 +62,7 @@ namespace IdleFactions.Tests
 			faction.Update((float)(1d * faction.PopulationDecay));
 			Assert.Greater(startPopulation, faction.Population);
 
-			faction.Update((float)(10d * faction.PopulationDecay));
+			faction.Update((float)(faction.Population / faction.PopulationDecay));
 			Assert.AreEqual(Faction.MinPopulation, faction.Population);
 		}
 	}

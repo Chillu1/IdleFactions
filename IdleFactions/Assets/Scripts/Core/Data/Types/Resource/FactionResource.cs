@@ -14,5 +14,10 @@ namespace IdleFactions
 		{
 			_multiplier *= multiplier;
 		}
+
+		public override string ToString()
+		{
+			return $"{Type}: {Value:F2}";
+		}
 	}
 }

@@ -11,7 +11,7 @@ namespace IdleFactions
 
 		public override string ToString()
 		{
-			return $"{Type}: {Value:F1}";
+			return $"{Type}: {Value:F2}";
 		}
 	}
 }

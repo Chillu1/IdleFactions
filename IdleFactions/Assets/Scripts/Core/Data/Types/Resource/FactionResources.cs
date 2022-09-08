@@ -28,7 +28,7 @@ namespace IdleFactions
 		private readonly Dictionary<ResourceType, IFactionResource> _generateCost;
 
 		[CanBeNull]
-		private readonly Dictionary<ResourceType, IAddedResource> _generateCostAdded;
+		private readonly Dictionary<ResourceType, IAddedResource> _generateCostAdded; //TODO Lazy init
 
 		[CanBeNull]
 		private readonly Dictionary<ResourceType, IFactionResource> _liveCost;

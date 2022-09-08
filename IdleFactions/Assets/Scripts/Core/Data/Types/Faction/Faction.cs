@@ -12,7 +12,7 @@ namespace IdleFactions
 		public FactionResources FactionResources { get; }
 
 		public double Population { get; private set; }
-		public double PopulationDecay { get; private set; } = 1d;
+		public double PopulationDecay { get; private set; } = 0.1d;
 
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
@@ -21,6 +21,8 @@ namespace IdleFactions
 		public const double MinPopulation = 1d;
 		public const double MinLiveMultiplier = 0.1d;
 		public const double MaxLiveBonusMultiplier = 1.2d;
+
+		public ValueRate PopulationValueRate { get; private set; }
 
 		public static event Action<Faction> Discovered;
 		public static event Action<Faction> Unlocked;
@@ -73,6 +75,7 @@ namespace IdleFactions
 				_resourceController.TryUsePartialResource(FactionResources.GenerateCost, Population * delta,
 					out usedGenMultiplier);
 
+			PopulationValueRate = usedLiveMultiplier >= 1d ? ValueRate.Neutral : ValueRate.Negative;
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
 
@@ -104,7 +107,7 @@ namespace IdleFactions
 			Unlocked?.Invoke(this);
 		}
 
-		public bool TryBuyPopulation(double amount)
+		public bool TryBuyPopulation(int amount)
 		{
 			if (!IsDiscovered || !IsUnlocked)
 				return false;
@@ -199,19 +202,19 @@ namespace IdleFactions
 			Unlocked = null;
 		}
 
-		public double GetPopulationCostMultiplier(double amount)
+		public double GetPopulationCostMultiplier(int amount)
 		{
-			return GetPopulationCostMultiplier(amount, Population);
+			return GetPopulationCostMultiplier(amount, (int)Math.Ceiling(Population));
 		}
 
-		private static double GetPopulationCostMultiplier(double amount, double population)
+		private static double GetPopulationCostMultiplier(int amount, int population)
 		{
 			if (amount + population <= 1)
 				return 1d;
 
 			//population -= 1; //Scratch that, no need to offset since since only the first purchase should be 1 //Offset population, to make the first purchase 1X, and next to be scaled accordingly
 
-			return GetScalingFormula((int)(population + amount)) - GetScalingFormula((int)population);
+			return GetScalingFormula(population + amount) - GetScalingFormula(population);
 		}
 
 		/// <summary>

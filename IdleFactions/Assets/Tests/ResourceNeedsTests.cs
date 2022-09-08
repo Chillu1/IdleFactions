@@ -192,9 +192,10 @@ namespace IdleFactions.Tests
 			faction.Update(1f);
 
 			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
-			Assert.AreEqual(5 - 1 * 0.5, faction.Population);
-			//Not 2.5, because 0.5 population is gone, making it: 4.5 * 0.5 * 1 * 1 = 2.25
-			Assert.AreEqual(2.25, _resourceController.GetResource(ResourceType.Light)?.Value);
+			double remainingPopulation = 5 - faction.PopulationDecay * 0.5;
+			Assert.AreEqual(remainingPopulation, faction.Population);
+			//Not 2.5, because 0.05 population is gone, making it: (5 - faction.PopulationDecay * 0.5) * 0.5 * 1 * 1 = 2.475
+			Assert.AreEqual(remainingPopulation * 0.5, _resourceController.GetResource(ResourceType.Light)?.Value);
 		}
 
 		//LiveCost = 1d = buff
