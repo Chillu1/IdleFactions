@@ -39,7 +39,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 1));
 
 			var upgrade = new Upgrade("TestMultiplier", new ResourceCost(ResourceType.Dark),
 				upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2d));
@@ -47,12 +47,12 @@ namespace IdleFactions.Tests
 			upgrade.TryBuy();
 
 			faction.Update(1f);
-			Assert.AreEqual(3, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 3));
 
 			_revertController.RevertLastAction();
 
 			faction.Update(1f);
-			Assert.AreEqual(4, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 4));
 		}
 
 		[Test]
@@ -68,7 +68,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 0));
 
 			var upgrade = new Upgrade("TestNewResource", new ResourceCost(ResourceType.Water),
 				upgradeActions: new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Dark, 1d)));
@@ -76,12 +76,12 @@ namespace IdleFactions.Tests
 			upgrade.TryBuy();
 
 			faction.Update(1f);
-			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 1));
 
 			_revertController.RevertLastAction();
 
 			faction.Update(1f);
-			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 1));
 		}
 
 		[Test]
@@ -100,27 +100,27 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 			Assert.AreEqual(1, faction.Population);
-			Assert.AreEqual(10 - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
-			Assert.AreEqual(10d - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
 			Assert.AreEqual(2, faction.Population);
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
-			Assert.AreEqual(10d - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
 			Assert.AreEqual(3, faction.Population);
 
 			_revertController.RevertLastAction();
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			usedResource -= 1d * multiplier;
-			Assert.AreEqual(10 - usedResource, _resourceController.GetResource(ResourceType.Dark)?.Value, Delta);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
 			Assert.AreEqual(2, faction.Population);
 		}
 	}

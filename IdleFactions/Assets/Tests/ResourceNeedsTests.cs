@@ -34,7 +34,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 1));
 		}
 
 		//CreateCost Tests
@@ -108,7 +108,7 @@ namespace IdleFactions.Tests
 			Assert.AreEqual(1, faction.Population);
 
 			resourceUsed += 1d * multiplier;
-			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10 - resourceUsed));
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
@@ -116,7 +116,7 @@ namespace IdleFactions.Tests
 
 			resourceUsed += 1d * multiplier;
 
-			Assert.AreEqual(resourceUsed, 10d - _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10 - resourceUsed));
 		}
 
 		//Generate Cost Tests
@@ -135,7 +135,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 
 			faction.Update(1f);
-			Assert.AreEqual(1, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 1));
 		}
 
 		[Test]
@@ -153,8 +153,8 @@ namespace IdleFactions.Tests
 
 			faction.Update(1f);
 
-			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
-			Assert.AreEqual(0.5, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 0));
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 0.5));
 		}
 
 		//LiveCost Tests
@@ -191,11 +191,11 @@ namespace IdleFactions.Tests
 
 			faction.Update(1f);
 
-			Assert.AreEqual(0, _resourceController.GetResource(ResourceType.Dark)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 0));
 			double remainingPopulation = 5 - faction.PopulationDecay * 0.5;
 			Assert.AreEqual(remainingPopulation, faction.Population);
 			//Not 2.5, because 0.05 population is gone, making it: (5 - faction.PopulationDecay * 0.5) * 0.5 * 1 * 1 = 2.475
-			Assert.AreEqual(remainingPopulation * 0.5, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, remainingPopulation * 0.5));
 		}
 
 		//LiveCost = 1d = buff
@@ -214,7 +214,7 @@ namespace IdleFactions.Tests
 
 			faction.Update(1f);
 
-			Assert.AreEqual(1d * Faction.MaxLiveBonusMultiplier, _resourceController.GetResource(ResourceType.Light)?.Value);
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 1d * Faction.MaxLiveBonusMultiplier));
 		}
 	}
 }

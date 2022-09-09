@@ -139,10 +139,11 @@ namespace IdleFactions
 		private void Update()
 		{
 			UpdateFactionTabPopulation();
-			for (int i = 0; i < _resourceTexts.Length; i++)
+			int i = 0;
+			foreach (string resourceString in _resourceController.GetResourceStrings())
 			{
-				var resourceText = _resourceTexts[i];
-				resourceText.text = _resourceController.GetResource(i)?.ToString();
+				_resourceTexts[i].text = resourceString;
+				i++;
 			}
 		}
 

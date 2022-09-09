@@ -15,7 +15,7 @@ namespace IdleFactions
 		void Add(ResourceCost[] resourceCosts);
 
 		bool ResourceEquals(IResource resource);
-		bool ResourceEquals(ResourceType type, double value);
+		bool ResourceEquals(ResourceType type, double value, double tolerance = 0.001d);
 
 		bool ContainsResources(IReadOnlyDictionary<ResourceType, IFactionResource> factionResourcesCreateCost);
 
@@ -39,8 +39,6 @@ namespace IdleFactions
 		void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IAddedResource> resourceCosts, double multiplier,
 			IDictionary<ResourceType, double> resourceMultipliers);
 
-		IChangeableResource GetResource(int index);
-
-		IChangeableResource GetResource(ResourceType type);
+		IEnumerable<string> GetResourceStrings();
 	}
 }

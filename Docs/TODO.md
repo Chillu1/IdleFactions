@@ -1,7 +1,5 @@
 # TODO:
 
-* Save state
-* Refactor to not use "GetResource"
 * Buying 10%-25%-50%-Max population
 * Rate
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
@@ -12,6 +10,11 @@
 
 * UpgradeActionGeneralMultiplier
 * Added tests
+* Save Load States
+  * Faction
+  * Upgrades
+  * Resources
+  * Progression
 
 ## Ideal Product
 
@@ -33,4 +36,4 @@
 * Update current UI unlocked upgrade if factionType is same as UI
 * Achivements
   * Bonus multipliers? Then we should have more meaningful achievements, not "100 X resource"
-* Offline progress (max 24h/time resource) 
+* Offline progress (max 24h/time resource?) 

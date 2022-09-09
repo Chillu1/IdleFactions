@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IdleFactions.Utils;
@@ -68,12 +69,12 @@ namespace IdleFactions
 			return ResourceEquals(resource.Type, resource.Value);
 		}
 
-		public bool ResourceEquals(ResourceType type, double value)
+		public bool ResourceEquals(ResourceType type, double value, double tolerance = 0.001d)
 		{
 			if (!_resources.ContainsKey(type))
-				return false;
+				return value == 0;
 
-			return _resources[type].Value == value;
+			return Math.Abs(_resources[type].Value - value) < tolerance;
 		}
 
 		public bool ContainsResources(IReadOnlyDictionary<ResourceType, IFactionResource> factionResourcesCreateCost)
@@ -235,19 +236,10 @@ namespace IdleFactions
 			}
 		}
 
-		public IChangeableResource GetResource(int index)
+		public IEnumerable<string> GetResourceStrings()
 		{
-			if (index < 0 || index >= _resources.Count)
-				return null;
-
-			return _resources.ElementAt(index).Value;
-		}
-
-		[CanBeNull]
-		public IChangeableResource GetResource(ResourceType type)
-		{
-			_resources.TryGetValue(type, out var resource);
-			return resource;
+			foreach (var resource in _resources)
+				yield return resource.Value.ToString();
 		}
 
 		private void Set(ResourceType type, double value)
