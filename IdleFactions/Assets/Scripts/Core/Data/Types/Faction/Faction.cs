@@ -122,6 +122,48 @@ namespace IdleFactions
 			return true;
 		}
 
+		public bool TryBuyPopulation(PurchaseType purchaseType)
+		{
+			if (!IsDiscovered || !IsUnlocked)
+				return false;
+
+			throw new NotImplementedException();
+			/*int percent;
+
+			switch (purchaseType)
+			{
+				case PurchaseType.One:
+					return TryBuyPopulation(1);
+				case PurchaseType.Ten:
+					return TryBuyPopulation(10);
+				case PurchaseType.Hundred:
+					return TryBuyPopulation(100);
+				case PurchaseType.TenPercent:
+					percent = 10;
+					break;
+				case PurchaseType.TwentyFivePercent:
+					percent = 25;
+					break;
+				case PurchaseType.FiftyPercent:
+					percent = 50;
+					break;
+				case PurchaseType.HundredPercent:
+					percent = 100;
+					break;
+			}
+
+			if (!_resourceController.ContainsResources(FactionResources.CreateCost)) //Not enough resource for 1
+				return false;
+
+			//TODO Rethink this
+			int amount = _resourceController.GetResourcesPopulationAmount(FactionResources.CreateCost, purchaseType);
+			if (amount <= 0)
+				return false;
+
+
+			double multiplier = GetPopulationCostMultiplier(amount);*/
+		}
+
 		public void RevertPopulation(double amount, double multiplier)
 		{
 			_resourceController.Add(FactionResources.CreateCost, multiplier);

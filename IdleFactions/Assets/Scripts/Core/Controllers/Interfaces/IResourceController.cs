@@ -14,6 +14,11 @@ namespace IdleFactions
 
 		void Add(ResourceCost[] resourceCosts);
 
+		bool ResourceEquals(IResource resource);
+		bool ResourceEquals(ResourceType type, double value);
+
+		bool ContainsResources(IReadOnlyDictionary<ResourceType, IFactionResource> factionResourcesCreateCost);
+
 		bool TryUseResource(ResourceCost[] resourceCosts);
 
 		bool TryUseResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier);

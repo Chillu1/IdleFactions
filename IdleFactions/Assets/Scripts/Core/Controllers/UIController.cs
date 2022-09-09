@@ -29,6 +29,7 @@ namespace IdleFactions
 		private TMP_Text[] _rates;
 
 		private int _currentPopulationAmount = 1;
+		private PurchaseType _currentPurchaseType;
 		private Faction _currentFaction;
 		private FactionType _currentFactionType;
 
@@ -72,6 +73,7 @@ namespace IdleFactions
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				_currentFaction?.TryBuyPopulation(_currentPopulationAmount);
+				//_currentFaction?.TryBuyPopulation(_currentPurchaseType);
 				UpdateFactionTabPopulationInfo();
 			});
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _currentFaction?.ToggleGeneration());

@@ -59,6 +59,33 @@ namespace IdleFactions
 				Add(cost.Type, cost.Value);
 		}
 
+		public bool ResourceEquals(IResource resource)
+		{
+			return ResourceEquals(resource.Type, resource.Value);
+		}
+
+		public bool ResourceEquals(ResourceType type, double value)
+		{
+			if (!_resources.ContainsKey(type))
+				return false;
+
+			return _resources[type].Value == value;
+		}
+
+		public bool ContainsResources(IReadOnlyDictionary<ResourceType, IFactionResource> factionResourcesCreateCost)
+		{
+			foreach (var cost in factionResourcesCreateCost)
+			{
+				if (!_resources.ContainsKey(cost.Key))
+					return false;
+
+				if (_resources[cost.Key].Value < cost.Value.Value)
+					return false;
+			}
+
+			return true;
+		}
+
 		public bool TryUseResource((ResourceType type, double value)[] resources, double multiplier)
 		{
 			foreach (var resource in resources)

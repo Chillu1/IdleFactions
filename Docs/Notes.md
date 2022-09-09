@@ -2,6 +2,8 @@
 
 ## Temp Notes
 
+10%: Get CreateCost. GetNeededResouces, get their amounts / 10. Get the lowest of those. Buy that many.  
+
 Resource classes:
 Base resource                                           , type, value
 Stored resource, stored resources in controller         , type, value,                        add, remove
