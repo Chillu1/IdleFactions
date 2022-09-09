@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
 	public class FactionController : IFactionController
 	{
+		public const string JSONKey = "Factions";
+
 		private readonly Dictionary<FactionType, Faction> _factions;
 
 		public FactionController(FactionData factionData)
@@ -32,6 +36,26 @@ namespace IdleFactions
 		{
 			_factions.TryGetValue(type, out var faction);
 			return faction;
+		}
+
+		public void Save(JsonTextWriter writer)
+		{
+			writer.WritePropertyName(JSONKey);
+			writer.WriteStartArray();
+
+			foreach (var faction in _factions.Values)
+				faction.Save(writer);
+
+			writer.WriteEndArray();
+		}
+
+		public void Load(JObject data)
+		{
+			var factions = data.Value<JArray>(JSONKey);
+			foreach (var factionData in factions!)
+			{
+				_factions[(FactionType)factionData.Value<int>(nameof(Faction.Type))].Load((JObject)factionData);
+			}
 		}
 	}
 }

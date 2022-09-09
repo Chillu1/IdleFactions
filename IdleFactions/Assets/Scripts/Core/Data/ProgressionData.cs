@@ -14,7 +14,7 @@ namespace IdleFactions
 			SetupProgressions();
 		}
 
-		public IDictionary<ResourceType, Progression> GetProgressions()
+		public IDictionary<ResourceType, Progression> GetResourceProgressions()
 		{
 			return _resourceProgressions.Select(x => new KeyValuePair<ResourceType, Progression>(x.Key, x.Value.ShallowClone()))
 				.ToDictionary(x => x.Key, x => x.Value);
@@ -22,12 +22,12 @@ namespace IdleFactions
 
 		private void SetupProgressions()
 		{
-			_resourceProgressions.Add(ResourceType.Essence, new Progression(
+			_resourceProgressions.Add(ResourceType.Essence, new Progression("DivinityResourceProgression",
 				new ProgressionEntry(
 					new ProgressionResourceCondition(1), //BALANCE 10
 					new ProgressionDiscoverFactionAction(FactionType.Divinity))
 			));
-			_resourceProgressions.Add(ResourceType.Light, new Progression(
+			_resourceProgressions.Add(ResourceType.Light, new Progression("LightyResourceProgression",
 				new ProgressionEntry(
 					new ProgressionResourceCondition(2),
 					new ProgressionDiscoverFactionAction(FactionType.Void)),

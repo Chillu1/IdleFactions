@@ -74,11 +74,8 @@ namespace IdleFactions
 					displayText += $"Date: {saveState.SaveDate.ToString("HH:mm:ss dd/MM/yy")}\n";
 				displayText += $"Version: {saveState.GameVersion}\n";
 				displayText += $"SaveVersion: {saveState.SaveVersion}\n";
-				displayText += $"Discoveries: {saveState.DiscoveriesCount}\n";
-				displayText += $"Choices: {saveState.ChoicesCount}\n";
-				displayText += $"Modifiers: {saveState.ModifiersCount}\n";
-				displayText += $"Characters: {saveState.CharactersCount}\n";
-				displayText += $"Maps: {saveState.MapsCount}\n";
+				displayText += $"Factions: {saveState.FactionCount}\n";
+				displayText += $"Achievements: {saveState.AchievementsCount}\n";
 
 				saveUI.GetComponentInChildren<TMP_Text>().text = displayText;
 

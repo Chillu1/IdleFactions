@@ -17,11 +17,16 @@ namespace IdleFactions
 		private float _timer;
 		private readonly double _saveInterval = 30;
 
-		private ResourceController ResourceController { get; }
+		private readonly IResourceController _resourceController;
+		private readonly IFactionController _factionController;
+		private readonly ProgressionController _progressionController;
 
-		public StateController(ResourceController resourceController)
+		public StateController(IResourceController resourceController, IFactionController factionController,
+			ProgressionController progressionController)
 		{
-			ResourceController = resourceController;
+			_resourceController = resourceController;
+			_factionController = factionController;
+			_progressionController = progressionController;
 		}
 
 		public void Update(float deltaTime)
@@ -54,7 +59,7 @@ namespace IdleFactions
 		// TODO "" Ugh not ideal, App.DataPath can't be compile time constant, but we want to feed a directory as well
 		public bool Save(string fileName, string directory = "")
 		{
-			if (directory == "")
+			if (string.IsNullOrWhiteSpace(directory))
 				directory = DefaultSavePath;
 
 			if (!Directory.Exists(directory))
@@ -110,7 +115,9 @@ namespace IdleFactions
 				writer.WritePropertyName("SaveDate");
 				writer.WriteValue(DateTime.Now);
 
-				ResourceController.Save(writer);
+				_resourceController.Save(writer);
+				_factionController.Save(writer);
+				_progressionController.Save(writer);
 
 				writer.WriteEndObject();
 
@@ -131,7 +138,7 @@ namespace IdleFactions
 		// TODO Same as Save()
 		public bool Load(string fileName, string directory = "")
 		{
-			if (directory == "")
+			if (string.IsNullOrWhiteSpace(directory))
 				directory = DefaultSavePath;
 
 			if (!Directory.Exists(directory))
@@ -179,7 +186,10 @@ namespace IdleFactions
 				if (readSaveVersion != saveVersion.ToString())
 					Log.Warning("Saved save version is different from current save version. Might need to update?");
 
-				ResourceController.Load(saveData);
+				_resourceController.Load(saveData);
+				_factionController.Load(saveData);
+				_progressionController.Load(saveData);
+
 				_currentSaveName = saveData.Value<string>("SaveName");
 				if (string.IsNullOrEmpty(_currentSaveName))
 					_currentSaveName = fileName; //.Remove(fileName.IndexOf(".json", StringComparison.Ordinal));
@@ -201,11 +211,8 @@ namespace IdleFactions
 			public string SaveVersion;
 			public double PlayTime;
 			public DateTime SaveDate;
-			public int DiscoveriesCount;
-			public int ChoicesCount;
-			public int ModifiersCount;
-			public int CharactersCount;
-			public int MapsCount;
+			public int FactionCount;
+			public int AchievementsCount;
 		}
 
 		public static SaveState[] LoadDisplay(string directory = "")

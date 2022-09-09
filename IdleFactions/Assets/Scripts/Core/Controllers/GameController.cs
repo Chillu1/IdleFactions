@@ -16,6 +16,7 @@ namespace IdleFactions
 		private readonly FactionController _factionController;
 		private readonly IResourceController _resourceController;
 		private readonly ProgressionController _progressionController;
+		public StateController StateController { get; }
 
 		public GameController(GameInitializer gameInitializer, DataController dataController, UIController uiController)
 		{
@@ -25,6 +26,7 @@ namespace IdleFactions
 			Faction.Setup(_revertController, _resourceController);
 			_factionController = new FactionController(dataController.FactionData);
 			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController);
+			StateController = new StateController(_resourceController, _factionController, _progressionController);
 
 			_resourceController.Added += _progressionController.OnAddResource;
 
@@ -64,7 +66,7 @@ namespace IdleFactions
 			Faction.CleanUp();
 		}
 
-		private void NewGame()
+		public void NewGame()
 		{
 			_factionController.Get(FactionType.Creation)!.Discover();
 			_factionController.Get(FactionType.Creation)!.Unlock();

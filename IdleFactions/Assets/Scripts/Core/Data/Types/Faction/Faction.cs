@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using IdleFactions.Utils;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
-	public class Faction : IDeepClone<Faction>
+	public class Faction : ISavable, ILoadable, IDeepClone<Faction>
 	{
 		public FactionType Type { get; }
 		public FactionResources FactionResources { get; }
@@ -272,6 +274,55 @@ namespace IdleFactions
 
 			//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 0.15 for n = 0 to n
 			return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+		}
+
+		public void Save(JsonTextWriter writer)
+		{
+			if (!IsDiscovered && !IsUnlocked) //Don't save if it's unnecessary, no delta
+				return;
+
+			writer.WriteStartObject();
+
+			writer.WritePropertyName(nameof(Type));
+			writer.WriteValue(Type);
+
+			writer.WritePropertyName(nameof(IsDiscovered));
+			writer.WriteValue(IsDiscovered);
+
+			writer.WritePropertyName(nameof(IsUnlocked));
+			writer.WriteValue(IsUnlocked);
+
+			writer.WritePropertyName(nameof(IsGenerationOn));
+			writer.WriteValue(IsGenerationOn);
+
+			writer.WritePropertyName(nameof(Population));
+			writer.WriteValue(Population);
+
+			writer.WritePropertyName(nameof(Upgrades));
+			writer.WriteStartArray();
+			foreach (var upgrade in Upgrades.EmptyIfNull())
+				upgrade.Save(writer);
+			writer.WriteEndArray();
+
+			writer.WriteEndObject();
+		}
+
+		public void Load(JObject data)
+		{
+			//IsDiscovered = data.Value<bool>(nameof(IsDiscovered));
+			//IsUnlocked = data.Value<bool>(nameof(IsUnlocked));
+			//Will trigger UI notifications later on, unless we subscribe with them after loading
+			if (data.Value<bool>(nameof(IsDiscovered)))
+				Discover();
+			if (data.Value<bool>(nameof(IsUnlocked)))
+				Unlock();
+
+			IsGenerationOn = data.Value<bool>(nameof(IsGenerationOn));
+			Population = data.Value<double>(nameof(Population));
+
+			var upgradesData = data.Value<JArray>(nameof(Upgrades));
+			foreach (var upgradeData in upgradesData.EmptyIfNull())
+				Upgrades.First(u => u.Id == upgradeData.Value<string>(nameof(Upgrade.Id))).Load(upgradeData as JObject);
 		}
 
 		public Faction DeepClone()

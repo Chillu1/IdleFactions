@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace IdleFactions
 {
-	public interface IResourceController
+	public interface IResourceController : ISavable, ILoadable
 	{
 		event ResourceAddedHandler Added;
 

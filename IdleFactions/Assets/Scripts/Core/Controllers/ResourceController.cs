@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using IdleFactions.Utils;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,8 +9,10 @@ namespace IdleFactions
 {
 	public delegate void ResourceAddedHandler(IChangeableResource resource);
 
-	public class ResourceController : IResourceController, ISavable
+	public class ResourceController : IResourceController
 	{
+		public const string JSONKey = "Resources";
+
 		public event ResourceAddedHandler Added;
 
 		private readonly Dictionary<ResourceType, IChangeableResource> _resources;
@@ -17,6 +20,7 @@ namespace IdleFactions
 		public ResourceController()
 		{
 			_resources = new Dictionary<ResourceType, IChangeableResource>();
+			_resources.Add(ResourceType.Essence, new ChangeableResource(ResourceType.Essence));
 			_resources.Add(ResourceType.Light, new ChangeableResource(ResourceType.Light));
 			_resources.Add(ResourceType.Dark, new ChangeableResource(ResourceType.Dark));
 		}
@@ -246,14 +250,27 @@ namespace IdleFactions
 			return resource;
 		}
 
+		private void Set(ResourceType type, double value)
+		{
+			_resources[type] = new ChangeableResource(type, value);
+		}
+
 		public void Save(JsonTextWriter writer)
 		{
-			//TODO
+			writer.WritePropertyName(JSONKey);
+			writer.WriteStartArray();
+			foreach (var resource in _resources.Values)
+				resource.Save(writer);
+			writer.WriteEndArray();
 		}
 
 		public void Load(JObject data)
 		{
-			//TODO
+			var resources = data.Value<JArray>(JSONKey);
+
+			foreach (var resource in resources.EmptyIfNull())
+				Set((ResourceType)resource.Value<int>(nameof(ChangeableResource.Type)),
+					resource.Value<double>(nameof(ChangeableResource.Value)));
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace IdleFactions.Editor
 	public class DevPanel : UnityEditor.Editor
 	{
 		private GameController _gameController;
+		private string _fileName = StateController.DefaultSaveFileName;
 
 		private void OnEnable()
 		{
@@ -23,6 +24,30 @@ namespace IdleFactions.Editor
 			if (GUILayout.Button("Test"))
 			{
 			}
+
+			if (GUILayout.Button("NewGame"))
+				_gameController.NewGame();
+
+			GUILayout.Label("Save/Load file name");
+			GUILayout.BeginHorizontal();
+			_fileName = GUILayout.TextArea(_fileName, GUILayout.MaxWidth(200));
+			if (GUILayout.Button("Save", GUILayout.MaxWidth(100)))
+			{
+				if (_fileName != "")
+					_gameController.StateController.Save(_fileName);
+				else
+					_gameController.StateController.Save();
+			}
+
+			if (GUILayout.Button("Load", GUILayout.MaxWidth(100)))
+			{
+				if (_fileName != "")
+					_gameController.StateController.Load(_fileName);
+				else
+					_gameController.StateController.Load();
+			}
+
+			GUILayout.EndHorizontal();
 
 			serializedObject.ApplyModifiedProperties();
 		}

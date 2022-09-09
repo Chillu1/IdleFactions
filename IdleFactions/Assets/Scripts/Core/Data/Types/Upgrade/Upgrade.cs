@@ -1,6 +1,9 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace IdleFactions
 {
-	public class Upgrade : IRevertible, IShallowClone<Upgrade>
+	public class Upgrade : IRevertible, ISavable, ILoadable, IShallowClone<Upgrade>
 	{
 		public string Id { get; }
 
@@ -68,6 +71,30 @@ namespace IdleFactions
 				_faction.ActivateUpgradeAction(action);
 
 			Bought = true;
+		}
+
+		public void Save(JsonTextWriter writer)
+		{
+			if (!Unlocked && !Bought) //Don't save if it's unnecessary, no delta
+				return;
+
+			writer.WriteStartObject();
+			writer.WritePropertyName(nameof(Id));
+			writer.WriteValue(Id);
+			writer.WritePropertyName(nameof(Unlocked));
+			writer.WriteValue(Unlocked);
+			writer.WritePropertyName(nameof(Bought));
+			writer.WriteValue(Bought);
+			writer.WriteEndObject();
+		}
+
+		public void Load(JObject data)
+		{
+			Unlocked = data.Value<bool>(nameof(Unlocked));
+			Bought = data.Value<bool>(nameof(Bought));
+
+			if (Bought)
+				Buy();
 		}
 
 		public Upgrade ShallowClone()
