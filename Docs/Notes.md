@@ -2,6 +2,10 @@
 
 ## Temp Notes
 
+Rates:
+Per second/5, keep changing (adding/removing) a dict of resources.
+After X seconds, display the rate, & clear the dicts.
+
 10%: Get CreateCost. GetNeededResouces, get their amounts / 10. Get the lowest of those. Buy that many.  
 
 Resource classes:

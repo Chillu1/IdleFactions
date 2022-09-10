@@ -14,7 +14,7 @@ namespace IdleFactions
 
 		private readonly IRevertController _revertController;
 		private readonly FactionController _factionController;
-		private readonly IResourceController _resourceController;
+		private readonly ResourceController _resourceController;
 		private readonly ProgressionController _progressionController;
 		public StateController StateController { get; }
 
@@ -58,6 +58,7 @@ namespace IdleFactions
 			if (IsPaused)
 				return;
 
+			_resourceController.Update(delta);
 			_revertController.Update(delta);
 			_factionController.Update(delta);
 			_progressionController.Update(delta);

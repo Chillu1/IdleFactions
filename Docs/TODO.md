@@ -1,9 +1,11 @@
 # TODO:
 
-* Buying 10%-25%-50%-Max population
-* Rate
-* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
+* Rates
+  * Single Remove function in ResourceController 
 * Separate generated population & bought?
+* Basic Achievements
+* Buying 10%-25%-50%-Max population
+* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Buying next most with 10-100 population?
 
 ## Tests

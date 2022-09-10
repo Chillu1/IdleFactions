@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IdleFactions.Utils;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,6 +13,8 @@ namespace IdleFactions
 	{
 		public const string JSONKey = "Resources";
 
+		public ResourceRates Rates { get; }
+
 		public event ResourceAddedHandler Added;
 
 		private readonly Dictionary<ResourceType, IChangeableResource> _resources;
@@ -24,6 +25,13 @@ namespace IdleFactions
 			_resources.Add(ResourceType.Essence, new ChangeableResource(ResourceType.Essence));
 			_resources.Add(ResourceType.Light, new ChangeableResource(ResourceType.Light));
 			_resources.Add(ResourceType.Dark, new ChangeableResource(ResourceType.Dark));
+
+			Rates = new ResourceRates();
+		}
+
+		public void Update(float dt)
+		{
+			Rates.Update(dt);
 		}
 
 		public void Add(ResourceType type, double value)
@@ -39,6 +47,7 @@ namespace IdleFactions
 			}
 
 			//Added?.Invoke(this, new ResourceEventArgs(type, value));
+			Rates.ChangeResource(type, value);
 			Added?.Invoke(_resources[type]);
 		}
 
@@ -62,6 +71,15 @@ namespace IdleFactions
 		{
 			foreach (var cost in resourceCosts)
 				Add(cost.Type, cost.Value);
+		}
+
+		public void Remove(ResourceType type, double value)
+		{
+			if (!_resources.ContainsKey(type))
+				return;
+
+			_resources[type].Remove(value);
+			Rates.ChangeResource(type, -value);
 		}
 
 		public bool ResourceEquals(IResource resource)
@@ -102,7 +120,7 @@ namespace IdleFactions
 			}
 
 			foreach (var resource in resources)
-				_resources[resource.type].Remove(resource.value * multiplier);
+				Remove(resource.type, resource.value * multiplier);
 
 			return true;
 		}
@@ -115,7 +133,7 @@ namespace IdleFactions
 			if (_resources[neededResourceType].Value < value)
 				return false;
 
-			_resources[neededResourceType].Remove(value);
+			Remove(neededResourceType, value);
 			return true;
 		}
 
@@ -130,12 +148,15 @@ namespace IdleFactions
 			}
 
 			foreach (var cost in resourceCosts)
-				_resources[cost.Type].Remove(cost.Value);
+				Remove(cost.Type, cost.Value);
 
 			return true;
 		}
 
-		public bool TryUseResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier)
+		/// <summary>
+		///		Special resource use, that doesn't affect rates
+		/// </summary>
+		public bool TryUseManualResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier)
 		{
 			foreach (var cost in resourceCosts)
 			{
@@ -199,7 +220,7 @@ namespace IdleFactions
 
 			usedMultiplier = usedMultipliers.Min();
 			foreach (var cost in resourceCosts)
-				_resources[cost.Key].Remove(cost.Value.Value * multiplier * usedMultiplier);
+				Remove(cost.Key, cost.Value.Value * multiplier * usedMultiplier);
 		}
 
 		public void TryUsePartialResourceAdded(IReadOnlyDictionary<ResourceType, IAddedResource> resourceCosts, double multiplier,
@@ -232,7 +253,7 @@ namespace IdleFactions
 			foreach (var cost in resourceCosts)
 			{
 				double specificResourceMultiplier = cost.Value.GetMultiplier(resourceMultipliers);
-				_resources[cost.Key].Remove(cost.Value.Value * multiplier * specificResourceMultiplier);
+				Remove(cost.Key, cost.Value.Value * multiplier * specificResourceMultiplier);
 			}
 		}
 

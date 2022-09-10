@@ -116,7 +116,7 @@ namespace IdleFactions
 
 			double multiplier = GetPopulationCostMultiplier(amount);
 
-			if (!_resourceController.TryUseResource(FactionResources.CreateCost, multiplier))
+			if (!_resourceController.TryUseManualResource(FactionResources.CreateCost, multiplier))
 				return false;
 
 			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));

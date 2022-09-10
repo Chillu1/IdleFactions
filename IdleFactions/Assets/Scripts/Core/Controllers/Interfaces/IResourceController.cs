@@ -4,6 +4,7 @@ namespace IdleFactions
 {
 	public interface IResourceController : ISavable, ILoadable
 	{
+		ResourceRates Rates { get; }
 		event ResourceAddedHandler Added;
 
 		void Add(ResourceType type, double value);
@@ -13,6 +14,7 @@ namespace IdleFactions
 			double multiplier);
 
 		void Add(ResourceCost[] resourceCosts);
+		void Remove(ResourceType type, double value);
 
 		bool ResourceEquals(IResource resource);
 		bool ResourceEquals(ResourceType type, double value, double tolerance = 0.001d);
@@ -21,7 +23,10 @@ namespace IdleFactions
 
 		bool TryUseResource(ResourceCost[] resourceCosts);
 
-		bool TryUseResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier);
+		/// <summary>
+		///		Special resource use, that doesn't affect rates
+		/// </summary>
+		bool TryUseManualResource(IReadOnlyDictionary<ResourceType, IFactionResource> resourceCosts, double multiplier);
 		//bool TryUseResource((ResourceType type, double value)[] resources, double multiplier);
 		//bool TryUseResource(ResourceType neededResourceType, double value);
 

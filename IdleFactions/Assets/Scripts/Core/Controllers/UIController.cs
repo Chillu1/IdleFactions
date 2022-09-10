@@ -147,6 +147,12 @@ namespace IdleFactions
 			}
 		}
 
+		private void FixedUpdate()
+		{
+			if (Time.frameCount % 15 == 0)
+				UpdateResourceRates();
+		}
+
 		public void UpdateTab(Faction faction)
 		{
 			_factionTabButtons[(int)faction.Type - 1].gameObject.SetActive(true);
@@ -196,8 +202,24 @@ namespace IdleFactions
 				_needs[3].text += ". Added: " +
 				                  string.Join(", ", _currentFaction.FactionResources.LiveCostAdded.Select(r => r.Value.ToString()));
 
+			UpdateResourceRates();
 			UpdateFactionTabPopulationInfo();
-			//TODO _rates
+		}
+
+		private void UpdateResourceRates()
+		{
+			double[] rates = _resourceController.Rates.Rates;
+
+			_rates[0].text = "Rates:";
+			for (int i = 0; i < rates.Length; i++)
+			{
+				double rate = rates[i];
+				if (rate == 0)
+					continue;
+				/*if (_rates.Length <= i)
+					continue;*/
+				_rates[0].text += $" {(ResourceType)i}: {rate:F2}";
+			}
 		}
 
 		private void UpdateFactionTabPopulationInfo()
