@@ -38,12 +38,12 @@ namespace IdleFactions
 			FactionData = new FactionData(UpgradeData);
 		}
 
-		public void NewGame()
+		public void PrepareNewGame()
 		{
 			LoadSavedGame = false;
 		}
 
-		public void LoadGame(string saveName)
+		public void PrepareLoadGame(string saveName)
 		{
 			LoadSavedGame = true;
 			SaveName = saveName;

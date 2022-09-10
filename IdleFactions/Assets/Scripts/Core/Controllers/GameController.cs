@@ -32,6 +32,8 @@ namespace IdleFactions
 
 			if (!dataController.LoadSavedGame)
 				NewGame();
+			else
+				LoadGame(dataController.SaveName);
 
 			uiController.Setup(_resourceController, _factionController);
 			Faction.Discovered += uiController.UpdateTab;
@@ -42,7 +44,7 @@ namespace IdleFactions
 		{
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				//StateController.SaveCurrent();
+				StateController.SaveCurrent();
 				CleanUp();
 				SceneManager.LoadScene("MainMenu");
 			}
@@ -72,6 +74,11 @@ namespace IdleFactions
 			_factionController.Get(FactionType.Creation)!.Unlock();
 
 			_factionController.Get(FactionType.Creation)!.ChangePopulation(1);
+		}
+
+		private void LoadGame(string saveName)
+		{
+			StateController.Load(saveName);
 		}
 	}
 }

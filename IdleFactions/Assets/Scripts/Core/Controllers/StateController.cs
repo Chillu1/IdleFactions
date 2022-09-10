@@ -275,9 +275,9 @@ namespace IdleFactions
 				saveState.PlayTime = saveData.Value<double>("PlayTime");
 				saveState.SaveDate = saveData.Value<DateTime>("SaveDate");
 
-				//var discoveries = saveData.Value<JObject>(DiscoveryController.JSONKey);
-				//if (discoveries != null)
-				//	saveState.DiscoveriesCount = discoveries.Count;
+				var factions = saveData.Value<JArray>(FactionController.JSONKey);
+				if (factions != null)
+					saveState.FactionCount = factions.Count;
 
 				Log.Verbose("Display load successful");
 				return saveState;

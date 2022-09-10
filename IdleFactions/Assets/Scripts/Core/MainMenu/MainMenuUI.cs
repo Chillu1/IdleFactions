@@ -25,10 +25,10 @@ namespace IdleFactions
 
 			_newGameButton.onClick.AddListener(() =>
 			{
-				FindObjectOfType<DataInitializer>().DataController.NewGame();
+				FindObjectOfType<DataInitializer>().DataController.PrepareNewGame();
 				SceneManager.LoadScene("GameplayScene");
 			});
-			//_loadGameButton.onClick.AddListener(() => { OpenLoadMenu(); });
+			_loadGameButton.onClick.AddListener(() => OpenLoadMenu());
 
 			_quitButton.onClick.AddListener(() =>
 			{
@@ -39,13 +39,13 @@ namespace IdleFactions
 #endif
 			});
 
-			//var savesTransform = canvas.Find("Saves");
-			//_saves = new Transform[StateController.MaxSaves];
-			//for (int i = 0; i < StateController.MaxSaves; i++)
-			//{
-			//	_saves[i] = savesTransform.Find($"Save ({i})");
-			//	_saves[i].gameObject.SetActive(false);
-			//}
+			var savesTransform = canvas.Find("Saves");
+			_saves = new Transform[StateController.MaxSaves];
+			for (int i = 0; i < StateController.MaxSaves; i++)
+			{
+				_saves[i] = savesTransform.Find($"Save ({i})");
+				_saves[i].gameObject.SetActive(false);
+			}
 		}
 
 		public void OpenLoadMenu()
@@ -83,7 +83,7 @@ namespace IdleFactions
 				button.onClick.RemoveAllListeners();
 				button.onClick.AddListener(() =>
 				{
-					dataInitializer.DataController.LoadGame(saveState.SaveName);
+					dataInitializer.DataController.PrepareLoadGame(saveState.SaveName);
 					SceneManager.LoadScene("GameplayScene");
 				});
 			}
