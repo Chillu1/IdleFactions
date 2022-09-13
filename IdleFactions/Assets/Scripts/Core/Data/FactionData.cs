@@ -253,6 +253,99 @@ namespace IdleFactions
 
 				AddFaction(factionType, properties);
 			}
+
+			//TEMP Resources
+			{
+				var factionType = FactionType.Goblin;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Ogre;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Warlock;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Treant;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Golem;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Drowner;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Elf;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new[]
+				{
+					new ResourceCost(ResourceType.Infinity)
+				});
+				properties.SetCreateCost(new[]
+				{
+					new ResourceCost(ResourceType.Infinity),
+				});
+				AddFaction(factionType, properties);
+			}
 		}
 
 		private void AddFaction(FactionType type, FactionResourceProperties properties)
