@@ -78,7 +78,7 @@ namespace IdleFactions
 			});
 			factionTab.Find("ToggleGeneration").GetComponent<Button>().onClick.AddListener(() => _currentFaction?.ToggleGeneration());
 
-			var upgrades = factionTab.Find("Upgrades");
+			var upgrades = factionTab.Find("Upgrades").Find("Upgrades");
 			int upgradesChildCount = upgrades.childCount;
 			_upgradeButtons = new Button[upgradesChildCount];
 			_upgradeButtonTexts = new TMP_Text[upgradesChildCount];
@@ -149,7 +149,7 @@ namespace IdleFactions
 
 		private void FixedUpdate()
 		{
-			if (Time.frameCount % 15 == 0)
+			if (Time.frameCount % 10 == 0)
 				UpdateResourceRates();
 		}
 

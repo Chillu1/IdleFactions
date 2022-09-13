@@ -14,7 +14,6 @@ namespace IdleFactions
 			double multiplier);
 
 		void Add(ResourceCost[] resourceCosts);
-		void Remove(ResourceType type, double value);
 
 		bool ResourceEquals(IResource resource);
 		bool ResourceEquals(ResourceType type, double value, double tolerance = 0.001d);

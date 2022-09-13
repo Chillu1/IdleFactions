@@ -2,6 +2,10 @@
 
 ## Temp Notes
 
+Achievements:
+* Let there be light, first light production
+* Losing all population (to 1)
+
 Rates:
 Per second/5, keep changing (adding/removing) a dict of resources.
 After X seconds, display the rate, & clear the dicts.

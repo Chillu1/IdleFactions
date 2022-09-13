@@ -1,9 +1,10 @@
 # TODO:
 
-* Rates
-  * Single Remove function in ResourceController 
-* Separate generated population & bought?
-* Basic Achievements
+* Hover over panel
+* Better UI
+* Progression
+  * Upgrades
+* Rates text being displayed on factions that care about it (generate it, live it, generate cost it) 
 * Buying 10%-25%-50%-Max population
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Buying next most with 10-100 population?
@@ -37,5 +38,8 @@
 * Capping population/auto toggle generation to a limit (ex. so we don't have 1000 skeletons draining all dark & magic)
 * Update current UI unlocked upgrade if factionType is same as UI
 * Achivements
+  * Separate generated population & bought?
   * Bonus multipliers? Then we should have more meaningful achievements, not "100 X resource"
 * Offline progress (max 24h/time resource?) 
+* Snapshot based rates, every X seconds, store the resource amounts, then calculate the rate based on the difference between the current & previous snapshot. Lowering the used PC resources
+* Main Menu https://gabrielbissonnette.itch.io/minimalist-main-menu-pack

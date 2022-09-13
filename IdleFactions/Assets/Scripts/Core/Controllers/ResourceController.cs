@@ -73,7 +73,7 @@ namespace IdleFactions
 				Add(cost.Type, cost.Value);
 		}
 
-		public void Remove(ResourceType type, double value)
+		private void Remove(ResourceType type, double value)
 		{
 			if (!_resources.ContainsKey(type))
 				return;
