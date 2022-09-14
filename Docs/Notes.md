@@ -2,6 +2,11 @@
 
 ## Temp Notes
 
+Hover over panel
+* Title
+* Description/Effects
+* Costs
+
 Achievements:
 * Let there be light, first light production
 * Losing all population (to 1)

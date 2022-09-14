@@ -1,4 +1,5 @@
 using System.Linq;
+using IdleFactions.Behaviours;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,10 +29,17 @@ namespace IdleFactions
 		private TMP_Text[] _needs;
 		private TMP_Text[] _rates;
 
+		//Hover
+		private GameObject _hoverPanelGo;
+		private TMP_Text _hoverPanelNameText;
+		private TMP_Text _hoverPanelEffectsText;
+		private TMP_Text _hoverPanelCostsText;
+
 		private int _currentPopulationAmount = 1;
 		private PurchaseType _currentPurchaseType;
 		private Faction _currentFaction;
 		private FactionType _currentFactionType;
+
 
 		public void Setup(IResourceController resourceController, IFactionController factionController)
 		{
@@ -133,6 +141,12 @@ namespace IdleFactions
 				}*/
 			}
 
+			_hoverPanelGo = canvas.Find("HoverPanel").gameObject;
+			_hoverPanelNameText = _hoverPanelGo.transform.Find("Name").GetComponent<TMP_Text>();
+			_hoverPanelEffectsText = _hoverPanelGo.transform.Find("Effects").GetComponent<TMP_Text>();
+			_hoverPanelCostsText = _hoverPanelGo.transform.Find("Costs").GetComponent<TMP_Text>();
+			_hoverPanelGo.SetActive(false);
+
 			SwitchFactionTab(FactionType.Creation);
 		}
 
@@ -156,6 +170,43 @@ namespace IdleFactions
 		public void UpdateTab(Faction faction)
 		{
 			_factionTabButtons[(int)faction.Type - 1].gameObject.SetActive(true);
+		}
+
+		public void DisplayHoverData(HoverType hoverType, int index)
+		{
+			_hoverPanelGo.SetActive(true);
+			switch (hoverType)
+			{
+				case HoverType.Upgrade:
+					var upgrade = _currentFaction.GetUpgrade(index);
+					if (upgrade == null)
+					{
+						_hoverPanelNameText.text = "Unknown upgrade";
+						_hoverPanelEffectsText.text = "";
+						_hoverPanelCostsText.text = "";
+						break;
+					}
+
+					_hoverPanelNameText.text = upgrade.Id;
+					_hoverPanelEffectsText.text = upgrade.GetEffectsString();
+					_hoverPanelCostsText.text = upgrade.GetCostsString();
+
+					break;
+				default:
+					Log.Error("Invalid HoverType: " + hoverType);
+					break;
+			}
+		}
+
+		public void MoveHoverPanel(Vector3 mousePosition)
+		{
+			Vector3 offset = new Vector2(Screen.width * 0.145f, -Screen.height * 0.21f);
+			_hoverPanelGo.transform.position = mousePosition + offset;
+		}
+
+		public void HideHoverPanel()
+		{
+			_hoverPanelGo.SetActive(false);
 		}
 
 		private void SwitchFactionTab(FactionType type)

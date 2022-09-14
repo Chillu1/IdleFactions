@@ -1,3 +1,4 @@
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -72,6 +73,9 @@ namespace IdleFactions
 
 			Bought = true;
 		}
+
+		public string GetEffectsString() => "Effects: " + string.Join(", ", UpgradeActions.Select(action => action.ToString()));
+		public string GetCostsString() => "Cost: " + string.Join(", ", Costs.Select(cost => cost.ToString()));
 
 		public void Save(JsonTextWriter writer)
 		{

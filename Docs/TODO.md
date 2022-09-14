@@ -1,10 +1,10 @@
 # TODO:
 
 * Hover over panel
-* Better UI
 * Progression
   * Upgrades
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it) 
+* Tabs (Wiki, Achievements, Settings?)
 * Buying 10%-25%-50%-Max population
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Buying next most with 10-100 population?

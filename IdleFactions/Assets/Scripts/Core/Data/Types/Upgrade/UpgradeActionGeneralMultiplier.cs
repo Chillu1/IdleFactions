@@ -10,5 +10,10 @@ namespace IdleFactions
 			FactionResourceType = factionResourceType;
 			Multiplier = multiplier;
 		}
+
+		public override string ToString()
+		{
+			return $"Multiplier: {Multiplier} {FactionResourceType.ToString()}";
+		}
 	}
 }

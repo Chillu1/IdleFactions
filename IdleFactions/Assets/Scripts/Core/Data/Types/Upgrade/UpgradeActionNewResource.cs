@@ -10,5 +10,10 @@ namespace IdleFactions
 			FactionResourceType = factionResourceType;
 			Resource = resource;
 		}
+
+		public override string ToString()
+		{
+			return $"New {FactionResourceType} resource: {Resource}";
+		}
 	}
 }

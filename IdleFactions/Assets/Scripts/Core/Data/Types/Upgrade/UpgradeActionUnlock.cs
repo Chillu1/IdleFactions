@@ -22,5 +22,10 @@ namespace IdleFactions
 		{
 			_factionController.GetFaction(FactionType)?.Unlock();
 		}*/
+
+		public override string ToString()
+		{
+			return "Unlock Faction";
+		}
 	}
 }
