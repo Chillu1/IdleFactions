@@ -23,6 +23,7 @@ namespace IdleFactions
 		//Faction Tab
 		private TMP_Text _factionType;
 		private TMP_Text _factionBuyPopulationText;
+		private TMP_Text _factionPopulationCostText;
 		private Button[] _upgradeButtons;
 		private TMP_Text[] _upgradeButtonTexts;
 		private TMP_Text _population;
@@ -68,6 +69,7 @@ namespace IdleFactions
 			_factionType = factionTab.Find("FactionType").GetComponent<TMP_Text>();
 
 			_factionBuyPopulationText = factionTab.Find("BuyPopulation").GetComponentInChildren<TMP_Text>();
+			_factionPopulationCostText = factionTab.Find("PopulationCost").GetComponentInChildren<TMP_Text>();
 			var populationAmount = factionTab.Find("PopulationAmount");
 			var populationAmountText = populationAmount.GetComponentInChildren<TMP_Text>();
 			populationAmount.GetComponent<Button>().onClick.AddListener(() =>
@@ -77,6 +79,7 @@ namespace IdleFactions
 				if (_currentPopulationAmount > 100)
 					_currentPopulationAmount = 1;
 				populationAmountText.text = _currentPopulationAmount.ToString();
+				UpdateFactionTabPopulationInfo();
 			});
 			factionTab.Find("BuyPopulation").GetComponent<Button>().onClick.AddListener(() =>
 			{
@@ -179,7 +182,7 @@ namespace IdleFactions
 			{
 				case HoverType.Upgrade:
 					var upgrade = _currentFaction.GetUpgrade(index);
-					if (upgrade == null)
+					if (upgrade == null || !upgrade.Unlocked)
 					{
 						_hoverPanelNameText.text = "Unknown upgrade";
 						_hoverPanelEffectsText.text = "";
@@ -188,7 +191,7 @@ namespace IdleFactions
 					}
 
 					_hoverPanelNameText.text = upgrade.Id;
-					_hoverPanelEffectsText.text = upgrade.GetEffectsString();
+					_hoverPanelEffectsText.text = upgrade.GetDataString();
 					_hoverPanelCostsText.text = upgrade.GetCostsString();
 
 					break;
@@ -222,13 +225,9 @@ namespace IdleFactions
 			UpdateFactionTabInfo();
 		}
 
-		private void UpdateFactionTabInfo() //TODO On unlock upgrade, update buttons
+		private void UpdateFactionTabInfo()
 		{
-			for (int i = 0; i < _upgradeButtons.Length; i++)
-			{
-				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { Unlocked: true, Bought: false };
-				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
-			}
+			UpdateFactionTabUpgrades();
 
 			_needs[0].text = "Generation: " +
 			                 string.Join(", ", _currentFaction.FactionResources.Generate.Select(r => r.Value.ToString()));
@@ -257,6 +256,23 @@ namespace IdleFactions
 			UpdateFactionTabPopulationInfo();
 		}
 
+		public void UpdateFactionTabUpgrades()
+		{
+			for (int i = 0; i < _upgradeButtons.Length; i++)
+			{
+				var upgrade = _currentFaction.GetUpgrade(i);
+				if (upgrade is { Unlocked: false })
+				{
+					_upgradeButtons[i].interactable = false;
+					_upgradeButtonTexts[i].text = "Unknown";
+					continue;
+				}
+
+				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { Bought: false };
+				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
+			}
+		}
+
 		private void UpdateResourceRates()
 		{
 			double[] rates = _resourceController.Rates.Rates;
@@ -283,7 +299,8 @@ namespace IdleFactions
 			double multiplier = _currentFaction.GetPopulationCostMultiplier(_currentPopulationAmount);
 			string costs = string.Join(", ", _currentFaction.FactionResources.CreateCost.Select(r =>
 				(r.Value.Value * multiplier).ToString("F1") + " " + r.Key));
-			_factionBuyPopulationText.text = $"Buy {_currentPopulationAmount} population: {costs}";
+			_factionBuyPopulationText.text = $"Buy {_currentPopulationAmount} population";
+			_factionPopulationCostText.text = costs;
 		}
 
 		private void UpdateFactionTabPopulation()

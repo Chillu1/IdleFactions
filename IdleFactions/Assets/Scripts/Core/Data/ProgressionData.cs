@@ -24,19 +24,27 @@ namespace IdleFactions
 		{
 			_resourceProgressions.Add(ResourceType.Essence, new Progression("DivinityResourceProgression",
 				new ProgressionEntry(
-					new ProgressionResourceCondition(1), //BALANCE 10
+					new ProgressionResourceCondition(5),
 					new ProgressionDiscoverFactionAction(FactionType.Divinity))
 			));
-			_resourceProgressions.Add(ResourceType.Light, new Progression("LightyResourceProgression",
+			_resourceProgressions.Add(ResourceType.Light, new Progression("LightResourceProgression",
 				new ProgressionEntry(
-					new ProgressionResourceCondition(2),
+					new ProgressionResourceCondition(5),
 					new ProgressionDiscoverFactionAction(FactionType.Void)),
 				new ProgressionEntry(
-					new ProgressionResourceCondition(100),
+					new ProgressionResourceCondition(20),
 					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More light")),
 				new ProgressionEntry(
-					new ProgressionResourceCondition(500),
-					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More light 2"))
+					new ProgressionResourceCondition(50),
+					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More dark consumption, more light"))
+			));
+			_resourceProgressions.Add(ResourceType.Dark, new Progression("DarkResourceProgression",
+				new ProgressionEntry(
+					new ProgressionResourceCondition(20),
+					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More dark")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(50),
+					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More light consumption, more dark"))
 			));
 		}
 	}

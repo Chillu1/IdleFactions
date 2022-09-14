@@ -1,8 +1,10 @@
 # TODO:
 
-* Hover over panel
 * Progression
+  * Basic early game, to 1000 light/dark 
   * Upgrades
+  * Heat-Ocean phase
+* On Upgrade bought, update Need text on the right  
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it) 
 * Tabs (Wiki, Achievements, Settings?)
 * Buying 10%-25%-50%-Max population
@@ -43,3 +45,5 @@
 * Offline progress (max 24h/time resource?) 
 * Snapshot based rates, every X seconds, store the resource amounts, then calculate the rate based on the difference between the current & previous snapshot. Lowering the used PC resources
 * Main Menu https://gabrielbissonnette.itch.io/minimalist-main-menu-pack
+* Mine defense-type "oracle", that gives you a hint on what to do next
+* Change UI Color with faction

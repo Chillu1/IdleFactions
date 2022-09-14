@@ -25,7 +25,7 @@ namespace IdleFactions
 			Upgrade.Setup(_revertController, _resourceController);
 			Faction.Setup(_revertController, _resourceController);
 			_factionController = new FactionController(dataController.FactionData);
-			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController);
+			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController, uiController);
 			StateController = new StateController(_resourceController, _factionController, _progressionController);
 
 			_resourceController.Added += _progressionController.OnAddResource;

@@ -35,17 +35,11 @@ namespace IdleFactions
 					upgradeActions: new UpgradeActionUnlock()),
 
 				new Upgrade("More light",
-					new ResourceCost(ResourceType.Light, 5), false,
+					new ResourceCost(ResourceType.Light, 30), false,
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
-				new Upgrade("More light 2",
-					new ResourceCost(ResourceType.Light, 10),
-					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
-				new Upgrade("More light 3",
-					new ResourceCost(ResourceType.Light, 15),
-					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
 				new Upgrade("More dark consumption, more light",
-					new ResourceCost(ResourceType.Light, 15), false,
-					new UpgradeActionMultiplier(FactionResourceType.LiveCost, ResourceType.Dark, 2),
+					new ResourceCost(ResourceType.Light, 100), false,
+					new UpgradeActionMultiplier(FactionResourceType.LiveCost, ResourceType.Dark, 4),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2))
 			});
 
@@ -54,17 +48,11 @@ namespace IdleFactions
 				new Upgrade("Unlock the void", new ResourceCost(ResourceType.Essence), true, new UpgradeActionUnlock()),
 
 				new Upgrade("More dark",
-					new ResourceCost(ResourceType.Light, 5),
-					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2)),
-				new Upgrade("More dark 2",
-					new ResourceCost(ResourceType.Light, 10),
-					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2)),
-				new Upgrade("More dark 3",
-					new ResourceCost(ResourceType.Light, 15),
+					new ResourceCost(ResourceType.Light, 30), false,
 					upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2)),
 				new Upgrade("More light consumption, more dark",
 					new ResourceCost(ResourceType.Dark, 100), false,
-					new UpgradeActionMultiplier(FactionResourceType.LiveCost, ResourceType.Light, 2),
+					new UpgradeActionMultiplier(FactionResourceType.LiveCost, ResourceType.Light, 4),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2)
 				)
 			});

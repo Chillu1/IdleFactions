@@ -74,7 +74,15 @@ namespace IdleFactions
 			Bought = true;
 		}
 
-		public string GetEffectsString() => "Effects: " + string.Join(", ", UpgradeActions.Select(action => action.ToString()));
+		public string GetDataString()
+		{
+			string data = "Upgrade: ";
+			data += Bought ? "Bought" : Unlocked ? "Unlocked" : "Locked";
+			data += "\nEffects:\n";
+			data += string.Join(", ", UpgradeActions.Select(action => action.ToString()));
+			return data;
+		}
+
 		public string GetCostsString() => "Cost: " + string.Join(", ", Costs.Select(cost => cost.ToString()));
 
 		public void Save(JsonTextWriter writer)

@@ -203,7 +203,7 @@ namespace IdleFactions
 
 		public string GetUpgradeId(int i)
 		{
-			return i >= Upgrades?.Count ? "Id" : Upgrades?[i].Id;
+			return i >= Upgrades?.Count ? "Unknown" : Upgrades?[i].Id;
 		}
 
 		public void ActivateUpgradeAction(IUpgradeAction action)

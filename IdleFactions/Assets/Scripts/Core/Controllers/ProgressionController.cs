@@ -17,10 +17,12 @@ namespace IdleFactions
 		private float _timer;
 
 		private readonly IFactionController _factionController;
+		private readonly UIController _uiController;
 
-		public ProgressionController(ProgressionData progressionData, IFactionController factionController)
+		public ProgressionController(ProgressionData progressionData, IFactionController factionController, UIController uiController)
 		{
 			_factionController = factionController;
+			_uiController = uiController;
 			_calledResources = new HashSet<ResourceType>();
 
 			_resourceProgressions = new Dictionary<ResourceType, Progression>(progressionData.GetResourceProgressions());
@@ -66,6 +68,7 @@ namespace IdleFactions
 					break;
 				case ProgressionDiscoverUpgradeAction discoverAction:
 					_factionController.Get(discoverAction.FactionType)!.GetUpgrade(discoverAction.UpgradeId)!.Unlock();
+					_uiController.UpdateFactionTabUpgrades(); //TODO Move?
 					break;
 			}
 		}
