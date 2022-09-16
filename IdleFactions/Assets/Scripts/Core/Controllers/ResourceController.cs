@@ -137,6 +137,9 @@ namespace IdleFactions
 			return true;
 		}
 
+		/// <summary>
+		///		Doesn't affect rates, for upgrades
+		/// </summary>
 		public bool TryUseResource(ResourceCost[] resourceCosts)
 		{
 			foreach (var cost in resourceCosts)
@@ -148,7 +151,7 @@ namespace IdleFactions
 			}
 
 			foreach (var cost in resourceCosts)
-				Remove(cost.Type, cost.Value);
+				_resources[cost.Type].Remove(cost.Value);
 
 			return true;
 		}

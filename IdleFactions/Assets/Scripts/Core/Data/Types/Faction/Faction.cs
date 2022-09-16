@@ -15,6 +15,7 @@ namespace IdleFactions
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 0.1d;
+		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential25;
 
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
@@ -248,32 +249,7 @@ namespace IdleFactions
 
 		public double GetPopulationCostMultiplier(int amount)
 		{
-			return GetPopulationCostMultiplier(amount, (int)Math.Ceiling(Population));
-		}
-
-		private static double GetPopulationCostMultiplier(int amount, int population)
-		{
-			if (amount + population <= 1)
-				return 1d;
-
-			//population -= 1; //Scratch that, no need to offset since since only the first purchase should be 1 //Offset population, to make the first purchase 1X, and next to be scaled accordingly
-
-			return GetScalingFormula(population + amount) - GetScalingFormula(population);
-		}
-
-		/// <summary>
-		///		Sum of n ^ 0.15 for n = 0 to n
-		/// </summary>
-		private static double GetScalingFormula(int n)
-		{
-			const double fifth = 0.0001616362;
-			const double fourth = 0.0049091246;
-			const double third = 0.1112719416;
-			const double second = 0.6244118593;
-			//const double first = 0.0241495853;
-
-			//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 0.15 for n = 0 to n
-			return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+			return Formulas.GetPopulationCostMultiplier(_populationFormula, amount, (int)Math.Ceiling(Population));
 		}
 
 		public void Save(JsonTextWriter writer)
@@ -333,6 +309,60 @@ namespace IdleFactions
 		public override int GetHashCode()
 		{
 			return Type.GetHashCode();
+		}
+
+		private static class Formulas
+		{
+			public enum FormulaType
+			{
+				None = 0,
+				Exponential25 = 1,
+				SummedExponential15 = 2,
+			}
+
+			public static double GetPopulationCostMultiplier(FormulaType type, int amount, int population)
+			{
+				if (amount + population <= 1)
+					return 1d;
+
+				return GetMultiplier(type, population + amount) - GetMultiplier(type, population);
+			}
+
+			private static double GetMultiplier(FormulaType type, int amount)
+			{
+				switch (type)
+				{
+					case FormulaType.Exponential25:
+						return GetExponential25Formula(amount);
+					case FormulaType.SummedExponential15:
+						return GetSummedExponential15Formula(amount);
+					default:
+						Log.Error("Invalid formula type: " + type);
+						break;
+				}
+
+				return 1d;
+			}
+
+			private static double GetExponential25Formula(int n)
+			{
+				return Math.Pow(n, 2.5d);
+			}
+
+			/// <summary>
+			///		Sum of n ^ 1.5 for n = 0 to n
+			/// </summary>
+			private static double GetSummedExponential15Formula(int n)
+			{
+				const double fifth = 0.0001616362;
+				const double fourth = 0.0049091246;
+				const double third = 0.1112719416;
+				const double second = 0.6244118593;
+				//const double first = 0.0241495853;
+
+				//Lower exponent removed, added simple 1 check. Scales like: Sum n ^ 1.5 for n = 0 to n
+				return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+			}
 		}
 	}
 }

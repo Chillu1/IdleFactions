@@ -2,6 +2,68 @@
 
 ## Temp Notes
 
+/// <summary>
+///		Sum of n ^ 1.2 for n = 0 to n
+/// </summary>
+public static double GetScaling12Formula(int n)
+{
+const double fifth = 0.0000583333;
+const double fourth = 0.00175;
+const double third = 0.0305416667;
+const double second = 0.57525;
+//const double first = 0.3819;
+
+	return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+}
+
+/// <summary>
+///		Sum of n ^ 1.05 for n = 0 to n
+/// </summary>
+public static double GetScaling105Formula(int n)
+{
+const double fifth = 0.000015;
+const double fourth = 0.0004166667;
+const double third = 0.006325;
+const double second = 0.5205666667;
+//const double first = 0.47031;
+
+	return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+}
+
+Exponential Sum scales 2 hard. Have to use exponential only for specific factions?
+
+Early game. Resource 1-1e9 light. Mid game. 1e9-1e50, Late game. 1e50-1e100?
+            Pop      1-1e3,                 1e3-1e16,
+
+
+n^2 no sum
+1 pop = 1 cost
+10 pop = 100
+100 pop = 10000
+100000 pop = 1e10
+1e6 pop = 1e12
+1e9 pop = 1e18
+
+^1.05
+1 pop = 1
+10 pop = 56
+100 pop = 119863
+1e6 pop = 15e24
+
+^1.2
+1 pop = 1
+10 pop = 76
+100 pop = 444627
+1e6 pop = 60e24
+
+^1.5, scales a bit too much?
+1 pop = 1 cost
+10 pop = 140
+100 pop = 1242965
+1000 pop = 156838971753
+1e6 pop = 161e24
+1e9 pop = 161e39
+
 Hover over panel
 * Title
 * Description/Effects
