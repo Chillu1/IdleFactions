@@ -40,7 +40,7 @@ namespace IdleFactions
 
 		public void OnAddResource(IChangeableResource resource)
 		{
-			if (!_resourceProgressions.TryGetValue(resource.Type, out var progression))
+			if (!_resourceProgressions.TryGetValue(resource.Type, out var progression) || progression.IsCompleted)
 				return;
 			if (_calledResources.Contains(resource.Type))
 				return;
@@ -69,6 +69,9 @@ namespace IdleFactions
 				case ProgressionDiscoverUpgradeAction discoverAction:
 					_factionController.Get(discoverAction.FactionType)!.GetUpgrade(discoverAction.UpgradeId)!.Unlock();
 					_uiController.UpdateFactionTabUpgrades(); //TODO Move?
+					break;
+				case TempUIAction:
+					_uiController.ShowTestVersionPanel();
 					break;
 			}
 		}

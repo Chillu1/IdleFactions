@@ -15,7 +15,7 @@ namespace IdleFactions
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 0.1d;
-		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.SummedExponential15;
+		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
 
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
@@ -316,8 +316,10 @@ namespace IdleFactions
 			public enum FormulaType
 			{
 				None = 0,
-				Exponential25 = 1,
-				SummedExponential15 = 2,
+				Exponential15,
+				Exponential2,
+				Exponential25,
+				SummedExponential15,
 			}
 
 			public static double GetPopulationCostMultiplier(FormulaType type, int amount, int population)
@@ -325,28 +327,23 @@ namespace IdleFactions
 				if (amount + population <= 1)
 					return 1d;
 
-				return GetMultiplier(type, population + amount) - GetMultiplier(type, population);
-			}
-
-			private static double GetMultiplier(FormulaType type, int amount)
-			{
 				switch (type)
 				{
+					//TODO Fix correct calculations
+					case FormulaType.Exponential15:
+						return Math.Pow(population + amount, 1.5d);
+					case FormulaType.Exponential2:
+						return Math.Pow(population + amount, 2);
 					case FormulaType.Exponential25:
-						return GetExponential25Formula(amount);
+						return Math.Pow(population + amount, 2.5d);
 					case FormulaType.SummedExponential15:
-						return GetSummedExponential15Formula(amount);
+						return GetSummedExponential15Formula(population + amount) - GetSummedExponential15Formula(population);
 					default:
-						Log.Error("Invalid formula type: " + type);
+						Log.Error(type + " formula not implemented");
 						break;
 				}
 
 				return 1d;
-			}
-
-			private static double GetExponential25Formula(int n)
-			{
-				return Math.Pow(n, 2.5d);
 			}
 
 			/// <summary>

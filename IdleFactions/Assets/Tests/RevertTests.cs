@@ -88,7 +88,8 @@ namespace IdleFactions.Tests
 		public void RevertLastPopulationPurchase()
 		{
 			double usedResource = 0d;
-			_resourceController.Add(ResourceType.Dark, 10d);
+			const double initialResource = 100d;
+			_resourceController.Add(ResourceType.Dark, initialResource);
 			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
@@ -100,27 +101,27 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 			Assert.AreEqual(1, faction.Population);
-			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, initialResource - usedResource));
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
-			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, initialResource - usedResource));
 			Assert.AreEqual(2, faction.Population);
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			faction.TryBuyPopulation(1);
 			usedResource += 1d * multiplier;
 
-			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, initialResource - usedResource));
 			Assert.AreEqual(3, faction.Population);
 
 			_revertController.RevertLastAction();
 
 			multiplier = faction.GetPopulationCostMultiplier(1);
 			usedResource -= 1d * multiplier;
-			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 10d - usedResource));
+			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, initialResource - usedResource));
 			Assert.AreEqual(2, faction.Population);
 		}
 	}

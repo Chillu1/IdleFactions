@@ -1,5 +1,7 @@
 # TODO:
 
+* Automatic upgrade progression by default (based on First cost)
+* Ecs Panel
 * Progression
   * Basic early game, to 1000 light/dark
   * Upgrades
@@ -38,6 +40,7 @@
 
 ## Misc
 
+* Dynamic to string representation of resource value
 * Capping population/auto toggle generation to a limit (ex. so we don't have 1000 skeletons draining all dark & magic)
 * Update current UI unlocked upgrade if factionType is same as UI
 * Achivements

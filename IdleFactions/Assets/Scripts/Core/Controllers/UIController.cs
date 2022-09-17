@@ -36,6 +36,8 @@ namespace IdleFactions
 		private TMP_Text _hoverPanelEffectsText;
 		private TMP_Text _hoverPanelCostsText;
 
+		private GameObject _testVersionPanel;
+
 		private int _currentPopulationAmount = 1;
 		private PurchaseType _currentPurchaseType;
 		private Faction _currentFaction;
@@ -74,10 +76,11 @@ namespace IdleFactions
 			var populationAmountText = populationAmount.GetComponentInChildren<TMP_Text>();
 			populationAmount.GetComponent<Button>().onClick.AddListener(() =>
 			{
-				//TODO 10%, 50%, 100%
-				_currentPopulationAmount *= 10;
-				if (_currentPopulationAmount > 100)
-					_currentPopulationAmount = 1;
+				//TODO, 10, 100, 10%, 50%, 100%
+				//_currentPopulationAmount *= 10;
+				//if (_currentPopulationAmount > 100)
+				//	_currentPopulationAmount = 1;
+				_currentPopulationAmount = 1;
 				populationAmountText.text = _currentPopulationAmount.ToString();
 				UpdateFactionTabPopulationInfo();
 			});
@@ -150,6 +153,10 @@ namespace IdleFactions
 			_hoverPanelCostsText = _hoverPanelGo.transform.Find("Costs").GetComponent<TMP_Text>();
 			_hoverPanelGo.SetActive(false);
 
+			_testVersionPanel = canvas.Find("TestVersionPanel").gameObject;
+			_testVersionPanel.GetComponentInChildren<Button>().onClick.AddListener(() => _testVersionPanel.SetActive(false));
+			_testVersionPanel.SetActive(false);
+
 			SwitchFactionTab(FactionType.Creation);
 		}
 
@@ -210,6 +217,11 @@ namespace IdleFactions
 		public void HideHoverPanel()
 		{
 			_hoverPanelGo.SetActive(false);
+		}
+
+		public void ShowTestVersionPanel()
+		{
+			_testVersionPanel.SetActive(true);
 		}
 
 		private void SwitchFactionTab(FactionType type)

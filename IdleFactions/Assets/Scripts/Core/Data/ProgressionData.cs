@@ -29,7 +29,7 @@ namespace IdleFactions
 			));
 			_resourceProgressions.Add(ResourceType.Light, new Progression("LightResourceProgression",
 				new ProgressionEntry(
-					new ProgressionResourceCondition(5),
+					new ProgressionResourceCondition(3),
 					new ProgressionDiscoverFactionAction(FactionType.Void)),
 				new ProgressionEntry(
 					new ProgressionResourceCondition(20),
@@ -42,7 +42,13 @@ namespace IdleFactions
 					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More light 2")),
 				new ProgressionEntry(
 					new ProgressionResourceCondition(5e3),
-					new ProgressionDiscoverFactionAction(FactionType.Heat))
+					new ProgressionDiscoverFactionAction(FactionType.Heat)),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(20e3),
+					new ProgressionDiscoverUpgradeAction(FactionType.Heat, "Lava light")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(200e3),
+					new ProgressionDiscoverUpgradeAction(FactionType.Heat, "Lava light enchantment"))
 			));
 			_resourceProgressions.Add(ResourceType.Dark, new Progression("DarkResourceProgression",
 				new ProgressionEntry(
@@ -55,8 +61,20 @@ namespace IdleFactions
 					new ProgressionResourceCondition(1000),
 					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More dark 2")),
 				new ProgressionEntry(
-					new ProgressionResourceCondition(50e3),
+					new ProgressionResourceCondition(5e3),
 					new ProgressionDiscoverFactionAction(FactionType.Ocean))
+			));
+			_resourceProgressions.Add(ResourceType.Lava, new Progression("LavaResourceProgression",
+				new ProgressionEntry(
+					new ProgressionResourceCondition(20),
+					new ProgressionDiscoverUpgradeAction(FactionType.Heat, "Lava burst")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(50),
+					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "Heat up")),
+				//TODO Remove me
+				new ProgressionEntry(
+					new ProgressionResourceCondition(150),
+					new TempUIAction())
 			));
 		}
 	}

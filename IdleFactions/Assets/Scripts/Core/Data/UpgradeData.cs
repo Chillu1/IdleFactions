@@ -42,7 +42,10 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
 				new Upgrade("More light 2",
 					new ResourceCost(ResourceType.Light, 2000),
-					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2))
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 4)),
+				new Upgrade("Heat up",
+					new ResourceCost(ResourceType.Lava, 100),
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
 			});
 
 			_upgrades.Add(FactionType.Void, new[]
@@ -58,7 +61,7 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2)),
 				new Upgrade("More dark 2",
 					new ResourceCost(ResourceType.Dark, 2000),
-					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 2))
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 4))
 			});
 
 			_upgrades.Add(FactionType.Heat, new[]
@@ -66,14 +69,15 @@ namespace IdleFactions
 				new UnlockUpgrade("Unlock lava", new ResourceCost(ResourceType.Light, 10e3)),
 
 				new Upgrade("Lava burst",
-					new[] { new ResourceCost(ResourceType.Light, 1e6) },
-					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Lava, 2)
-				),
+					new[] { new ResourceCost(ResourceType.Lava, 50) },
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Lava, 2)),
+				new Upgrade("Lava light",
+					new[] { new ResourceCost(ResourceType.Light, 50e3) },
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Lava, 2)),
 				new Upgrade("Lava light enchantment",
-					new[] { new ResourceCost(ResourceType.Light, 10e6) },
+					new[] { new ResourceCost(ResourceType.Light, 500e3) },
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Lava, 2),
-					new UpgradeActionNewResource(FactionResourceType.GenerateCostAdded, new AddedResource(ResourceType.Light, 0.5d))
-				),
+					new UpgradeActionNewResource(FactionResourceType.GenerateCostAdded, new AddedResource(ResourceType.Light, 0.5d))),
 			});
 
 			_upgrades.Add(FactionType.Ocean, new[]
