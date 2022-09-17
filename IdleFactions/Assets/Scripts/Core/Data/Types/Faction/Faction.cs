@@ -15,7 +15,7 @@ namespace IdleFactions
 
 		public double Population { get; private set; }
 		public double PopulationDecay { get; private set; } = 0.1d;
-		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential25;
+		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.SummedExponential15;
 
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }

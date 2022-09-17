@@ -25,6 +25,9 @@ namespace IdleFactions.Editor
 			{
 			}
 
+			if (GUILayout.Button("HeadStart"))
+				_gameController.ResourceController.Add(ResourceType.Light, 100);
+
 			if (GUILayout.Button("NewGame"))
 				_gameController.NewGame();
 

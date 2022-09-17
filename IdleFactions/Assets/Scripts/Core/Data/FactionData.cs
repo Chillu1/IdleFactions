@@ -39,7 +39,7 @@ namespace IdleFactions
 				var factionType = FactionType.Divinity;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Light));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 0.01d)); //Buff this?
 
 				AddFaction(factionType, properties);
 			}
@@ -47,25 +47,27 @@ namespace IdleFactions
 				var factionType = FactionType.Void;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Dark));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 0.01d));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 0.01d)); //Buff this?
 
 				AddFaction(factionType, properties);
 			}
 			{
 				var factionType = FactionType.Heat;
 				var properties = new FactionResourceProperties();
-				properties.SetGenerate(new ResourceCost(ResourceType.Lava));
-				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 100d), new ResourceCost(ResourceType.Dark, 100d) });
-				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.5d));
+				//Maybe Light gen should be added as an upgrade?
+				properties.SetGenerate(new ResourceCost(ResourceType.Lava), new ResourceCost(ResourceType.Light, 0.1d));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e3));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Lava, 0.5d));
 
 				AddFaction(factionType, properties);
 			}
 			{
 				var factionType = FactionType.Ocean;
 				var properties = new FactionResourceProperties();
-				properties.SetGenerate(new ResourceCost(ResourceType.Water));
-				properties.SetCreateCost(new[] { new ResourceCost(ResourceType.Light, 1000d), new ResourceCost(ResourceType.Dark, 1000d) });
-				properties.SetGenerateCost(new[] { new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d) });
+				//Maybe Dark gen should be added as an upgrade?
+				properties.SetGenerate(new ResourceCost(ResourceType.Water), new ResourceCost(ResourceType.Dark, 0.1d));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e6), new ResourceCost(ResourceType.Dark, 10e6));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d));
 
 				AddFaction(factionType, properties);
 			}

@@ -14,28 +14,28 @@ namespace IdleFactions
 
 		private readonly IRevertController _revertController;
 		private readonly FactionController _factionController;
-		private readonly ResourceController _resourceController;
+		public ResourceController ResourceController { get; }
 		private readonly ProgressionController _progressionController;
 		public StateController StateController { get; }
 
 		public GameController(GameInitializer gameInitializer, DataController dataController, UIController uiController)
 		{
 			_revertController = new RevertController();
-			_resourceController = new ResourceController();
-			Upgrade.Setup(_revertController, _resourceController);
-			Faction.Setup(_revertController, _resourceController);
+			ResourceController = new ResourceController();
+			Upgrade.Setup(_revertController, ResourceController);
+			Faction.Setup(_revertController, ResourceController);
 			_factionController = new FactionController(dataController.FactionData);
 			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController, uiController);
-			StateController = new StateController(_resourceController, _factionController, _progressionController);
+			StateController = new StateController(ResourceController, _factionController, _progressionController);
 
-			_resourceController.Added += _progressionController.OnAddResource;
+			ResourceController.Added += _progressionController.OnAddResource;
 
 			if (!dataController.LoadSavedGame)
 				NewGame();
 			else
 				LoadGame(dataController.SaveName);
 
-			uiController.Setup(_resourceController, _factionController);
+			uiController.Setup(ResourceController, _factionController);
 			Faction.Discovered += uiController.UpdateTab;
 			//Faction.Discovered += uiController.ShowNotification;
 		}
@@ -58,7 +58,7 @@ namespace IdleFactions
 			if (IsPaused)
 				return;
 
-			_resourceController.Update(delta);
+			ResourceController.Update(delta);
 			_revertController.Update(delta);
 			_factionController.Update(delta);
 			_progressionController.Update(delta);

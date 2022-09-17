@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +12,7 @@ namespace IdleFactions
 		private ResourceCost[] Costs { get; }
 		private IUpgradeAction[] UpgradeActions { get; }
 
-		public bool Unlocked { get; private set; }
+		public bool Unlocked { get; protected set; }
 		public bool Bought { get; private set; }
 
 		private Faction _faction;
@@ -19,16 +20,22 @@ namespace IdleFactions
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
 
-		public Upgrade(string id, ResourceCost cost, bool unlocked = false, params IUpgradeAction[] upgradeActions) :
-			this(id, new[] { cost }, unlocked, upgradeActions)
+		public Upgrade(string id, ResourceCost cost, params IUpgradeAction[] upgradeActions) : this(id, new[] { cost }, upgradeActions)
 		{
 		}
 
-		public Upgrade(string id, ResourceCost[] costs, bool unlocked = false, params IUpgradeAction[] upgradeActions)
+		public Upgrade(string id, ResourceCost[] costs, params IUpgradeAction[] upgradeActions)
 		{
 			Id = id;
-			Unlocked = unlocked;
 			Costs = costs;
+			UpgradeActions = upgradeActions;
+		}
+
+		protected Upgrade(string id, ResourceCost[] costs, bool unlocked, params IUpgradeAction[] upgradeActions)
+		{
+			Id = id;
+			Costs = costs;
+			Unlocked = unlocked;
 			UpgradeActions = upgradeActions;
 		}
 
@@ -46,6 +53,8 @@ namespace IdleFactions
 		public void Unlock()
 		{
 			Unlocked = true;
+			if (Id.Contains("unlock", StringComparison.InvariantCultureIgnoreCase))
+				Log.Error("Unlock faction upgrades should always be unlocked");
 		}
 
 		public bool TryBuy()

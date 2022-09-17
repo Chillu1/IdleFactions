@@ -6,13 +6,20 @@
 
 ## Design questions
 
+* Gameplay periods length
+* Meaningful choices
+  * Needing to wait for an upgrade to be effective (SwarmSim-esque)
+  * Some upgrades being bad/terrible early game
+  * Some upgrades being great right now, but hurting the player (slightly) later?
+  * Special progress upgrades
+
 ## Progression
 
 ### Early game, to 10000 light/dark start
 ...
 
 ### Early game, heat start
-10000 light = unlock light generates heat.
+10000 light upg = unlock light generates heat.
 1 heat pop = 1 heat, 1 essence
 
 To generating more heat from heat than light

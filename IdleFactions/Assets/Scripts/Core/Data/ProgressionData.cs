@@ -36,7 +36,13 @@ namespace IdleFactions
 					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More light")),
 				new ProgressionEntry(
 					new ProgressionResourceCondition(50),
-					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More dark consumption, more light"))
+					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More dark consumption, more light")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(1000),
+					new ProgressionDiscoverUpgradeAction(FactionType.Divinity, "More light 2")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(5e3),
+					new ProgressionDiscoverFactionAction(FactionType.Heat))
 			));
 			_resourceProgressions.Add(ResourceType.Dark, new Progression("DarkResourceProgression",
 				new ProgressionEntry(
@@ -44,7 +50,13 @@ namespace IdleFactions
 					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More dark")),
 				new ProgressionEntry(
 					new ProgressionResourceCondition(50),
-					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More light consumption, more dark"))
+					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More light consumption, more dark")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(1000),
+					new ProgressionDiscoverUpgradeAction(FactionType.Void, "More dark 2")),
+				new ProgressionEntry(
+					new ProgressionResourceCondition(50e3),
+					new ProgressionDiscoverFactionAction(FactionType.Ocean))
 			));
 		}
 	}
