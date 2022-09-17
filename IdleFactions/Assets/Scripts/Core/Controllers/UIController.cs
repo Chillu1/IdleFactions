@@ -2,6 +2,7 @@ using System.Linq;
 using IdleFactions.Behaviours;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace IdleFactions
@@ -10,8 +11,10 @@ namespace IdleFactions
 	{
 		private const int MaxButtonUpgrades = 6; //TEMP
 
+		private GameController _gameController;
 		private IResourceController _resourceController;
 		private IFactionController _factionController;
+		private StateController _stateController;
 
 		private Image _background;
 
@@ -36,6 +39,9 @@ namespace IdleFactions
 		private TMP_Text _hoverPanelEffectsText;
 		private TMP_Text _hoverPanelCostsText;
 
+		//EscPanel
+		private GameObject _escPanelGo;
+
 		private GameObject _testVersionPanel;
 
 		private int _currentPopulationAmount = 1;
@@ -44,10 +50,13 @@ namespace IdleFactions
 		private FactionType _currentFactionType;
 
 
-		public void Setup(IResourceController resourceController, IFactionController factionController)
+		public void Setup(GameController gameController, IResourceController resourceController, IFactionController factionController,
+			StateController stateController)
 		{
+			_gameController = gameController;
 			_resourceController = resourceController;
 			_factionController = factionController;
+			_stateController = stateController;
 		}
 
 		private void Start()
@@ -153,6 +162,27 @@ namespace IdleFactions
 			_hoverPanelCostsText = _hoverPanelGo.transform.Find("Costs").GetComponent<TMP_Text>();
 			_hoverPanelGo.SetActive(false);
 
+			_escPanelGo = canvas.Find("EscPanel").gameObject;
+			var escPanelBackground = _escPanelGo.transform.Find("Background");
+			escPanelBackground.transform.Find("Resume").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				_gameController.Pause(false);
+				_escPanelGo.SetActive(false);
+			});
+			escPanelBackground.transform.Find("MainMenu").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				_stateController.SaveCurrent();
+				GameController.CleanUp();
+				SceneManager.LoadScene("MainMenu");
+			});
+			escPanelBackground.transform.Find("Quit").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				_stateController.SaveCurrent();
+				GameController.CleanUp();
+				Application.Quit();
+			});
+			_escPanelGo.SetActive(false);
+
 			_testVersionPanel = canvas.Find("TestVersionPanel").gameObject;
 			_testVersionPanel.GetComponentInChildren<Button>().onClick.AddListener(() => _testVersionPanel.SetActive(false));
 			_testVersionPanel.SetActive(false);
@@ -162,6 +192,15 @@ namespace IdleFactions
 
 		private void Update()
 		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				_escPanelGo.SetActive(!_escPanelGo.activeSelf);
+				_gameController.Pause(_escPanelGo.activeSelf);
+			}
+
+			if (_gameController.IsPaused)
+				return;
+
 			UpdateFactionTabPopulation();
 			int i = 0;
 			foreach (string resourceString in _resourceController.GetResourceStrings())

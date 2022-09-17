@@ -1,7 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using IdleFactions.Core;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace IdleFactions
 {
@@ -35,28 +33,17 @@ namespace IdleFactions
 			else
 				LoadGame(dataController.SaveName);
 
-			uiController.Setup(ResourceController, _factionController);
+			uiController.Setup(this, ResourceController, _factionController, StateController);
 			Faction.Discovered += uiController.UpdateTab;
 			//Faction.Discovered += uiController.ShowNotification;
 		}
 
 		public void Update(float delta)
 		{
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				StateController.SaveCurrent();
-				CleanUp();
-				SceneManager.LoadScene("MainMenu");
-			}
-
-			if (Input.GetKeyDown(KeyCode.P))
-			{
-				_manualPause = !_manualPause;
-				Log.Verbose("Manual pause: " + _manualPause);
-			}
-
 			if (IsPaused)
 				return;
+
+			StateController.Update(delta);
 
 			ResourceController.Update(delta);
 			_revertController.Update(delta);
@@ -64,13 +51,16 @@ namespace IdleFactions
 			_progressionController.Update(delta);
 		}
 
-		public void CleanUp()
+		public void Pause(bool state) => _manualPause = state;
+
+		public static void CleanUp()
 		{
 			Faction.CleanUp();
 		}
 
 		public void NewGame()
 		{
+			StateController.SetNewGameSave();
 			_factionController.Get(FactionType.Creation)!.Discover();
 			_factionController.Get(FactionType.Creation)!.Unlock();
 
