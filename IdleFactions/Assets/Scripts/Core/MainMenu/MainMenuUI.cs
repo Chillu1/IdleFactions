@@ -19,9 +19,12 @@ namespace IdleFactions
 		private void Start()
 		{
 			var canvas = FindObjectOfType<Canvas>().transform;
+			var versionText = canvas.Find("Version").GetComponent<TMP_Text>();
 			_newGameButton = canvas.Find("NewGame").GetComponent<Button>();
 			_loadGameButton = canvas.Find("LoadGame").GetComponent<Button>();
 			_quitButton = canvas.Find("Quit").GetComponent<Button>();
+
+			versionText.text = "V" + DataController.Version;
 
 			_newGameButton.onClick.AddListener(() =>
 			{
