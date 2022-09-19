@@ -1,6 +1,5 @@
 # TODO:
 
-* Automatic upgrade progression by default (based on First cost)
 * Progression
   * Basic early game, to 1000 light/dark
   * Upgrades

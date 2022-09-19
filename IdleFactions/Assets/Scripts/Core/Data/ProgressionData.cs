@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace IdleFactions
 			SetupProgressions();
 		}
 
-		public IDictionary<ResourceType, Progression> GetResourceProgressions()
+		public IReadOnlyDictionary<ResourceType, Progression> GetResourceProgressions()
 		{
 			return _resourceProgressions.Select(x => new KeyValuePair<ResourceType, Progression>(x.Key, x.Value.ShallowClone()))
 				.ToDictionary(x => x.Key, x => x.Value);
@@ -29,10 +30,6 @@ namespace IdleFactions
 			//TODO Right now only single resource based upgrades are supported.
 			//If we want to support multiple resources, then we need to remove the action when it's completed
 			//Maybe multi-key dictionary with two lookups?
-
-			//foreach _upgradeData by cost type
-			//add to sorted list, by value.
-			//when done, setup in dict
 
 			//FactionUnlocks still have to be manually set
 			var unlockFactionUpgrades = new Dictionary<ResourceType, IProgressionEntry[]>
@@ -90,6 +87,10 @@ namespace IdleFactions
 
 				foreach (var upgrade in resourceProgressions)
 				{
+					//Skip unlock upgrades, they're always unlocked
+					if (upgrade.Id.Contains("unlock", StringComparison.InvariantCultureIgnoreCase))
+						continue;
+
 					progressionEntries.Add(new ProgressionEntry(
 						new ProgressionResourceCondition(upgrade.Costs[0].Value * UpgradeProgressionUnlockCostMultiplier),
 						new ProgressionDiscoverUpgradeAction(upgrade.FactionType, upgrade.Id)));
@@ -99,25 +100,6 @@ namespace IdleFactions
 					progressionEntries.OrderBy(e => e.Condition.OrderValue).ToArray());
 				_resourceProgressions.Add(resourceType, progression);
 			}
-
-			//Test
-			/*var lightProgressionEntries = new List<IProgressionEntry>();
-			lightProgressionEntries.Add(new ProgressionEntry(
-				new ProgressionResourceCondition(3),
-				new ProgressionDiscoverFactionAction(FactionType.Void)));
-			lightProgressionEntries.Add(new ProgressionEntry(
-				new ProgressionResourceCondition(5e3),
-				new ProgressionDiscoverFactionAction(FactionType.Heat)));
-			foreach (var upgrade in allProgressionUpgrades.Where(u => u.Costs[0].Type == ResourceType.Light))
-			{
-				lightProgressionEntries.Add(new ProgressionEntry(
-					new ProgressionResourceCondition(upgrade.Costs[0].Value * UpgradeProgressionUnlockCostMultiplier),
-					new ProgressionDiscoverUpgradeAction(upgrade.FactionType, upgrade.Id)));
-			}
-
-			var lightProgression = new Progression("LightResourceProgression",
-				lightProgressionEntries.OrderBy(e => e.Condition.OrderValue).ToArray());
-			_resourceProgressions.Add(ResourceType.Light, lightProgression);*/
 		}
 	}
 }
