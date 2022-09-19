@@ -1,9 +1,8 @@
 # TODO:
 
 * Progression
-  * Basic early game, to 1000 light/dark
-  * Upgrades
   * Heat-Ocean phase
+  * Meaningful (choice) Upgrades
 * Multi-resource progressiom, ex. both light & lava check?  
 * On Upgrade bought, update Need text on the right
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it)
@@ -11,6 +10,7 @@
 * Buying 10%-25%-50%-Max population
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Buying next most with 10-100 population?
+* New upgrade just unlocked (change color on bottom faction tab)
 
 ## Tests
 

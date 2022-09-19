@@ -33,6 +33,10 @@ namespace IdleFactions
 		private TMP_Text[] _needs;
 		private TMP_Text[] _rates;
 
+		//Notification
+		private GameObject _notificationGo;
+		private TMP_Text _notificationText;
+
 		//Hover
 		private GameObject _hoverPanelGo;
 		private TMP_Text _hoverPanelNameText;
@@ -156,6 +160,11 @@ namespace IdleFactions
 				}*/
 			}
 
+			_notificationGo = canvas.Find("NotificationPanel").gameObject;
+			_notificationText = _notificationGo.GetComponentInChildren<TMP_Text>();
+			_notificationText.text = "";
+			_notificationGo.SetActive(false);
+
 			_hoverPanelGo = canvas.Find("HoverPanel").gameObject;
 			_hoverPanelNameText = _hoverPanelGo.transform.Find("Name").GetComponent<TMP_Text>();
 			_hoverPanelEffectsText = _hoverPanelGo.transform.Find("Effects").GetComponent<TMP_Text>();
@@ -221,6 +230,21 @@ namespace IdleFactions
 			_factionTabButtons[(int)faction.Type - 1].gameObject.SetActive(true);
 		}
 
+		public void DisplayNotification(INotification notification)
+		{
+			CancelInvoke(nameof(HideNotification));
+			_notificationGo.SetActive(true);
+			_notificationText.text = notification.NotificationText;
+			Invoke(nameof(HideNotification), 5f);
+			//TODO Tweening
+		}
+
+		private void HideNotification()
+		{
+			_notificationGo.SetActive(false);
+			_notificationText.text = "";
+		}
+
 		public void DisplayHoverData(HoverType hoverType, int index)
 		{
 			_hoverPanelGo.SetActive(true);
@@ -228,7 +252,7 @@ namespace IdleFactions
 			{
 				case HoverType.Upgrade:
 					var upgrade = _currentFaction.GetUpgrade(index);
-					if (upgrade == null || !upgrade.Unlocked)
+					if (upgrade == null || !upgrade.IsUnlocked)
 					{
 						_hoverPanelNameText.text = "Unknown upgrade";
 						_hoverPanelEffectsText.text = "";
@@ -312,14 +336,14 @@ namespace IdleFactions
 			for (int i = 0; i < _upgradeButtons.Length; i++)
 			{
 				var upgrade = _currentFaction.GetUpgrade(i);
-				if (upgrade is { Unlocked: false })
+				if (upgrade is { IsUnlocked: false })
 				{
 					_upgradeButtons[i].interactable = false;
 					_upgradeButtonTexts[i].text = "Unknown";
 					continue;
 				}
 
-				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { Bought: false };
+				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { IsBought: false };
 				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
 			}
 		}

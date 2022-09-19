@@ -35,7 +35,8 @@ namespace IdleFactions
 
 			uiController.Setup(this, ResourceController, _factionController, StateController);
 			Faction.Discovered += uiController.UpdateTab;
-			//Faction.Discovered += uiController.ShowNotification;
+			Faction.Discovered += uiController.DisplayNotification;
+			Upgrade.Unlocked += uiController.DisplayNotification;
 		}
 
 		public void Update(float delta)

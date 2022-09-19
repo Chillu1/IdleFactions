@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
-	public class Faction : ISavable, ILoadable, IDeepClone<Faction>
+	public class Faction : ISavable, ILoadable, IDeepClone<Faction>, INotification
 	{
 		public FactionType Type { get; }
 		public FactionResources FactionResources { get; }
@@ -17,6 +17,7 @@ namespace IdleFactions
 		public double PopulationDecay { get; private set; } = 0.1d;
 		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
 
+		public string NotificationText => "Discovered faction: " + Type;
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;

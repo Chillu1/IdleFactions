@@ -12,11 +12,15 @@ namespace IdleFactions
 		public ResourceCost[] Costs { get; }
 		private IUpgradeAction[] UpgradeActions { get; }
 
-		public bool Unlocked { get; protected set; }
-		public bool Bought { get; private set; }
+		public string NotificationText => $"Unlocked upg: {(FactionType == FactionType.None ? _faction.Type : FactionType)}, {Id}";
+
+		public bool IsUnlocked { get; protected set; }
+		public bool IsBought { get; private set; }
 
 		public FactionType FactionType { get; private set; }
 		private Faction _faction;
+
+		public static event Action<IUpgrade> Unlocked;
 
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
@@ -32,11 +36,11 @@ namespace IdleFactions
 			UpgradeActions = upgradeActions;
 		}
 
-		protected Upgrade(string id, ResourceCost[] costs, bool unlocked, params IUpgradeAction[] upgradeActions)
+		protected Upgrade(string id, ResourceCost[] costs, bool isUnlocked, params IUpgradeAction[] upgradeActions)
 		{
 			Id = id;
 			Costs = costs;
-			Unlocked = unlocked;
+			IsUnlocked = isUnlocked;
 			UpgradeActions = upgradeActions;
 		}
 
@@ -58,7 +62,9 @@ namespace IdleFactions
 
 		public void Unlock()
 		{
-			Unlocked = true;
+			IsUnlocked = true;
+			if (_faction.IsDiscovered)
+				Unlocked?.Invoke(this);
 			if (Id.Contains("unlock", StringComparison.InvariantCultureIgnoreCase))
 				Log.Error($"Unlock faction upgrades should always be unlocked, id: {Id}, factionType: {FactionType}");
 		}
@@ -76,7 +82,7 @@ namespace IdleFactions
 		public void Revert()
 		{
 			_resourceController.Add(Costs);
-			Bought = false;
+			IsBought = false;
 			foreach (var action in UpgradeActions)
 				_faction.RevertUpgradeAction(action);
 		}
@@ -86,13 +92,13 @@ namespace IdleFactions
 			foreach (var action in UpgradeActions)
 				_faction.ActivateUpgradeAction(action);
 
-			Bought = true;
+			IsBought = true;
 		}
 
 		public string GetDataString()
 		{
 			string data = "Upgrade: ";
-			data += Bought ? "Bought" : Unlocked ? "Unlocked" : "Locked";
+			data += IsBought ? "Bought" : IsUnlocked ? "Unlocked" : "Locked";
 			data += "\nEffects:\n";
 			data += string.Join(", ", UpgradeActions.Select(action => action.ToString()));
 			return data;
@@ -102,31 +108,31 @@ namespace IdleFactions
 
 		public void Save(JsonTextWriter writer)
 		{
-			if (!Unlocked && !Bought) //Don't save if it's unnecessary, no delta
+			if (!IsUnlocked && !IsBought) //Don't save if it's unnecessary, no delta
 				return;
 
 			writer.WriteStartObject();
 			writer.WritePropertyName(nameof(Id));
 			writer.WriteValue(Id);
-			writer.WritePropertyName(nameof(Unlocked));
-			writer.WriteValue(Unlocked);
-			writer.WritePropertyName(nameof(Bought));
-			writer.WriteValue(Bought);
+			writer.WritePropertyName(nameof(IsUnlocked));
+			writer.WriteValue(IsUnlocked);
+			writer.WritePropertyName(nameof(IsBought));
+			writer.WriteValue(IsBought);
 			writer.WriteEndObject();
 		}
 
 		public void Load(JObject data)
 		{
-			Unlocked = data.Value<bool>(nameof(Unlocked));
-			Bought = data.Value<bool>(nameof(Bought));
+			IsUnlocked = data.Value<bool>(nameof(IsUnlocked));
+			IsBought = data.Value<bool>(nameof(IsBought));
 
-			if (Bought)
+			if (IsBought)
 				Buy();
 		}
 
 		public Upgrade ShallowClone()
 		{
-			return new Upgrade(Id, Costs, Unlocked, UpgradeActions);
+			return new Upgrade(Id, Costs, IsUnlocked, UpgradeActions);
 		}
 	}
 }

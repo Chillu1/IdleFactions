@@ -15,7 +15,7 @@ namespace IdleFactions
 		private string _currentSaveName;
 		private double _filePlayTime;
 		private float _timer;
-		private readonly double _saveInterval = 30;
+		private readonly double _saveInterval = 120;
 
 		private readonly IResourceController _resourceController;
 		private readonly IFactionController _factionController;
