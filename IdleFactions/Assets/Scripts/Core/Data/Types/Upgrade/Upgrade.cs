@@ -5,16 +5,17 @@ using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
-	public class Upgrade : IRevertible, ISavable, ILoadable, IShallowClone<Upgrade>
+	public class Upgrade : IProgressionUpgrade
 	{
 		public string Id { get; }
 
-		private ResourceCost[] Costs { get; }
+		public ResourceCost[] Costs { get; }
 		private IUpgradeAction[] UpgradeActions { get; }
 
 		public bool Unlocked { get; protected set; }
 		public bool Bought { get; private set; }
 
+		public FactionType FactionType { get; private set; }
 		private Faction _faction;
 
 		private static IRevertController _revertController;
@@ -45,6 +46,11 @@ namespace IdleFactions
 			_resourceController = resourceController;
 		}
 
+		public void SetupFactionType(FactionType factionType)
+		{
+			FactionType = factionType;
+		}
+
 		public void SetupFaction(Faction faction)
 		{
 			_faction = faction;
@@ -54,7 +60,7 @@ namespace IdleFactions
 		{
 			Unlocked = true;
 			if (Id.Contains("unlock", StringComparison.InvariantCultureIgnoreCase))
-				Log.Error("Unlock faction upgrades should always be unlocked");
+				Log.Error($"Unlock faction upgrades should always be unlocked, id: {Id}, factionType: {FactionType}");
 		}
 
 		public bool TryBuy()

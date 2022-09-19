@@ -1,35 +1,41 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace IdleFactions
 {
-	public class UpgradeData : IDataStore<FactionType, IReadOnlyList<Upgrade>>
+	public class UpgradeData : IDataStore<FactionType, IReadOnlyList<IUpgrade>>
 	{
-		private readonly Dictionary<FactionType, IReadOnlyList<Upgrade>> _upgrades;
+		private readonly Dictionary<FactionType, IReadOnlyList<IUpgrade>> _upgrades;
 
 		public UpgradeData()
 		{
-			_upgrades = new Dictionary<FactionType, IReadOnlyList<Upgrade>>();
+			_upgrades = new Dictionary<FactionType, IReadOnlyList<IUpgrade>>();
 
 			SetupUpgrades();
 		}
 
 		[CanBeNull]
-		public IReadOnlyList<Upgrade> Get(FactionType factionType)
+		public IReadOnlyList<IUpgrade> Get(FactionType factionType)
 		{
 			_upgrades.TryGetValue(factionType, out var upgrades);
 			return upgrades;
 		}
 
+		public IReadOnlyList<IProgressionUpgrade> GetAllProgressionUpgrades()
+		{
+			return _upgrades.Values.SelectMany(readOnlyList => (IReadOnlyList<IProgressionUpgrade>)readOnlyList).ToList();
+		}
+
 		private void SetupUpgrades()
 		{
-			_upgrades.Add(FactionType.Creation, new[]
+			AddUpgrades(FactionType.Creation, new[]
 			{
 				new Upgrade("More essence",
 					new ResourceCost(ResourceType.Infinity, 5),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Essence, 2)),
 			});
-			_upgrades.Add(FactionType.Divinity, new[]
+			AddUpgrades(FactionType.Divinity, new[]
 			{
 				new UnlockUpgrade("Unlock the light", new ResourceCost(ResourceType.Essence)),
 
@@ -48,7 +54,7 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
 			});
 
-			_upgrades.Add(FactionType.Void, new[]
+			AddUpgrades(FactionType.Void, new[]
 			{
 				new UnlockUpgrade("Unlock the void", new ResourceCost(ResourceType.Essence)),
 
@@ -64,7 +70,7 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Dark, 4))
 			});
 
-			_upgrades.Add(FactionType.Heat, new[]
+			AddUpgrades(FactionType.Heat, new[]
 			{
 				new UnlockUpgrade("Unlock lava", new ResourceCost(ResourceType.Light, 10e3)),
 
@@ -80,12 +86,12 @@ namespace IdleFactions
 					new UpgradeActionNewResource(FactionResourceType.GenerateCostAdded, new AddedResource(ResourceType.Light, 0.5d))),
 			});
 
-			_upgrades.Add(FactionType.Ocean, new[]
+			AddUpgrades(FactionType.Ocean, new[]
 			{
 				new UnlockUpgrade("Unlock ocean", new ResourceCost(ResourceType.Dark, 10e3))
 			});
 
-			_upgrades.Add(FactionType.Nature, new[]
+			AddUpgrades(FactionType.Nature, new[]
 			{
 				new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Food, 1.5)),
@@ -93,7 +99,7 @@ namespace IdleFactions
 					new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9))
 			});
 
-			_upgrades.Add(FactionType.Skeleton, new[]
+			AddUpgrades(FactionType.Skeleton, new[]
 			{
 				new UnlockUpgrade("Unlock skeleton faction",
 					new[]
@@ -116,7 +122,7 @@ namespace IdleFactions
 				new Upgrade("Add bones generation", new ResourceCost(ResourceType.Magic, 1000d),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Bones, 2)),
 			});
-			_upgrades.Add(FactionType.Necro, new[]
+			AddUpgrades(FactionType.Necro, new[]
 			{
 				new UnlockUpgrade("Unlock necro faction",
 					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
@@ -126,7 +132,7 @@ namespace IdleFactions
 				new Upgrade("Lower living cost", new ResourceCost(ResourceType.Magic, 1000d),
 					new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9))
 			});
-			_upgrades.Add(FactionType.Dwarf, new[]
+			AddUpgrades(FactionType.Dwarf, new[]
 			{
 				new UnlockUpgrade("Unlock dwarf faction todo",
 					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
@@ -138,7 +144,7 @@ namespace IdleFactions
 				)
 			});
 
-			_upgrades.Add(FactionType.Human, new[]
+			AddUpgrades(FactionType.Human, new[]
 			{
 				new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
 					new UpgradeActionNewResource(FactionResourceType.GenerateAdded,
@@ -147,6 +153,13 @@ namespace IdleFactions
 					new UpgradeActionNewResource(FactionResourceType.GenerateAdded,
 						new AddedResource(ResourceType.Wood, 0.5d)))
 			});
+		}
+
+		private void AddUpgrades(FactionType factionType, IReadOnlyList<IUpgrade> upgrades)
+		{
+			foreach (var upgrade in upgrades)
+				upgrade.SetupFactionType(factionType);
+			_upgrades.Add(factionType, upgrades);
 		}
 	}
 }

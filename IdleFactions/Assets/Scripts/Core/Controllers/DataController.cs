@@ -18,8 +18,8 @@ namespace IdleFactions
 		//In case of load game
 		public string SaveName { get; private set; }
 
-		public ProgressionData ProgressionData { get; }
 		private UpgradeData UpgradeData { get; }
+		public ProgressionData ProgressionData { get; }
 		public FactionData FactionData { get; }
 
 		static DataController()
@@ -33,8 +33,8 @@ namespace IdleFactions
 			if (SceneManager.GetActiveScene().name == "MainMenu")
 				MainMenuLoad = true;
 
-			ProgressionData = new ProgressionData();
 			UpgradeData = new UpgradeData();
+			ProgressionData = new ProgressionData(UpgradeData);
 			FactionData = new FactionData(UpgradeData);
 		}
 

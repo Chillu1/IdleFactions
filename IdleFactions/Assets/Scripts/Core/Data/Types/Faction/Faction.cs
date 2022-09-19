@@ -32,12 +32,12 @@ namespace IdleFactions
 
 		private readonly Dictionary<ResourceType, double> _resourceCostAddedMultipliers;
 
-		private IReadOnlyList<Upgrade> Upgrades { get; }
+		private IReadOnlyList<IUpgrade> Upgrades { get; }
 
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
 
-		public Faction(FactionType type, FactionResources factionResources, IReadOnlyList<Upgrade> upgrades)
+		public Faction(FactionType type, FactionResources factionResources, IReadOnlyList<IUpgrade> upgrades)
 		{
 			Type = type;
 			FactionResources = factionResources;
@@ -186,7 +186,7 @@ namespace IdleFactions
 		}
 
 		[CanBeNull]
-		public Upgrade GetUpgrade(int index)
+		public IUpgrade GetUpgrade(int index)
 		{
 			if (Upgrades == null)
 				return null;
@@ -197,7 +197,7 @@ namespace IdleFactions
 		}
 
 		[CanBeNull]
-		public Upgrade GetUpgrade(string id)
+		public IUpgrade GetUpgrade(string id)
 		{
 			return Upgrades == null ? null : Upgrades.FirstOrDefault(u => u.Id == id);
 		}
