@@ -57,6 +57,7 @@ namespace IdleFactions
 		public static void CleanUp()
 		{
 			Faction.CleanUp();
+			Upgrade.CleanUp();
 		}
 
 		public void NewGame()

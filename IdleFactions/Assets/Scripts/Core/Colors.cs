@@ -4,6 +4,11 @@ namespace IdleFactions
 {
 	public static class Colors
 	{
+		//UI
+		public static Color UINormal = new Color32(11, 181, 255, 255);
+		public static Color UIFactionUpgradesAvailable = new Color32(6, 218, 128, 255);
+		public static Color UINew = new Color(0, 1f, 0);
+
 		public static Color ValueGain = new Color(0.5f, 1f, 0.50f);
 		public static Color ValueLoss = new Color(1f, 0.5f, 0.5f);
 

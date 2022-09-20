@@ -11,6 +11,8 @@
 * Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
 * Buying next most with 10-100 population?
 * New upgrade just unlocked (change color on bottom faction tab)
+  * On upgrade, update bottom faction buttons (new upgrades available)
+  * On upgrade discovery, update bottom faction buttons (new upgrades available)
 
 ## Tests
 

@@ -17,6 +17,8 @@ namespace IdleFactions
 		public bool IsUnlocked { get; protected set; }
 		public bool IsBought { get; private set; }
 
+		public bool IsNew { get; private set; } = true;
+
 		public FactionType FactionType { get; private set; }
 		private Faction _faction;
 
@@ -60,6 +62,13 @@ namespace IdleFactions
 			_faction = faction;
 		}
 
+		public void SetNotNew()
+		{
+			if (!IsNew)
+				return;
+			IsNew = false;
+		}
+
 		public void Unlock()
 		{
 			IsUnlocked = true;
@@ -93,6 +102,11 @@ namespace IdleFactions
 				_faction.ActivateUpgradeAction(action);
 
 			IsBought = true;
+		}
+
+		public static void CleanUp()
+		{
+			Unlocked = null;
 		}
 
 		public string GetDataString()

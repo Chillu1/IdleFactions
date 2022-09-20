@@ -19,6 +19,7 @@ namespace IdleFactions
 		private Image _background;
 
 		private Button[] _factionTabButtons;
+		private Image[] _factionTabImages;
 
 		private TMP_Text[] _resourceTexts;
 		private Button[][] _factionUpgradeButtons;
@@ -28,6 +29,7 @@ namespace IdleFactions
 		private TMP_Text _factionBuyPopulationText;
 		private TMP_Text _factionPopulationCostText;
 		private Button[] _upgradeButtons;
+		private Image[] _upgradeImages;
 		private TMP_Text[] _upgradeButtonTexts;
 		private TMP_Text _population;
 		private TMP_Text[] _needs;
@@ -71,6 +73,7 @@ namespace IdleFactions
 
 			var factions = canvas.Find("Factions");
 			_factionTabButtons = factions.GetComponentsInChildren<Button>();
+			_factionTabImages = factions.GetComponentsInChildren<Image>();
 			for (int i = 0; i < _factionTabButtons.Length; i++)
 			{
 				var button = _factionTabButtons[i];
@@ -108,6 +111,7 @@ namespace IdleFactions
 			var upgrades = factionTab.Find("Upgrades").Find("Upgrades");
 			int upgradesChildCount = upgrades.childCount;
 			_upgradeButtons = new Button[upgradesChildCount];
+			_upgradeImages = upgrades.GetComponentsInChildren<Image>();
 			_upgradeButtonTexts = new TMP_Text[upgradesChildCount];
 			for (int i = 0; i < upgradesChildCount; i++)
 			{
@@ -227,6 +231,7 @@ namespace IdleFactions
 
 		public void UpdateTab(Faction faction)
 		{
+			_factionTabImages[(int)faction.Type - 1].color = faction.IsNew ? Colors.UINew : Colors.UINormal;
 			_factionTabButtons[(int)faction.Type - 1].gameObject.SetActive(true);
 		}
 
@@ -260,6 +265,8 @@ namespace IdleFactions
 						break;
 					}
 
+					upgrade.SetNotNew();
+					_upgradeImages[index].color = upgrade.IsNew ? Colors.UINew : Colors.UINormal;
 					_hoverPanelNameText.text = upgrade.Id;
 					_hoverPanelEffectsText.text = upgrade.GetDataString();
 					_hoverPanelCostsText.text = upgrade.GetCostsString();
@@ -292,6 +299,9 @@ namespace IdleFactions
 			_currentFaction = _factionController.Get(type);
 			if (_currentFaction == null)
 				return;
+
+			_currentFaction.SetNotNew();
+			_factionTabImages[(int)type - 1].color = _currentFaction.HasNewUpgrades ? Colors.UIFactionUpgradesAvailable : Colors.UINormal;
 
 			_background.sprite = GetFactionBackground(type);
 
@@ -336,14 +346,16 @@ namespace IdleFactions
 			for (int i = 0; i < _upgradeButtons.Length; i++)
 			{
 				var upgrade = _currentFaction.GetUpgrade(i);
-				if (upgrade is { IsUnlocked: false })
+
+				if (upgrade == null || !upgrade.IsUnlocked)
 				{
 					_upgradeButtons[i].interactable = false;
 					_upgradeButtonTexts[i].text = "Unknown";
 					continue;
 				}
 
-				_upgradeButtons[i].interactable = _currentFaction.GetUpgrade(i) is { IsBought: false };
+				_upgradeImages[i].color = upgrade.IsNew ? Colors.UINew : Colors.UINormal;
+				_upgradeButtons[i].interactable = !upgrade.IsBought;
 				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
 			}
 		}

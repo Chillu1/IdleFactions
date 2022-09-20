@@ -18,6 +18,8 @@ namespace IdleFactions
 		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
 
 		public string NotificationText => "Discovered faction: " + Type;
+		public bool IsNew { get; private set; } = true;
+		public bool HasNewUpgrades => Upgrades.Any(upgrade => upgrade.IsUnlocked && upgrade.IsNew);
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;
@@ -92,6 +94,13 @@ namespace IdleFactions
 				Population * usedLiveMultiplier * usedGenMultiplier * delta);
 
 			_resourceCostAddedMultipliers.Clear();
+		}
+
+		public void SetNotNew()
+		{
+			if (!IsNew)
+				return;
+			IsNew = false;
 		}
 
 		public void Discover()
