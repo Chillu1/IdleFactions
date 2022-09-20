@@ -93,20 +93,26 @@ namespace IdleFactions
 
 			AddUpgrades(FactionType.Nature, new[]
 			{
+				new UnlockUpgrade("Unlock nature", new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water)),
+
 				new Upgrade("More food", new ResourceCost(ResourceType.Light, 100d),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Food, 1.5)),
 				new Upgrade("Lower living cost", new ResourceCost(ResourceType.Light, 100d),
-					new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9))
+					new UpgradeActionMultiplier(FactionResourceType.CreateCost, ResourceType.Food, 0.9)),
+
+				//Healthier ecosystems
+			});
+			AddUpgrades(FactionType.Treant, new[]
+			{
+				new UnlockUpgrade("Unlock treants", new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water),
+					new ResourceCost(ResourceType.Plant), new ResourceCost(ResourceType.Wildlife)),
 			});
 
 			AddUpgrades(FactionType.Skeleton, new[]
 			{
 				new UnlockUpgrade("Unlock skeleton faction",
-					new[]
-					{
-						new ResourceCost(ResourceType.Dark, 1000), new ResourceCost(ResourceType.Magic, 100),
-						new ResourceCost(ResourceType.Bones, 100)
-					}
+					new ResourceCost(ResourceType.Dark, 1000), new ResourceCost(ResourceType.Magic, 100),
+					new ResourceCost(ResourceType.Bones, 100)
 				),
 
 				new Upgrade("More magic efficient", new ResourceCost(ResourceType.Magic, 200d),
@@ -144,14 +150,48 @@ namespace IdleFactions
 				)
 			});
 
+			AddUpgrades(FactionType.Warlock, new[]
+			{
+				new UnlockUpgrade("Unlock warlock faction",
+					new[] { new ResourceCost(ResourceType.Dark, 1e6), new ResourceCost(ResourceType.Magic, 1e3) }),
+			});
+
 			AddUpgrades(FactionType.Human, new[]
 			{
 				new Upgrade("Learn to fish", new ResourceCost(ResourceType.Light, 100),
 					new UpgradeActionNewResource(FactionResourceType.GenerateAdded,
-						new AddedResource(ResourceType.Food, 0.5d))),
+						new AddedResource(ResourceType.Food, 0.5d, ResourceType.Wildlife)),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCost, ResourceType.Wildlife, 2d)
+				),
 				new Upgrade("Learn to chop wood", new ResourceCost(ResourceType.Light, 100),
-					new UpgradeActionNewResource(FactionResourceType.GenerateAdded,
-						new AddedResource(ResourceType.Wood, 0.5d)))
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Wood, 0.5d))),
+				new Upgrade("Stone cutting", new ResourceCost(ResourceType.Light, 100),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Stone, 0.5d))
+					//Wood & Metal?
+				),
+				new Upgrade("Agriculture", new ResourceCost(ResourceType.Light, 100),
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Food, 4),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCostAdded, ResourceType.Nature, 4),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCostAdded, ResourceType.Water, 8)
+				),
+				new Upgrade("Woodcutting", new ResourceCost(ResourceType.Light, 100),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Wood, 0.5d))
+					//Wood & Metal?
+				),
+				new Upgrade("Mining", new ResourceCost(ResourceType.Light, 100),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Ore, 0.5d)),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Gold, 0.01d))
+					//Wood & Metal?
+				),
+				//Industrial revolution and it's consequences
+				new Upgrade("Electricity", new ResourceCost(ResourceType.Light, 100),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Electricity, 0.5d))),
+				//Dangerous upgrade: Human harvesting (souls, food, water, costs humans, obvs)
+				//new Upgrade("Human harvesting", new ResourceCost(ResourceType.Light, 100),
+				//	new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Soul, 1d)),
+				//	new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Food, 0.5d)),
+				//	new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Water, 0.5d)),
+				//	new UpgradeActionNewResource(FactionResourceType.GenerateCostAdded, new AddedResource(FactionType.Human, 1d))),
 			});
 		}
 

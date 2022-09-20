@@ -76,10 +76,21 @@ namespace IdleFactions
 			{
 				var factionType = FactionType.Nature;
 				var properties = new FactionResourceProperties();
-				properties.SetGenerate(new ResourceCost(ResourceType.Plant, 2d), new ResourceCost(ResourceType.Food, 0.5d));
+				properties.SetGenerate(new ResourceCost(ResourceType.Plant, 2d), new ResourceCost(ResourceType.Wildlife),
+					new ResourceCost(ResourceType.Food, 0.5d));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water, 2d));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water, 2d));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water, 2d),
+					new ResourceCost(ResourceType.Plant, 0.5d), new ResourceCost(ResourceType.Wildlife, 0.25d));
 
+				AddFaction(factionType, properties);
+			}
+			{
+				var factionType = FactionType.Treant;
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new ResourceCost(ResourceType.Wood));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
 				AddFaction(factionType, properties);
 			}
 			{
@@ -173,7 +184,7 @@ namespace IdleFactions
 				var factionType = FactionType.Human;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(
-					new ResourceCost(ResourceType.Stone, 0.1d)
+					new ResourceCost(ResourceType.Food, 0.5d)
 				);
 				properties.SetCreateCost(
 					new ResourceCost(ResourceType.Light, 100),
@@ -229,17 +240,6 @@ namespace IdleFactions
 				{
 					new ResourceCost(ResourceType.Infinity),
 				});
-				AddFaction(factionType, properties);
-			}
-			{
-				var factionType = FactionType.Treant;
-				var properties = new FactionResourceProperties();
-				properties.SetGenerate(
-					new ResourceCost(ResourceType.Infinity)
-				);
-				properties.SetCreateCost(
-					new ResourceCost(ResourceType.Infinity)
-				);
 				AddFaction(factionType, properties);
 			}
 			{

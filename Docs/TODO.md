@@ -2,7 +2,8 @@
 
 * Progression
   * Heat-Ocean phase
-  * Meaningful (choice) Upgrades
+  * Partial mid-phase (skeleton-necro, human-nature-treant, w/e)
+  * Meaningful early (choice) Upgrades
 * Multi-resource progressiom, ex. both light & lava check?  
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it)
 * Tabs (Wiki, Achievements, All resource rates, Settings?)

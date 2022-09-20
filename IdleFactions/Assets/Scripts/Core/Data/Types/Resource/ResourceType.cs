@@ -31,7 +31,8 @@ namespace IdleFactions
 		///		Used for creation of: Human, Warlock, Dwarf, Necro, Elves
 		/// </summary>
 		Soul,
-		Energy,
+		Energy, //should also be used as Electricity?
+		Electricity,
 
 		Body,
 		Bones,

@@ -12,6 +12,7 @@
   * Some upgrades being bad/terrible early game
   * Some upgrades being great right now, but hurting the player (slightly) later?
   * Special progress upgrades
+* "Dangerous" Upgrades would make it possible to have a prestige system, making the resets fun, to make "builds"
 
 ## Progression
 
