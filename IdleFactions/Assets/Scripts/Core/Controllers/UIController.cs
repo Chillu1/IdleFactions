@@ -310,7 +310,7 @@ namespace IdleFactions
 			UpdateFactionTabInfo();
 		}
 
-		private void UpdateFactionTabInfo()
+		public void UpdateFactionTabInfo() //TODO Refactor, split this
 		{
 			UpdateFactionTabUpgrades();
 

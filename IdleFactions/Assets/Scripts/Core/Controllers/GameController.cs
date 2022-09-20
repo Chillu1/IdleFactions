@@ -37,6 +37,7 @@ namespace IdleFactions
 			Faction.Discovered += uiController.UpdateTab;
 			Faction.Discovered += uiController.DisplayNotification;
 			Upgrade.Unlocked += uiController.DisplayNotification;
+			Upgrade.Bought += _ => uiController.UpdateFactionTabInfo();
 		}
 
 		public void Update(float delta)

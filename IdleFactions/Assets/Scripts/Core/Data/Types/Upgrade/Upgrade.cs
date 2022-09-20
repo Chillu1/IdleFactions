@@ -22,6 +22,7 @@ namespace IdleFactions
 		public FactionType FactionType { get; private set; }
 		private Faction _faction;
 
+		public static event Action<Upgrade> Bought;
 		public static event Action<IUpgrade> Unlocked;
 
 		private static IRevertController _revertController;
@@ -102,10 +103,12 @@ namespace IdleFactions
 				_faction.ActivateUpgradeAction(action);
 
 			IsBought = true;
+			Bought?.Invoke(this);
 		}
 
 		public static void CleanUp()
 		{
+			Bought = null;
 			Unlocked = null;
 		}
 

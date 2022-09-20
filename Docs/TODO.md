@@ -4,7 +4,6 @@
   * Heat-Ocean phase
   * Meaningful (choice) Upgrades
 * Multi-resource progressiom, ex. both light & lava check?  
-* On Upgrade bought, update Need text on the right
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it)
 * Tabs (Wiki, Achievements, All resource rates, Settings?)
 * Buying 10%-25%-50%-Max population
@@ -13,6 +12,7 @@
 * New upgrade just unlocked (change color on bottom faction tab)
   * On upgrade, update bottom faction buttons (new upgrades available)
   * On upgrade discovery, update bottom faction buttons (new upgrades available)
+  * Red can't afford upgrade, blue normal, can.
 
 ## Tests
 
@@ -48,6 +48,5 @@
   * Bonus multipliers? Then we should have more meaningful achievements, not "100 X resource"
 * Offline progress (max 24h/time resource?) 
 * Snapshot based rates, every X seconds, store the resource amounts, then calculate the rate based on the difference between the current & previous snapshot. Lowering the used PC resources
-* Main Menu https://gabrielbissonnette.itch.io/minimalist-main-menu-pack
 * Mine defense-type "oracle", that gives you a hint on what to do next
-* Change UI Color with faction
+* Change UI Color with faction?
