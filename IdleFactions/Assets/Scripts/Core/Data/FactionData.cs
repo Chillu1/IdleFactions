@@ -54,8 +54,7 @@ namespace IdleFactions
 			{
 				var factionType = FactionType.Heat;
 				var properties = new FactionResourceProperties();
-				//Maybe Light gen should be added as an upgrade?
-				properties.SetGenerate(new ResourceCost(ResourceType.Lava), new ResourceCost(ResourceType.Light, 0.1d));
+				properties.SetGenerate(new ResourceCost(ResourceType.Lava));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e3));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Lava, 0.5d));
 
@@ -64,9 +63,8 @@ namespace IdleFactions
 			{
 				var factionType = FactionType.Ocean;
 				var properties = new FactionResourceProperties();
-				//Maybe Dark gen should be added as an upgrade?
-				properties.SetGenerate(new ResourceCost(ResourceType.Water), new ResourceCost(ResourceType.Dark, 0.1d));
-				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e6), new ResourceCost(ResourceType.Dark, 10e6));
+				properties.SetGenerate(new ResourceCost(ResourceType.Water));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e4), new ResourceCost(ResourceType.Dark, 10e4));
 				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d));
 
 				AddFaction(factionType, properties);

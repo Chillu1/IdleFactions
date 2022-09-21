@@ -1,5 +1,8 @@
 namespace IdleFactions
 {
+	/// <summary>
+	///		Special upgrade that always unlocks a faction
+	/// </summary>
 	public sealed class UnlockUpgrade : Upgrade
 	{
 		public UnlockUpgrade(string id, ResourceCost cost) : this(id, new[] { cost })

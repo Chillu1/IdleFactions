@@ -84,11 +84,26 @@ namespace IdleFactions
 					new[] { new ResourceCost(ResourceType.Light, 500e3) },
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Lava, 2),
 					new UpgradeActionNewResource(FactionResourceType.GenerateCostAdded, new AddedResource(ResourceType.Light, 0.5d))),
+
+				new Upgrade("Light generation",
+					new[] { new ResourceCost(ResourceType.Lava, 1e3), new ResourceCost(ResourceType.Light, 1e6) },
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCost, ResourceType.Lava, 2),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Light, 1d))),
 			});
 
 			AddUpgrades(FactionType.Ocean, new[]
 			{
-				new UnlockUpgrade("Unlock ocean", new ResourceCost(ResourceType.Dark, 10e3))
+				new UnlockUpgrade("Unlock ocean", new ResourceCost(ResourceType.Dark, 100e3)),
+
+				new Upgrade("Darker sea",
+					new[] { new ResourceCost(ResourceType.Dark, 500e3) },
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Water, 2),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCost, ResourceType.Dark, 4)),
+
+				new Upgrade("Deep sea",
+					new[] { new ResourceCost(ResourceType.Water, 1e3), new ResourceCost(ResourceType.Dark, 1e6) },
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCost, ResourceType.Water, 2),
+					new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Dark, 1d))),
 			});
 
 			AddUpgrades(FactionType.Nature, new[]
