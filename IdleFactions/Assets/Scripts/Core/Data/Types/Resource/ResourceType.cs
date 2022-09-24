@@ -32,6 +32,7 @@ namespace IdleFactions
 		/// </summary>
 		Soul,
 		Energy, //should also be used as Electricity?
+		Steam, //? Only used by humans for electricity?
 		Electricity,
 
 		Body,

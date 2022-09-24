@@ -38,7 +38,7 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(startPopulation);
 			Assert.AreEqual(startPopulation, faction.Population);
 
-			faction.Update((float)(1d * faction.PopulationDecay));
+			faction.Update((float)(1d * faction.PopulationDecayFlat));
 			Assert.Less(faction.Population, startPopulation);
 		}
 
@@ -59,10 +59,10 @@ namespace IdleFactions.Tests
 			faction.TryBuyPopulation(startPopulation);
 			Assert.AreEqual(startPopulation, faction.Population);
 
-			faction.Update((float)(1d * faction.PopulationDecay));
+			faction.Update((float)(1d * faction.PopulationDecayFlat));
 			Assert.Greater(startPopulation, faction.Population);
 
-			faction.Update((float)(faction.Population / faction.PopulationDecay));
+			faction.Update((float)(faction.Population / faction.PopulationDecayFlat));
 			Assert.AreEqual(Faction.MinPopulation, faction.Population);
 		}
 	}

@@ -4,8 +4,7 @@
   * Heat-Ocean phase
   * Partial mid-phase (skeleton-necro, human-nature-treant, w/e)
   * Meaningful early (choice) Upgrades
-  * Harsher upgrades, 8x bigger costs, 2x + multiplier 
-* % and flat population decay 
+  * Harsher upgrades, 8x bigger costs, 2x + multiplier
 * Multi-resource progressiom, ex. both light & lava check?  
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it)
 * Tabs (Wiki, Achievements, All resource rates, Settings?)

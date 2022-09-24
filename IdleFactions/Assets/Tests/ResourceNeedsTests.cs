@@ -192,8 +192,8 @@ namespace IdleFactions.Tests
 			faction.Update(1f);
 
 			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 0));
-			double remainingPopulation = 5 - faction.PopulationDecay * 0.5;
-			Assert.AreEqual(remainingPopulation, faction.Population);
+			double remainingPopulation = 5 - faction.PopulationDecayFlat * 0.5;
+			Assert.AreEqual(remainingPopulation, faction.Population, 0.01d);
 			//Not 2.5, because 0.05 population is gone, making it: (5 - faction.PopulationDecay * 0.5) * 0.5 * 1 * 1 = 2.475
 			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, remainingPopulation * 0.5));
 		}

@@ -14,7 +14,8 @@ namespace IdleFactions
 		public FactionResources FactionResources { get; }
 
 		public double Population { get; private set; }
-		public double PopulationDecay { get; private set; } = 0.1d;
+		public double PopulationDecayFlat { get; private set; } = 0.1d;
+		public double PopulationDecayPercentage { get; private set; } = 0.000069444d;
 		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
 
 		public string NotificationText => "Discovered faction: " + Type;
@@ -68,7 +69,9 @@ namespace IdleFactions
 			if (FactionResources.LiveCost != null &&
 			    _resourceController.TryUsePartialLiveResource(FactionResources.LiveCost, Population * delta, out usedLiveMultiplier))
 			{
-				Population -= PopulationDecay * (1d - usedLiveMultiplier) * delta;
+				double flatPopulationDecay = PopulationDecayFlat * (1d - usedLiveMultiplier);
+				double percentagePopulationDecay = Population * PopulationDecayPercentage * (1d - usedLiveMultiplier);
+				Population -= (flatPopulationDecay + percentagePopulationDecay) * delta;
 				if (Population < MinPopulation)
 					Population = MinPopulation;
 			}

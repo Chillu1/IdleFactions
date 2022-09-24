@@ -2,6 +2,10 @@
 
 ## Temp Notes
 
+1e6 pop
+4h population decay. 14400s
+0.0144% pop decay per second?
+
 /// <summary>
 ///		Sum of n ^ 1.2 for n = 0 to n
 /// </summary>

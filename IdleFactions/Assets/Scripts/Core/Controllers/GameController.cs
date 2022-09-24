@@ -11,7 +11,7 @@ namespace IdleFactions
 		private bool _manualPause;
 
 		private readonly IRevertController _revertController;
-		private readonly FactionController _factionController;
+		public FactionController FactionController { get; }
 		public ResourceController ResourceController { get; }
 		private readonly ProgressionController _progressionController;
 		public StateController StateController { get; }
@@ -22,9 +22,9 @@ namespace IdleFactions
 			ResourceController = new ResourceController();
 			Upgrade.Setup(_revertController, ResourceController);
 			Faction.Setup(_revertController, ResourceController);
-			_factionController = new FactionController(dataController.FactionData);
-			_progressionController = new ProgressionController(dataController.ProgressionData, _factionController, uiController);
-			StateController = new StateController(ResourceController, _factionController, _progressionController);
+			FactionController = new FactionController(dataController.FactionData);
+			_progressionController = new ProgressionController(dataController.ProgressionData, FactionController, uiController);
+			StateController = new StateController(ResourceController, FactionController, _progressionController);
 
 			ResourceController.Added += _progressionController.OnAddResource;
 
@@ -33,7 +33,7 @@ namespace IdleFactions
 			else
 				LoadGame(dataController.SaveName);
 
-			uiController.Setup(this, ResourceController, _factionController, StateController);
+			uiController.Setup(this, ResourceController, FactionController, StateController);
 			Faction.Discovered += uiController.UpdateTab;
 			Faction.Discovered += uiController.DisplayNotification;
 			Upgrade.Unlocked += uiController.DisplayNotification;
@@ -49,7 +49,7 @@ namespace IdleFactions
 
 			ResourceController.Update(delta);
 			_revertController.Update(delta);
-			_factionController.Update(delta);
+			FactionController.Update(delta);
 			_progressionController.Update(delta);
 		}
 
@@ -64,10 +64,10 @@ namespace IdleFactions
 		public void NewGame()
 		{
 			StateController.SetNewGameSave();
-			_factionController.Get(FactionType.Creation)!.Discover();
-			_factionController.Get(FactionType.Creation)!.Unlock();
+			FactionController.Get(FactionType.Creation)!.Discover();
+			FactionController.Get(FactionType.Creation)!.Unlock();
 
-			_factionController.Get(FactionType.Creation)!.ChangePopulation(1);
+			FactionController.Get(FactionType.Creation)!.ChangePopulation(1);
 		}
 
 		private void LoadGame(string saveName)
