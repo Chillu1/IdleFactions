@@ -51,6 +51,12 @@ namespace IdleFactions.Editor
 				_gameController.FactionController.Get(_selectedFactionType).ChangePopulation(_populationAmount);
 			}
 
+			if (GUILayout.Button("Unlock All Factions"))
+			{
+				foreach (var factionType in FactionTypeHelper.AllFactionTypes)
+					_gameController.FactionController.Get(factionType).Unlock();
+			}
+
 			if (GUILayout.Button("New Game"))
 				_gameController.NewGame();
 

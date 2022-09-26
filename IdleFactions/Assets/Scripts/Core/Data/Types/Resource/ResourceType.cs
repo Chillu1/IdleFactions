@@ -16,11 +16,10 @@ namespace IdleFactions
 		Lava,
 		Water,
 
-		Nature,
+		Plant,
 		Food,
 		Wood,
 		Wildlife,
-		Plant,
 		Stone,
 		Ore,
 		Magic,

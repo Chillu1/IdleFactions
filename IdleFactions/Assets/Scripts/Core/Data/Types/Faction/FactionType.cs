@@ -13,7 +13,8 @@ namespace IdleFactions
 		Ocean,
 
 		Nature,
-		Nature2,
+
+		//Nature2, //Should we even have a second nature-wildlife faction?
 		Human,
 
 		Goblin,

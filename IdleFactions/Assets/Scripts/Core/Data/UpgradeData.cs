@@ -121,6 +121,11 @@ namespace IdleFactions
 			{
 				new UnlockUpgrade("Unlock treants", new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water),
 					new ResourceCost(ResourceType.Plant), new ResourceCost(ResourceType.Wildlife)),
+
+				new Upgrade("More water absorption", new ResourceCost(ResourceType.Water, 1000d),
+					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Wood, 2),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCost, ResourceType.Water, 4)),
+				//Nature(plant)-treant synergy
 			});
 
 			AddUpgrades(FactionType.Skeleton, new[]
@@ -186,7 +191,7 @@ namespace IdleFactions
 				),
 				new Upgrade("Agriculture", new ResourceCost(ResourceType.Light, 100),
 					new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Food, 4),
-					new UpgradeActionMultiplier(FactionResourceType.GenerateCostAdded, ResourceType.Nature, 4),
+					new UpgradeActionMultiplier(FactionResourceType.GenerateCostAdded, ResourceType.Plant, 4),
 					new UpgradeActionMultiplier(FactionResourceType.GenerateCostAdded, ResourceType.Water, 8)
 				),
 				new Upgrade("Woodcutting", new ResourceCost(ResourceType.Light, 100),

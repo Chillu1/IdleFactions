@@ -20,7 +20,7 @@ namespace IdleFactions
 
 		public string NotificationText => "Discovered faction: " + Type;
 		public bool IsNew { get; private set; } = true;
-		public bool HasNewUpgrades => Upgrades.Any(upgrade => upgrade.IsUnlocked && upgrade.IsNew);
+		public bool HasNewUpgrades => Upgrades?.Any(upgrade => upgrade.IsUnlocked && upgrade.IsNew) == true;
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;

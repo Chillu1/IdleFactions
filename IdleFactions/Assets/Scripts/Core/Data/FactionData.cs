@@ -64,8 +64,8 @@ namespace IdleFactions
 				var factionType = FactionType.Ocean;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Water));
-				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e4), new ResourceCost(ResourceType.Dark, 10e4));
-				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 0.2d), new ResourceCost(ResourceType.Dark, 0.2d));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 100e3), new ResourceCost(ResourceType.Dark, 100e3));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 10e3), new ResourceCost(ResourceType.Dark, 10e3));
 
 				AddFaction(factionType, properties);
 			}
@@ -76,9 +76,9 @@ namespace IdleFactions
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Plant, 2d), new ResourceCost(ResourceType.Wildlife),
 					new ResourceCost(ResourceType.Food, 0.5d));
-				properties.SetCreateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water, 2d));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water, 2d),
-					new ResourceCost(ResourceType.Plant, 0.5d), new ResourceCost(ResourceType.Wildlife, 0.25d));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 100e3), new ResourceCost(ResourceType.Water, 100),
+					new ResourceCost(ResourceType.Plant, 1.5d), new ResourceCost(ResourceType.Wildlife, 0.8d));
 
 				AddFaction(factionType, properties);
 			}
@@ -86,9 +86,10 @@ namespace IdleFactions
 				var factionType = FactionType.Treant;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Wood));
-				properties.SetCreateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
-				properties.SetGenerateCost(new ResourceCost(ResourceType.Light), new ResourceCost(ResourceType.Water));
+				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e6), new ResourceCost(ResourceType.Water, 10e3));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3),
+					new ResourceCost(ResourceType.Plant));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3));
 				AddFaction(factionType, properties);
 			}
 			{
@@ -160,7 +161,7 @@ namespace IdleFactions
 			}
 
 			//Late game
-			{
+			/*{
 				var factionType = FactionType.Nature2;
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(
@@ -177,7 +178,7 @@ namespace IdleFactions
 				);
 
 				AddFaction(factionType, properties);
-			}
+			}*/
 			{
 				var factionType = FactionType.Human;
 				var properties = new FactionResourceProperties();
@@ -186,19 +187,19 @@ namespace IdleFactions
 				);
 				properties.SetCreateCost(
 					new ResourceCost(ResourceType.Light, 100),
-					new ResourceCost(ResourceType.Nature, 10),
+					new ResourceCost(ResourceType.Plant, 10),
 					new ResourceCost(ResourceType.Water, 5),
 					new ResourceCost(ResourceType.Soul, 1)
 				);
 				properties.SetLiveCost(
 					new ResourceCost(ResourceType.Food, 1d),
 					new ResourceCost(ResourceType.Water, 1d),
-					new ResourceCost(ResourceType.Nature, 0.1d)
+					new ResourceCost(ResourceType.Plant, 0.1d)
 				);
 				properties.SetGenerateCost(
 					new ResourceCost(ResourceType.Food, 1d),
 					new ResourceCost(ResourceType.Water, 1d),
-					new ResourceCost(ResourceType.Nature, 0.1d),
+					new ResourceCost(ResourceType.Plant, 0.1d),
 					new ResourceCost(ResourceType.Wildlife, 1d)
 				);
 
