@@ -180,6 +180,7 @@ namespace IdleFactions
 				{
 					_factionController.Get(_factionChoiceTypes[j]).Discover();
 					_factionChoicePanel.SetActive(false);
+					HideHoverPanel();
 					_gameController.InternalPause(false);
 				});
 			}
@@ -293,6 +294,12 @@ namespace IdleFactions
 					_hoverPanelEffectsText.text = upgrade.GetDataString();
 					_hoverPanelCostsText.text = upgrade.GetCostsString();
 
+					break;
+				case HoverType.Choice:
+					var faction = _factionController.Get(_factionChoiceTypes[index]);
+					_hoverPanelNameText.text = faction.Type.ToString();
+					_hoverPanelEffectsText.text = faction.Description;
+					_hoverPanelCostsText.text = "";
 					break;
 				default:
 					Log.Error("Invalid HoverType: " + hoverType);

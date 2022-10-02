@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1212af381b7e45069c4ef8c9c8804ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HoverType: 1
+  HoverType: 2
 --- !u!114 &583188986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5614,19 +5614,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4101288414326711325}
   m_CullTransparentMesh: 1
---- !u!114 &1793274879786409191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6250116266406123132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1212af381b7e45069c4ef8c9c8804ca1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HoverType: 1
 --- !u!1001 &2809912836238941824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6456,7 +6443,7 @@ GameObject:
   - component: {fileID: 3717241455009596146}
   - component: {fileID: 6395886390838630541}
   - component: {fileID: 3206692471967046722}
-  - component: {fileID: 1793274879786409191}
+  - component: {fileID: 6395886390838630542}
   m_Layer: 5
   m_Name: ChoiceButton (0)
   m_TagString: Untagged
@@ -6494,6 +6481,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6395886390838630542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6250116266406123132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1212af381b7e45069c4ef8c9c8804ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoverType: 2
 --- !u!1001 &7023676595819244553
 PrefabInstance:
   m_ObjectHideFlags: 0

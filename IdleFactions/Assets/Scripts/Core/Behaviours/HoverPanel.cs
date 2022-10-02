@@ -7,6 +7,7 @@ namespace IdleFactions.Behaviours
 	{
 		None,
 		Upgrade,
+		Choice,
 	}
 
 	public class HoverPanel : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler
@@ -16,6 +17,7 @@ namespace IdleFactions.Behaviours
 		private int _index;
 		private UIController _uiController;
 
+		private static HoverType _currentHoverType;
 		private static int _currentIndex;
 		private static bool _isHovering;
 		private float _timer;
@@ -39,15 +41,16 @@ namespace IdleFactions.Behaviours
 			if (_timer > HoverTime)
 			{
 				_timeIsOver = true;
-				_uiController.DisplayHoverData(HoverType, _currentIndex);
+				_uiController.DisplayHoverData(_currentHoverType, _currentIndex);
 			}
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
+			_currentHoverType = HoverType;
 			_currentIndex = _index;
 			if (_timeIsOver)
-				_uiController.DisplayHoverData(HoverType, _currentIndex);
+				_uiController.DisplayHoverData(_currentHoverType, _currentIndex);
 			_isHovering = true;
 		}
 
@@ -55,8 +58,9 @@ namespace IdleFactions.Behaviours
 		{
 			if (_currentIndex != _index)
 			{
+				_currentHoverType = HoverType;
 				_currentIndex = _index;
-				_uiController.DisplayHoverData(HoverType, _currentIndex);
+				_uiController.DisplayHoverData(_currentHoverType, _currentIndex);
 			}
 
 			_uiController.MoveHoverPanel(Input.mousePosition);

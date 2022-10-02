@@ -30,7 +30,7 @@ namespace IdleFactions.Tests
 		public void RevertMultiplier()
 		{
 			_resourceController.Add(ResourceType.Dark, 1d);
-			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
+			var faction = new Faction(FactionType.Divinity, "", new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -59,7 +59,7 @@ namespace IdleFactions.Tests
 		public void RevertNewResource()
 		{
 			_resourceController.Add(ResourceType.Water, 1d);
-			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
+			var faction = new Faction(FactionType.Divinity, "", new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
@@ -90,7 +90,7 @@ namespace IdleFactions.Tests
 			double usedResource = 0d;
 			const double initialResource = 100d;
 			_resourceController.Add(ResourceType.Dark, initialResource);
-			var faction = new Faction(FactionType.Divinity, new FactionResources(new FactionResourceProperties()
+			var faction = new Faction(FactionType.Divinity, "", new FactionResources(new FactionResourceProperties()
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }

@@ -19,6 +19,7 @@ namespace IdleFactions
 		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
 
 		public string NotificationText => "Discovered faction: " + Type;
+		public string Description { get; }
 		public bool IsNew { get; private set; } = true;
 		public bool HasNewUpgrades => Upgrades?.Any(upgrade => upgrade.IsUnlocked && upgrade.IsNew) == true;
 		public bool IsDiscovered { get; private set; }
@@ -41,9 +42,10 @@ namespace IdleFactions
 		private static IRevertController _revertController;
 		private static IResourceController _resourceController;
 
-		public Faction(FactionType type, FactionResources factionResources, IReadOnlyList<IUpgrade> upgrades)
+		public Faction(FactionType type, string description, FactionResources factionResources, IReadOnlyList<IUpgrade> upgrades)
 		{
 			Type = type;
+			Description = description;
 			FactionResources = factionResources;
 
 			foreach (var upgrade in upgrades.EmptyIfNull())
@@ -316,7 +318,7 @@ namespace IdleFactions
 
 		public Faction DeepClone()
 		{
-			return new Faction(Type, FactionResources.DeepClone(), Upgrades?.Select(u => u.ShallowClone()).ToList());
+			return new Faction(Type, Description, FactionResources.DeepClone(), Upgrades?.Select(u => u.ShallowClone()).ToList());
 		}
 
 		public override int GetHashCode()
