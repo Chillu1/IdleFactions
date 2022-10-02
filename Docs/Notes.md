@@ -2,6 +2,32 @@
 
 ## Temp Notes
 
+Resource progression
+Essence > Light > Dark > Lava > Water
+Stone? > Plant > Wood > Wildlife&Food
+Soul? > Human > Fire > Ore > Heat > Metal&Gold
+Magic > Mana
+Steam? > Electricity?
+
+Unplaced: Energy, Bones, Body, Skeleton
+
+By faction:
+Creation > Divinity > Void > Heat > Ocean
+Golems? > Nature/Treant
+Human > Demon? > Dwarf/Goblin/Orc?
+
+Mage/Warlock
+
+Unplaced: Ogre, Demon, Drowner, Necro, Skeleton, Elf
+
+Meaningful choices & prestige
+Options for prestige resources:
+* Single resource
+* Multi-resource
+* Resource for each faction
+* Resource for each faction type
+* Resource for each faction alignment
+
 How to add meaningful choices to the game?
 
 Choice upgrades. Choose one of two upgrades (permanent until next prestige). Ex: 1. More light, more dark cons, 2. Less dark cons

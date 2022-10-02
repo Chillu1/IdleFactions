@@ -16,20 +16,25 @@ namespace IdleFactions
 		Lava,
 		Water,
 
-		Plant,
-		Food,
-		Wood,
-		Wildlife,
 		Stone,
-		Ore,
-		Magic,
-		Mana,
-		Fire,
+		Plant,
+		Wood,
+		Food,
+		Wildlife,
 
 		/// <summary>
 		///		Used for creation of: Human, Warlock, Dwarf, Necro, Elves
 		/// </summary>
 		Soul,
+		Fire,
+		Ore,
+		Heat, //Just use fire instead? Or switch fire for heat
+		Metal,
+		Gold,
+
+		Magic,
+		Mana,
+
 		Energy, //should also be used as Electricity?
 		Steam, //? Only used by humans for electricity?
 		Electricity,
@@ -37,9 +42,6 @@ namespace IdleFactions
 		Body,
 		Bones,
 		Skeleton,
-		Gold,
-		Heat,
-		Metal,
 
 		//Specials
 		/// <summary>

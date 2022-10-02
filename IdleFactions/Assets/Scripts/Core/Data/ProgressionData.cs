@@ -31,7 +31,7 @@ namespace IdleFactions
 			//If we want to support multiple resources, then we need to remove the action when it's completed
 			//Maybe multi-key dictionary with two lookups?
 
-			//FactionUnlocks still have to be manually set
+			//FactionUnlocks still have to be manually set, same for faction choices
 			var unlockFactionUpgrades = new Dictionary<ResourceType, IProgressionEntry[]>
 			{
 				{
@@ -76,6 +76,26 @@ namespace IdleFactions
 						new ProgressionEntry(
 							new ProgressionResourceCondition(200),
 							new ProgressionChooseFactionAction(FactionType.Mage, FactionType.Warlock)),
+					}
+				},
+				{
+					ResourceType.Infinity, new IProgressionEntry[]
+					{
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1),
+							new ProgressionChooseFactionAction(FactionType.Nature, FactionType.Treant)),
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1),
+							new ProgressionChooseFactionAction(FactionType.Dwarf, FactionType.Goblin)), //Ogres instead?
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1),
+							new ProgressionChooseFactionAction(FactionType.Elf, FactionType.Elf)), //TODO
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1),
+							new ProgressionChooseFactionAction(FactionType.Skeleton, FactionType.Human)),
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1),
+							new ProgressionChooseFactionAction(FactionType.Necro, FactionType.Drowner)), //?
 					}
 				}
 			};

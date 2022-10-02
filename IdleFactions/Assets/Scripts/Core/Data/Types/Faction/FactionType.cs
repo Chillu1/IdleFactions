@@ -12,19 +12,22 @@ namespace IdleFactions
 		Heat,
 		Ocean,
 
+		Golem,
 		Nature,
+		Treant,
 
 		//Nature2, //Should we even have a second nature-wildlife faction?
 		Human,
 
-		Goblin,
-		Ogre,
-		Mage, //Wizard?
-		Warlock,
-		Treant,
 		Demon,
 		Dwarf,
-		Golem,
+		Goblin,
+		Orc,
+
+		Mage, //Wizard?
+		Warlock,
+
+		Ogre,
 		Drowner,
 		Necro,
 		Skeleton,
