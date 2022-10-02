@@ -77,6 +77,21 @@ namespace IdleFactions
 
 			//Mid game
 			{
+				var factionType = FactionType.Golem;
+				string description = "Stone creatures";
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(new ResourceCost(ResourceType.Stone));
+				properties.SetCreateCost(
+					new ResourceCost(ResourceType.Dark, 1e6),
+					new ResourceCost(ResourceType.Heat, 1e3),
+					new ResourceCost(ResourceType.Water, 1e3)
+				);
+				properties.SetLiveCost(new ResourceCost(ResourceType.Dark, 10e3));
+				properties.SetGenerateCost(new ResourceCost(ResourceType.Heat, 10), new ResourceCost(ResourceType.Water, 10));
+
+				AddFaction(factionType, description, properties);
+			}
+			{
 				var factionType = FactionType.Nature;
 				string description = "Massive ecosystems, diverse pool of carbon based resources";
 				var properties = new FactionResourceProperties();
@@ -267,18 +282,6 @@ namespace IdleFactions
 				{
 					new ResourceCost(ResourceType.Infinity),
 				});
-				AddFaction(factionType, description, properties);
-			}
-			{
-				var factionType = FactionType.Golem;
-				string description = "Stone creatures";
-				var properties = new FactionResourceProperties();
-				properties.SetGenerate(
-					new ResourceCost(ResourceType.Infinity)
-				);
-				properties.SetCreateCost(
-					new ResourceCost(ResourceType.Infinity)
-				);
 				AddFaction(factionType, description, properties);
 			}
 			{

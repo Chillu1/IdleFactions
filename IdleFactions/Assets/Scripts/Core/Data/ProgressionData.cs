@@ -71,6 +71,14 @@ namespace IdleFactions
 					}
 				},
 				{
+					ResourceType.Water, new IProgressionEntry[]
+					{
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1e3),
+							new ProgressionDiscoverFactionAction(FactionType.Golem))
+					}
+				},
+				{
 					ResourceType.Mana, new IProgressionEntry[]
 					{
 						new ProgressionEntry(

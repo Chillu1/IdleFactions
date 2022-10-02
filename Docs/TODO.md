@@ -1,5 +1,6 @@
 # TODO:
 
+* First choice design, nature/plant
 * Progression
   * Heat-Ocean phase
   * Partial mid-phase (skeleton-necro, human-nature-treant, w/e)
