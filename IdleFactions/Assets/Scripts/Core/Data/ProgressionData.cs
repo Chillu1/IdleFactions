@@ -50,7 +50,7 @@ namespace IdleFactions
 							new ProgressionDiscoverFactionAction(FactionType.Void)),
 						new ProgressionEntry(
 							new ProgressionResourceCondition(5e3),
-							new ProgressionDiscoverFactionAction(FactionType.Heat))
+							new ProgressionDiscoverFactionAction(FactionType.Heat)),
 					}
 				},
 				{
@@ -68,6 +68,14 @@ namespace IdleFactions
 						new ProgressionEntry(
 							new ProgressionResourceCondition(150),
 							new TempUIAction())
+					}
+				},
+				{
+					ResourceType.Mana, new IProgressionEntry[]
+					{
+						new ProgressionEntry(
+							new ProgressionResourceCondition(200),
+							new ProgressionChooseFactionAction(FactionType.Mage, FactionType.Warlock)),
 					}
 				}
 			};
@@ -93,7 +101,7 @@ namespace IdleFactions
 
 					progressionEntries.Add(new ProgressionEntry(
 						new ProgressionResourceCondition(upgrade.Costs[0].Value * UpgradeProgressionUnlockCostMultiplier),
-						new ProgressionDiscoverUpgradeAction(upgrade.FactionType, upgrade.Id)));
+						new ProgressionUnlockUpgradeAction(upgrade.FactionType, upgrade.Id)));
 				}
 
 				var progression = new Progression(resourceType + "ResourceProgression",

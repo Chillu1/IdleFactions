@@ -4,9 +4,6 @@ namespace IdleFactions
 	{
 		public FactionType FactionType { get; }
 
-		public ProgressionDiscoverFactionAction(FactionType factionType)
-		{
-			FactionType = factionType;
-		}
+		public ProgressionDiscoverFactionAction(FactionType factionType) => FactionType = factionType;
 	}
 }

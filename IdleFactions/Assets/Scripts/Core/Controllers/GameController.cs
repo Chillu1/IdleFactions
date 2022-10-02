@@ -6,9 +6,10 @@ namespace IdleFactions
 	[SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
 	public class GameController
 	{
-		public bool IsPaused => _manualPause;
+		public bool IsPaused => _manualPause || _internalPause;
 
 		private bool _manualPause;
+		private bool _internalPause;
 
 		private readonly IRevertController _revertController;
 		public FactionController FactionController { get; }
@@ -53,7 +54,8 @@ namespace IdleFactions
 			_progressionController.Update(delta);
 		}
 
-		public void Pause(bool state) => _manualPause = state;
+		public void PlayerPause(bool state) => _manualPause = state;
+		public void InternalPause(bool state) => _internalPause = state;
 
 		public static void CleanUp()
 		{

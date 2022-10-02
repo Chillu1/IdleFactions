@@ -2,6 +2,29 @@
 
 ## Temp Notes
 
+How to add meaningful choices to the game?
+
+Choice upgrades. Choose one of two upgrades (permanent until next prestige). Ex: 1. More light, more dark cons, 2. Less dark cons
+
+Aligment choice (at the beginning), good, neutral, evil
+
+Alighment choices (throughout the game), do you want to sac humans to warlocks for more mana/skeletons, do you want to infect the nature faction to create more dark, etc
+
+Evil doesn't mean evil factions? It means you will get "imoral" upgrades, sacing population, using it, etc.
+Same for good
+THIS ONE Sounds good.
+Factions being locked on paths. If you allign with mages ,you can't allign with warlocks. Forcing you to get required resources without them. Prestiging gives resources to unlock more paths/factions?
+Ex. No treant faction = humans need to cut wood, or dwarf (but worse), or elves
+Aka faction choices. Nature or Treant, Ogre or Dwarfs, Goblins or Elfs, Mage or Warlock, Necro or Demon?, Skeleton or Human.
+
+Picking and choosing factions later on? Might be hard to balance to/for progress
+
+Faction path
+Creation, Divinity, Void, Ocean & Heat are always present on all paths?
+Maybe, ocean & heat are optional? & user is forced to create heat with demons/dwarf & light/dark for water?
+For each faction choice, all other faction resource costs * 1000?
+Or design the game around set specific resource needs, designing around resource gets. Ex, X faction needs 1e6 mana, either gotten through warlocks, or mages. 
+
 1e6 pop
 4h population decay. 14400s
 0.0144% pop decay per second?

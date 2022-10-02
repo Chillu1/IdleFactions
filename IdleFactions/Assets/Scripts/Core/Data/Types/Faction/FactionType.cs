@@ -19,6 +19,7 @@ namespace IdleFactions
 
 		Goblin,
 		Ogre,
+		Mage, //Wizard?
 		Warlock,
 		Treant,
 		Demon,
@@ -28,6 +29,17 @@ namespace IdleFactions
 		Necro,
 		Skeleton,
 		Elf
+
+		//Arcane?
+		//Gnome?
+		//Beast?
+		//Fairy?
+		//Giant?
+		//Halfling?
+		//Troll?
+		//Angel?
+		//Dragon?
+		//Elemental?
 	}
 
 	public static class FactionTypeHelper

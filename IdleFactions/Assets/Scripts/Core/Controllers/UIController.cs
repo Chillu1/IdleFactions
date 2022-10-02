@@ -35,6 +35,12 @@ namespace IdleFactions
 		private TMP_Text[] _needs;
 		private TMP_Text[] _rates;
 
+		//Choice tab
+		private GameObject _factionChoicePanel;
+		private TMP_Text[] _factionChoiceTexts;
+		private Button[] _factionChoiceButtons;
+		private FactionType[] _factionChoiceTypes;
+
 		//Notification
 		private GameObject _notificationGo;
 		private TMP_Text _notificationText;
@@ -164,6 +170,22 @@ namespace IdleFactions
 				}*/
 			}
 
+			_factionChoicePanel = canvas.Find("FactionChoicePanel").gameObject;
+			_factionChoiceTexts = _factionChoicePanel.transform.Find("Choices").GetComponentsInChildren<TMP_Text>();
+			_factionChoiceButtons = _factionChoicePanel.transform.Find("Choices").GetComponentsInChildren<Button>();
+			for (int i = 0; i < 2; i++)
+			{
+				int j = i;
+				_factionChoiceButtons[i].onClick.AddListener(() =>
+				{
+					_factionController.Get(_factionChoiceTypes[j]).Discover();
+					_factionChoicePanel.SetActive(false);
+					_gameController.InternalPause(false);
+				});
+			}
+
+			_factionChoicePanel.SetActive(false);
+
 			_notificationGo = canvas.Find("NotificationPanel").gameObject;
 			_notificationText = _notificationGo.GetComponentInChildren<TMP_Text>();
 			_notificationText.text = "";
@@ -179,7 +201,7 @@ namespace IdleFactions
 			var escPanelBackground = _escPanelGo.transform.Find("Background");
 			escPanelBackground.transform.Find("Resume").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				_gameController.Pause(false);
+				_gameController.PlayerPause(false);
 				_escPanelGo.SetActive(false);
 			});
 			escPanelBackground.transform.Find("MainMenu").GetComponent<Button>().onClick.AddListener(() =>
@@ -208,7 +230,7 @@ namespace IdleFactions
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				_escPanelGo.SetActive(!_escPanelGo.activeSelf);
-				_gameController.Pause(_escPanelGo.activeSelf);
+				_gameController.PlayerPause(_escPanelGo.activeSelf);
 			}
 
 			if (_gameController.IsPaused)
@@ -358,6 +380,23 @@ namespace IdleFactions
 				_upgradeButtons[i].interactable = !upgrade.IsBought;
 				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
 			}
+		}
+
+		public void OpenFactionSelection(FactionType[] factionTypes)
+		{
+			_gameController.InternalPause(true);
+			_factionChoiceTypes = factionTypes;
+			_factionChoicePanel.SetActive(true);
+
+			int i;
+			for (i = 0; i < _factionChoiceTypes.Length; i++)
+			{
+				_factionChoiceTexts[i].text = _factionChoiceTypes[i].ToString(); //TODO Hover over, more info about the faction
+				_factionChoiceButtons[i].gameObject.SetActive(true);
+			}
+
+			for (; i < _factionChoiceButtons.Length; i++)
+				_factionChoiceButtons[i].gameObject.SetActive(false);
 		}
 
 		private void UpdateResourceRates()

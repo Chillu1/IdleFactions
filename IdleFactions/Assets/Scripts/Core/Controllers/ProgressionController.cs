@@ -63,10 +63,13 @@ namespace IdleFactions
 		{
 			switch (action)
 			{
+				case ProgressionChooseFactionAction choseAction:
+					_uiController.OpenFactionSelection(choseAction.FactionTypes);
+					break;
 				case ProgressionDiscoverFactionAction discoverAction:
 					_factionController.Get(discoverAction.FactionType)!.Discover();
 					break;
-				case ProgressionDiscoverUpgradeAction discoverAction:
+				case ProgressionUnlockUpgradeAction discoverAction:
 					_factionController.Get(discoverAction.FactionType)!.GetUpgrade(discoverAction.UpgradeId)!.Unlock();
 					_uiController.UpdateFactionTabUpgrades(); //TODO Move?
 					break;
