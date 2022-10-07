@@ -75,7 +75,10 @@ namespace IdleFactions
 					{
 						new ProgressionEntry(
 							new ProgressionResourceCondition(1e3),
-							new ProgressionDiscoverFactionAction(FactionType.Golem))
+							new ProgressionDiscoverFactionAction(FactionType.Golem)),
+						new ProgressionEntry(
+							new ProgressionResourceCondition(1e12),
+							new ProgressionChooseFactionAction(FactionType.Nature, FactionType.Treant))
 					}
 				},
 				{
@@ -89,9 +92,6 @@ namespace IdleFactions
 				{
 					ResourceType.Infinity, new IProgressionEntry[]
 					{
-						new ProgressionEntry(
-							new ProgressionResourceCondition(1),
-							new ProgressionChooseFactionAction(FactionType.Nature, FactionType.Treant)),
 						new ProgressionEntry(
 							new ProgressionResourceCondition(1),
 							new ProgressionChooseFactionAction(FactionType.Dwarf, FactionType.Goblin)), //Ogres instead?

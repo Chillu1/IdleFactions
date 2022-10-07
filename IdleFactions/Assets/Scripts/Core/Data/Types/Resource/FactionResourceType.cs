@@ -12,4 +12,12 @@ namespace IdleFactions
 		GenerateCostAdded,
 		LiveCostAdded,
 	}
+
+	public enum FactionResourceAddedType
+	{
+		None,
+		GenerateAdded = FactionResourceType.GenerateAdded,
+		GenerateCostAdded = FactionResourceType.GenerateCostAdded,
+		LiveCostAdded = FactionResourceType.LiveCostAdded,
+	}
 }

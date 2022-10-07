@@ -62,40 +62,42 @@ namespace IdleFactions
 			_liveCostAdded = new Dictionary<ResourceType, IAddedResource>();
 		}
 
-		public void ActivateUpgradeAction(IUpgradeAction action)
+		public void ActivateUpgradeAction(IUpgradeAction upgradeAction)
 		{
-			switch (action)
+			switch (upgradeAction)
 			{
-				case UpgradeActionMultiplier actionMultiplier:
-					ChangeMultiplier(actionMultiplier.FactionResourceType, actionMultiplier.ResourceType, actionMultiplier.Multiplier);
+				case UpgradeAction.Multiplier action:
+					ChangeMultiplier(action.FactionResourceType, action.ResourceType,
+						action.ResourceMultiplier);
 					break;
-				case UpgradeActionGeneralMultiplier actionGeneralMultiplier:
-					ChangeGeneralMultiplier(actionGeneralMultiplier.FactionResourceType, actionGeneralMultiplier.Multiplier);
+				case UpgradeAction.GeneralMultiplier action:
+					ChangeGeneralMultiplier(action.FactionResourceType, action.Multiplier);
 					break;
-				case UpgradeActionNewResource actionNewResource:
-					AddNewResource(actionNewResource.FactionResourceType, actionNewResource.Resource);
+				case UpgradeAction.NewResource action:
+					AddNewResource(action.FactionResourceType, action.Resource);
 					break;
 				default:
-					Log.Error("Unknown action type: " + action.GetType());
+					Log.Error("Unknown action type: " + upgradeAction.GetType());
 					break;
 			}
 		}
 
-		public void RevertUpgradeAction(IUpgradeAction action)
+		public void RevertUpgradeAction(IUpgradeAction upgradeAction)
 		{
-			switch (action)
+			switch (upgradeAction)
 			{
-				case UpgradeActionMultiplier actionMultiplier:
-					ChangeMultiplier(actionMultiplier.FactionResourceType, actionMultiplier.ResourceType, 1d / actionMultiplier.Multiplier);
+				case UpgradeAction.Multiplier action:
+					ChangeMultiplier(action.FactionResourceType, action.ResourceType,
+						1d / action.ResourceMultiplier);
 					break;
-				case UpgradeActionGeneralMultiplier actionGeneralMultiplier:
-					ChangeGeneralMultiplier(actionGeneralMultiplier.FactionResourceType, 1d / actionGeneralMultiplier.Multiplier);
+				case UpgradeAction.GeneralMultiplier action:
+					ChangeGeneralMultiplier(action.FactionResourceType, 1d / action.Multiplier);
 					break;
-				case UpgradeActionNewResource actionNewResource:
-					RemoveNewResource(actionNewResource.FactionResourceType, actionNewResource.Resource);
+				case UpgradeAction.NewResource action:
+					RemoveNewResource(action.FactionResourceType, action.Resource);
 					break;
 				default:
-					Log.Error("Unknown action type: " + action.GetType());
+					Log.Error("Unknown action type: " + upgradeAction.GetType());
 					break;
 			}
 		}

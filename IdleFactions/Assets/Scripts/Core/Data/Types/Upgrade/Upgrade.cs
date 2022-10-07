@@ -26,7 +26,7 @@ namespace IdleFactions
 		public static event Action<IUpgrade> Unlocked;
 
 		private static IRevertController _revertController;
-		private static IResourceController _resourceController;
+		private static ResourceController _resourceController;
 
 		public Upgrade(string id, ResourceCost cost, params IUpgradeAction[] upgradeActions) : this(id, new[] { cost }, upgradeActions)
 		{
@@ -47,7 +47,7 @@ namespace IdleFactions
 			UpgradeActions = upgradeActions;
 		}
 
-		public static void Setup(IRevertController revertController, IResourceController resourceController)
+		public static void Setup(IRevertController revertController, ResourceController resourceController)
 		{
 			_revertController = revertController;
 			_resourceController = resourceController;

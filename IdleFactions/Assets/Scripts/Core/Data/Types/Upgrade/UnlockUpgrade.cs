@@ -9,7 +9,7 @@ namespace IdleFactions
 		{
 		}
 
-		public UnlockUpgrade(string id, params ResourceCost[] costs) : base(id, costs, new UpgradeActionUnlock())
+		public UnlockUpgrade(string id, params ResourceCost[] costs) : base(id, costs, new UpgradeAction.UnlockFaction())
 		{
 			IsUnlocked = true;
 		}

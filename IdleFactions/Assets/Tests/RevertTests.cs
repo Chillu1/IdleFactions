@@ -5,7 +5,7 @@ namespace IdleFactions.Tests
 	public class RevertTests
 	{
 		private IRevertController _revertController;
-		private IResourceController _resourceController;
+		private ResourceController _resourceController;
 
 		private const double Delta = 0.001d;
 
@@ -42,7 +42,7 @@ namespace IdleFactions.Tests
 			Assert.True(_resourceController.ResourceEquals(ResourceType.Light, 1));
 
 			var upgrade = new Upgrade("TestMultiplier", new ResourceCost(ResourceType.Dark),
-				upgradeActions: new UpgradeActionMultiplier(FactionResourceType.Generate, ResourceType.Light, 2d));
+				upgradeActions: new UpgradeAction.Multiplier(FactionResourceType.Generate, ResourceType.Light, 2d));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 
@@ -71,7 +71,8 @@ namespace IdleFactions.Tests
 			Assert.True(_resourceController.ResourceEquals(ResourceType.Dark, 0));
 
 			var upgrade = new Upgrade("TestNewResource", new ResourceCost(ResourceType.Water),
-				upgradeActions: new UpgradeActionNewResource(FactionResourceType.GenerateAdded, new AddedResource(ResourceType.Dark, 1d)));
+				upgradeActions: new UpgradeAction.NewResource(FactionResourceAddedType.GenerateAdded,
+					new AddedResource(ResourceType.Dark, 1d)));
 			upgrade.SetupFaction(faction);
 			upgrade.TryBuy();
 

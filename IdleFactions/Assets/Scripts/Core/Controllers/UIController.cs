@@ -12,7 +12,7 @@ namespace IdleFactions
 		private const int MaxButtonUpgrades = 6; //TEMP
 
 		private GameController _gameController;
-		private IResourceController _resourceController;
+		private ResourceController _resourceController;
 		private IFactionController _factionController;
 		private StateController _stateController;
 
@@ -62,7 +62,7 @@ namespace IdleFactions
 		private FactionType _currentFactionType;
 
 
-		public void Setup(GameController gameController, IResourceController resourceController, IFactionController factionController,
+		public void Setup(GameController gameController, ResourceController resourceController, IFactionController factionController,
 			StateController stateController)
 		{
 			_gameController = gameController;

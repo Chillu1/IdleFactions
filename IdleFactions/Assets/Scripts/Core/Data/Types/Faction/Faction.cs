@@ -40,7 +40,7 @@ namespace IdleFactions
 		private IReadOnlyList<IUpgrade> Upgrades { get; }
 
 		private static IRevertController _revertController;
-		private static IResourceController _resourceController;
+		private static ResourceController _resourceController;
 
 		public Faction(FactionType type, string description, FactionResources factionResources, IReadOnlyList<IUpgrade> upgrades)
 		{
@@ -56,7 +56,7 @@ namespace IdleFactions
 			_resourceCostAddedMultipliers = new Dictionary<ResourceType, double>();
 		}
 
-		public static void Setup(IRevertController revertController, IResourceController resourceController)
+		public static void Setup(IRevertController revertController, ResourceController resourceController)
 		{
 			_revertController = revertController;
 			_resourceController = resourceController;
@@ -226,7 +226,7 @@ namespace IdleFactions
 		{
 			switch (action)
 			{
-				case UpgradeActionUnlock actionUnlock:
+				case UpgradeAction.UnlockFaction actionUnlock:
 					Unlock();
 					return;
 			}
@@ -238,7 +238,7 @@ namespace IdleFactions
 		{
 			switch (action)
 			{
-				case UpgradeActionUnlock actionUnlock:
+				case UpgradeAction.UnlockFaction actionUnlock:
 					IsUnlocked = false;
 					return;
 			}

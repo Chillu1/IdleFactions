@@ -17,11 +17,11 @@ namespace IdleFactions
 		private float _timer;
 		private readonly double _saveInterval = 120;
 
-		private readonly IResourceController _resourceController;
+		private readonly ResourceController _resourceController;
 		private readonly IFactionController _factionController;
 		private readonly ProgressionController _progressionController;
 
-		public StateController(IResourceController resourceController, IFactionController factionController,
+		public StateController(ResourceController resourceController, IFactionController factionController,
 			ProgressionController progressionController)
 		{
 			_resourceController = resourceController;

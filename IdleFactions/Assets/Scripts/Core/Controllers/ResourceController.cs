@@ -9,7 +9,7 @@ namespace IdleFactions
 {
 	public delegate void ResourceAddedHandler(IChangeableResource resource);
 
-	public class ResourceController : IResourceController
+	public class ResourceController : ISavable, ILoadable
 	{
 		public const string JSONKey = "Resources";
 

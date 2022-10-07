@@ -4,7 +4,7 @@ namespace IdleFactions.Tests
 {
 	public class ResourceNeedsTests
 	{
-		private IResourceController _resourceController;
+		private ResourceController _resourceController;
 
 		[SetUp]
 		public void Setup()
