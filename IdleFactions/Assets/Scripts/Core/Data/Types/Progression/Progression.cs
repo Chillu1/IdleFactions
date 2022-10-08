@@ -13,6 +13,8 @@ namespace IdleFactions
 		private readonly IProgressionEntry[] _entries;
 		private int _currentEntryIndex;
 
+		private const string JsonKeyCurrentEntryIndex = "CurrentEntryIndex";
+
 		public Progression(string id, params IProgressionEntry[] entries)
 		{
 			Id = id;
@@ -42,19 +44,17 @@ namespace IdleFactions
 			writer.WritePropertyName(nameof(Id));
 			writer.WriteValue(Id);
 
-			writer.WritePropertyName(nameof(_currentEntryIndex));
+			writer.WritePropertyName(JsonKeyCurrentEntryIndex);
 			writer.WriteValue(_currentEntryIndex);
 
-			writer.WritePropertyName(nameof(IsCompleted));
-			writer.WriteValue(IsCompleted);
 			writer.WriteEndObject();
 		}
 
 		public void Load(JObject data)
 		{
-			_currentEntryIndex = data.Value<int>(nameof(_currentEntryIndex));
+			_currentEntryIndex = data.Value<int>(JsonKeyCurrentEntryIndex);
 
-			IsCompleted = data.Value<bool>(nameof(IsCompleted));
+			IsCompleted = _currentEntryIndex >= _entries.Length;
 
 			CurrentEntry = IsCompleted ? _entries[_entries.Length - 1] : _entries[_currentEntryIndex];
 		}

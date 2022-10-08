@@ -1,11 +1,13 @@
 # TODO:
 
 * First choice design, nature/plant
+* Prestige prototyping, after first choice design
 * Progression
   * Heat-Ocean phase
   * Partial mid-phase (skeleton-necro, human-nature-treant, w/e)
   * Meaningful early (choice) Upgrades
   * Harsher upgrades, 8x bigger costs, 2x + multiplier
+  * Have upgrades cost population? So they're also better timing based and not only resource based.
 * Multi-resource progressiom, ex. both light & lava check? List of upgrades (with upgrades) that check every interval for X needed resources
 * Rates text being displayed on factions that care about it (generate it, live it, generate cost it)
 * Tabs (Wiki, Achievements, All resource rates, Settings?)

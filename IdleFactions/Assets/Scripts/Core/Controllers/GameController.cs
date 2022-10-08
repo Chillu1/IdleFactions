@@ -28,6 +28,7 @@ namespace IdleFactions
 			StateController = new StateController(ResourceController, FactionController, _progressionController);
 
 			ResourceController.Added += _progressionController.OnAddResource;
+			Faction.PopulationAdded += _progressionController.OnAddFactionPopulation;
 
 			if (!dataController.LoadSavedGame)
 				NewGame();

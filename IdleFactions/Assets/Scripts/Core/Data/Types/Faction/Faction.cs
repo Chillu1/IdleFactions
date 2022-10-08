@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 
 namespace IdleFactions
 {
+	public delegate void PopulationAddedHandler(FactionType type, double population);
+
 	public class Faction : ISavable, ILoadable, IDeepClone<Faction>, INotification
 	{
 		public FactionType Type { get; }
@@ -17,6 +19,7 @@ namespace IdleFactions
 		public double PopulationDecayFlat { get; private set; } = 0.1d;
 		public double PopulationDecayPercentage { get; private set; } = 0.000069444d;
 		private readonly Formulas.FormulaType _populationFormula = Formulas.FormulaType.Exponential15;
+		public static event PopulationAddedHandler PopulationAdded;
 
 		public string NotificationText => "Discovered faction: " + Type;
 		public string Description { get; }
@@ -137,6 +140,7 @@ namespace IdleFactions
 
 			_revertController.AddAction(new PopulationPurchase(this, amount, multiplier));
 			ChangePopulation(amount);
+			PopulationAdded?.Invoke(Type, Population);
 			return true;
 		}
 

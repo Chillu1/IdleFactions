@@ -95,8 +95,10 @@ namespace IdleFactions
 				var factionType = FactionType.Nature;
 				string description = "Massive ecosystems, diverse pool of carbon based resources";
 				var properties = new FactionResourceProperties();
-				properties.SetGenerate(new ResourceCost(ResourceType.Plant, 2d), new ResourceCost(ResourceType.Wildlife),
-					new ResourceCost(ResourceType.Food, 0.5d));
+				properties.SetGenerate(
+					new ResourceCost(ResourceType.Plant),
+					new ResourceCost(ResourceType.Wildlife, 0.5d),
+					new ResourceCost(ResourceType.Food, 0.1d));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3));
 				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 100e3), new ResourceCost(ResourceType.Water, 100),
 					new ResourceCost(ResourceType.Plant, 1.5d), new ResourceCost(ResourceType.Wildlife, 0.8d));
@@ -109,8 +111,7 @@ namespace IdleFactions
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(new ResourceCost(ResourceType.Wood));
 				properties.SetCreateCost(new ResourceCost(ResourceType.Light, 10e6), new ResourceCost(ResourceType.Water, 10e3));
-				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3),
-					new ResourceCost(ResourceType.Plant));
+				properties.SetLiveCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3));
 				properties.SetGenerateCost(new ResourceCost(ResourceType.Light, 1e6), new ResourceCost(ResourceType.Water, 1e3));
 				AddFaction(factionType, description, properties);
 			}

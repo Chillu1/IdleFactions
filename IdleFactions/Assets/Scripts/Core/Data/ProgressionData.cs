@@ -7,6 +7,7 @@ namespace IdleFactions
 	public class ProgressionData
 	{
 		private readonly IDictionary<ResourceType, Progression> _resourceProgressions;
+		private readonly IDictionary<FactionType, Progression> _factionProgressions;
 		private const double UpgradeProgressionUnlockCostMultiplier = 0.4;
 
 		private readonly UpgradeData _upgradeData;
@@ -15,15 +16,18 @@ namespace IdleFactions
 		{
 			_upgradeData = upgradeData;
 			_resourceProgressions = new Dictionary<ResourceType, Progression>();
+			_factionProgressions = new Dictionary<FactionType, Progression>();
 
 			SetupProgressions();
 		}
 
-		public IReadOnlyDictionary<ResourceType, Progression> GetResourceProgressions()
-		{
-			return _resourceProgressions.Select(x => new KeyValuePair<ResourceType, Progression>(x.Key, x.Value.ShallowClone()))
+		public IReadOnlyDictionary<ResourceType, Progression> GetResourceProgressions() =>
+			_resourceProgressions.Select(x => new KeyValuePair<ResourceType, Progression>(x.Key, x.Value.ShallowClone()))
 				.ToDictionary(x => x.Key, x => x.Value);
-		}
+
+		public IReadOnlyDictionary<FactionType, Progression> GetFactionProgressions() =>
+			_factionProgressions.Select(x => new KeyValuePair<FactionType, Progression>(x.Key, x.Value.ShallowClone()))
+				.ToDictionary(x => x.Key, x => x.Value);
 
 		private void SetupProgressions()
 		{
@@ -32,33 +36,45 @@ namespace IdleFactions
 			//Maybe multi-key dictionary with two lookups?
 
 			//FactionUnlocks still have to be manually set, same for faction choices
-			var unlockFactionUpgrades = new Dictionary<ResourceType, IProgressionEntry[]>
+			var unlockFactionUpgrades = SetupUnlockFactionUpgradeProgressions();
+			// All resource progression upgrades}
+			SetupResourceUpgradeProgressions(unlockFactionUpgrades);
+
+			_factionProgressions.Add(FactionType.Divinity, new Progression("Light population test", new IProgressionEntry[]
+			{
+				new ProgressionEntry(new ProgressionCondition.Faction(double.MaxValue), new ProgressionAction.TempUI()) //RELEASE Remove
+			}));
+		}
+
+		private static Dictionary<ResourceType, IProgressionEntry[]> SetupUnlockFactionUpgradeProgressions()
+		{
+			return new Dictionary<ResourceType, IProgressionEntry[]>
 			{
 				{
 					ResourceType.Essence, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(5),
-							new ProgressionDiscoverFactionAction(FactionType.Divinity))
+							new ProgressionCondition.Resource(5),
+							new ProgressionAction.DiscoverFaction(FactionType.Divinity))
 					}
 				},
 				{
 					ResourceType.Light, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(3),
-							new ProgressionDiscoverFactionAction(FactionType.Void)),
+							new ProgressionCondition.Resource(3),
+							new ProgressionAction.DiscoverFaction(FactionType.Void)),
 						new ProgressionEntry(
-							new ProgressionResourceCondition(5e3),
-							new ProgressionDiscoverFactionAction(FactionType.Heat)),
+							new ProgressionCondition.Resource(5e3),
+							new ProgressionAction.DiscoverFaction(FactionType.Heat)),
 					}
 				},
 				{
 					ResourceType.Dark, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(5e3),
-							new ProgressionDiscoverFactionAction(FactionType.Ocean))
+							new ProgressionCondition.Resource(5e3),
+							new ProgressionAction.DiscoverFaction(FactionType.Ocean))
 					}
 				},
 				{
@@ -66,49 +82,51 @@ namespace IdleFactions
 					{
 						//TODO Remove me
 						new ProgressionEntry(
-							new ProgressionResourceCondition(150),
-							new TempUIAction())
+							new ProgressionCondition.Resource(150),
+							new ProgressionAction.TempUI())
 					}
 				},
 				{
 					ResourceType.Water, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1e3),
-							new ProgressionDiscoverFactionAction(FactionType.Golem)),
+							new ProgressionCondition.Resource(1e3),
+							new ProgressionAction.DiscoverFaction(FactionType.Golem)),
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1e12),
-							new ProgressionChooseFactionAction(FactionType.Nature, FactionType.Treant))
+							new ProgressionCondition.Resource(1e12),
+							new ProgressionAction.ChooseFaction(FactionType.Nature, FactionType.Treant))
 					}
 				},
 				{
 					ResourceType.Mana, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(200),
-							new ProgressionChooseFactionAction(FactionType.Mage, FactionType.Warlock)),
+							new ProgressionCondition.Resource(200),
+							new ProgressionAction.ChooseFaction(FactionType.Mage, FactionType.Warlock)),
 					}
 				},
 				{
 					ResourceType.Infinity, new IProgressionEntry[]
 					{
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1),
-							new ProgressionChooseFactionAction(FactionType.Dwarf, FactionType.Goblin)), //Ogres instead?
+							new ProgressionCondition.Resource(1),
+							new ProgressionAction.ChooseFaction(FactionType.Dwarf, FactionType.Goblin)), //Ogres instead?
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1),
-							new ProgressionChooseFactionAction(FactionType.Elf, FactionType.Elf)), //TODO
+							new ProgressionCondition.Resource(1),
+							new ProgressionAction.ChooseFaction(FactionType.Elf, FactionType.Elf)), //TODO
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1),
-							new ProgressionChooseFactionAction(FactionType.Skeleton, FactionType.Human)),
+							new ProgressionCondition.Resource(1),
+							new ProgressionAction.ChooseFaction(FactionType.Skeleton, FactionType.Human)),
 						new ProgressionEntry(
-							new ProgressionResourceCondition(1),
-							new ProgressionChooseFactionAction(FactionType.Necro, FactionType.Drowner)), //?
+							new ProgressionCondition.Resource(1),
+							new ProgressionAction.ChooseFaction(FactionType.Necro, FactionType.Drowner)), //?
 					}
 				}
 			};
+		}
 
-			// All resource progression upgrades
+		private void SetupResourceUpgradeProgressions(IDictionary<ResourceType, IProgressionEntry[]> unlockFactionUpgrades)
+		{
 			var allProgressionUpgrades = _upgradeData.GetAllProgressionUpgrades();
 			foreach (var resourceType in ResourceTypeHelper.ResourceTypes)
 			{
@@ -128,8 +146,8 @@ namespace IdleFactions
 						continue;
 
 					progressionEntries.Add(new ProgressionEntry(
-						new ProgressionResourceCondition(upgrade.Costs[0].Value * UpgradeProgressionUnlockCostMultiplier),
-						new ProgressionUnlockUpgradeAction(upgrade.FactionType, upgrade.Id)));
+						new ProgressionCondition.Resource(upgrade.Costs[0].Value * UpgradeProgressionUnlockCostMultiplier),
+						new ProgressionAction.UnlockUpgrade(upgrade.FactionType, upgrade.Id)));
 				}
 
 				var progression = new Progression(resourceType + "ResourceProgression",
