@@ -330,6 +330,26 @@ namespace IdleFactions
 			return Type.GetHashCode();
 		}
 
+		/// <summary>
+		/// How much resource would it cost to buy (numItems) items if you already have currentOwned,
+		/// the initial price is priceStart and it multiplies by priceRatio each purchase?
+		/// </summary>
+		public static double SumGeometricSeries(double numItems, double priceStart, double priceRatio,
+			double currentOwned)
+		{
+			double actualStart = priceStart * Math.Pow(priceRatio, currentOwned);
+
+			return actualStart * (1 - Math.Pow(priceRatio, numItems)) / (1 - priceRatio);
+		}
+
+		// function to calculate sum of
+		// geometric series
+		public static double SumOfGp(double a, double r, int n)
+		{
+			// calculating and storing sum
+			return a * (1 - (int)Math.Pow(r, n)) / (1 - r);
+		}
+
 		private static class Formulas
 		{
 			public enum FormulaType

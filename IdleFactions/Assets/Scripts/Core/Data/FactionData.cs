@@ -159,31 +159,53 @@ namespace IdleFactions
 				string description = "Masters of mountains, keep treasures, and are blacksmiths";
 				var properties = new FactionResourceProperties();
 				properties.SetGenerate(
-					new ResourceCost(ResourceType.Stone, 0.6d),
-					new ResourceCost(ResourceType.Ore, 0.2d),
-					new ResourceCost(ResourceType.Gold, 0.1d),
+					new ResourceCost(ResourceType.Stone, 0.1d),
+					new ResourceCost(ResourceType.Ore, 0.02d),
+					new ResourceCost(ResourceType.Gold, 0.002d),
 					new ResourceCost(ResourceType.Bones, 0.01d)
 				);
 				properties.SetCreateCost(
-					new ResourceCost(ResourceType.Light, 1000d),
-					new ResourceCost(ResourceType.Dark, 1000d),
-					new ResourceCost(ResourceType.Magic, 1000d),
-					new ResourceCost(ResourceType.Stone, 1000d),
-					new ResourceCost(ResourceType.Soul)
+					new ResourceCost(ResourceType.Light, 1e12),
+					new ResourceCost(ResourceType.Dark, 1e12),
+					new ResourceCost(ResourceType.Stone, 1e6)
 				);
 				properties.SetLiveCost(
-					new ResourceCost(ResourceType.Food, 0.8d),
-					new ResourceCost(ResourceType.Light, 0.2d),
-					new ResourceCost(ResourceType.Dark, 0.2d),
-					new ResourceCost(ResourceType.Magic, 0.2d)
+					new ResourceCost(ResourceType.Light, 100e9),
+					new ResourceCost(ResourceType.Dark, 100e9),
+					new ResourceCost(ResourceType.Food, 2e3)
 				);
 				properties.SetGenerateCost(
-					new ResourceCost(ResourceType.Stone, 0.2d),
-					new ResourceCost(ResourceType.Wood, 0.1d),
-					new ResourceCost(ResourceType.Metal, 0.1d)
+					new ResourceCost(ResourceType.Stone, 100e3),
+					new ResourceCost(ResourceType.Wood, 1e3),
+					new ResourceCost(ResourceType.Metal, 1e3) //?
 				);
 				//Upg: Smelting, lava, ore to gold/metal.
 
+				AddFaction(factionType, description, properties);
+			}
+			{
+				var factionType = FactionType.Goblin;
+				string description = "Greedy mountain race, different ethics from dwarfs though. But both love treasures";
+				var properties = new FactionResourceProperties();
+				properties.SetGenerate(
+					new ResourceCost(ResourceType.Stone, 0.05d),
+					new ResourceCost(ResourceType.Ore, 0.01d),
+					new ResourceCost(ResourceType.Gold, 0.001d),
+					new ResourceCost(ResourceType.Bones, 0.01d)
+				);
+				properties.SetCreateCost(
+					new ResourceCost(ResourceType.Dark, 1e12),
+					new ResourceCost(ResourceType.Stone, 1e6)
+				);
+				properties.SetLiveCost(
+					new ResourceCost(ResourceType.Dark, 100e9),
+					new ResourceCost(ResourceType.Food, 1e3)
+				);
+				properties.SetGenerateCost(
+					new ResourceCost(ResourceType.Stone, 50e3),
+					new ResourceCost(ResourceType.Wood, 2e3),
+					new ResourceCost(ResourceType.Metal, 1e3) //?
+				);
 				AddFaction(factionType, description, properties);
 			}
 
@@ -216,8 +238,7 @@ namespace IdleFactions
 				properties.SetCreateCost(
 					new ResourceCost(ResourceType.Light, 100),
 					new ResourceCost(ResourceType.Plant, 10),
-					new ResourceCost(ResourceType.Water, 5),
-					new ResourceCost(ResourceType.Soul, 1)
+					new ResourceCost(ResourceType.Water, 5)
 				);
 				properties.SetLiveCost(
 					new ResourceCost(ResourceType.Food, 1d),
@@ -235,18 +256,6 @@ namespace IdleFactions
 			}
 
 			//TEMP Resources
-			{
-				var factionType = FactionType.Goblin;
-				string description = "Greedy mountain race, different ethics from dwarfs though. But both love treasures";
-				var properties = new FactionResourceProperties();
-				properties.SetGenerate(
-					new ResourceCost(ResourceType.Infinity)
-				);
-				properties.SetCreateCost(
-					new ResourceCost(ResourceType.Infinity)
-				);
-				AddFaction(factionType, description, properties);
-			}
 			{
 				var factionType = FactionType.Ogre;
 				string description = "Dumb swamp race, great for X though";
@@ -313,7 +322,8 @@ namespace IdleFactions
 
 		private void AddFaction(FactionType type, string description, FactionResourceProperties properties)
 		{
-			_factions.Add(type, new Faction(type, description, new FactionResources(properties), _upgradeData.Get(type)));
+			bool isSoulBased = FactionTypeHelper.SoulFactionTypes.Contains(type);
+			_factions.Add(type, new Faction(type, description, new FactionResources(properties, isSoulBased), _upgradeData.Get(type)));
 		}
 	}
 }

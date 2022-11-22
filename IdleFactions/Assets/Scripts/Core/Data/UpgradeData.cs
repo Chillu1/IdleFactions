@@ -168,6 +168,25 @@ namespace IdleFactions
 						new AddedResource(ResourceType.Metal, 0.4d, ResourceType.Ore)),
 					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateCostAdded, new FactionResource(ResourceType.Ore, 0.2d))
 				)
+				//Deeper mountains, more stone, ore
+				//Smelt ore to metal
+				//Dwarfs keep gold, and work faster in general
+				//Dwarfs keep more gold, ...
+				//Dwarfs hunting, needs more wood & metal, worse than goblin hunting
+				//Gold infused pickaxes, more stone, ore, gold, etc. Costs more gold per gen
+				//Dwarf-Elf alliance? 2X all generation, special upgrades unlocked?
+				//Dwarf-Mage alliance? Magic infused pickaxes?
+			});
+			AddUpgrades(FactionType.Goblin, new[]
+			{
+				new UnlockUpgrade("Unlock goblin faction todo",
+					new[] { new ResourceCost(ResourceType.Dark, 10000), new ResourceCost(ResourceType.Magic, 1000) }),
+
+				new Upgrade("More food", new ResourceCost(ResourceType.Magic, 1000d),
+					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateAdded,
+						new AddedResource(ResourceType.Metal, 0.4d, ResourceType.Ore)),
+					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateCostAdded, new FactionResource(ResourceType.Ore, 0.2d))
+				)
 			});
 
 			AddUpgrades(FactionType.Warlock, new[]

@@ -37,13 +37,16 @@ namespace IdleFactions
 		private readonly Dictionary<ResourceType, IAddedResource> _liveCostAdded;
 
 		private readonly FactionResourceProperties _properties;
+		private readonly bool _isSoulBased;
 
-		public FactionResources(FactionResourceProperties properties)
+		public FactionResources(FactionResourceProperties properties, bool soulBased = false)
 		{
 			_properties = properties;
+			_isSoulBased = soulBased;
 
 			_generate = properties.Generate.ToDictionary(cost => cost.Type,
 				cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
+
 			_createCost = properties.CreateCost?.ToDictionary(cost => cost.Type,
 				cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
 			if (_createCost == null)
@@ -51,9 +54,13 @@ namespace IdleFactions
 			if (_createCost.ContainsKey(ResourceType.Essence))
 				Log.Error("ResourceNeeds: Essence is automatically applied to create cost(?). Do we want custom essence amounts?");
 			AddNewResource(_createCost, new FactionResource(ResourceType.Essence, 1d));
-			_generateCost =
-				properties.GenerateCost?.ToDictionary(cost => cost.Type,
-					cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
+			if (_createCost.ContainsKey(ResourceType.Soul))
+				Log.Error("ResourceNeeds: Soul is automatically applied to create cost(?). Do we want custom soul amounts?");
+			if (soulBased)
+				AddNewResource(_createCost, new FactionResource(ResourceType.Soul, 1d));
+
+			_generateCost = properties.GenerateCost?.ToDictionary(cost => cost.Type,
+				cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
 			_liveCost = properties.LiveCost?.ToDictionary(cost => cost.Type,
 				cost => (IFactionResource)new FactionResource(cost.Type, cost.Value));
 
@@ -249,7 +256,7 @@ namespace IdleFactions
 
 		public FactionResources DeepClone()
 		{
-			return new FactionResources(_properties);
+			return new FactionResources(_properties, _isSoulBased);
 		}
 	}
 }

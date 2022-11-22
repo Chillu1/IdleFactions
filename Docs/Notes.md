@@ -2,6 +2,48 @@
 
 ## Temp Notes
 
+We could also have "every" early game faction choice be available from the start
+But this would lead to harder balancing, and some choices would be terrible. Ex, choosing both goblins and dwarfs.
+
+Faction combos:
+Creation-Mage
+Dark-Necro
+Heat-Demon
+Ocean-Drowner
+Golem-Dwarf
+Nature-Human
+Treant-Elf
+Dwarf-Elf
+Dwarf-Human
+Elf-Human
+Human-Mage
+Skeleton-Necro
+
+Some faction choices are blocked on the start, since ex. we don't have good plant generation with treants in start of the game.
+
+Dwarf/Goblin: has a chance to find a treasure chest, that gives magic
+
+Start: Dwarf/Goblin
+Resources we have: Light, Dark, Heat, Water, Plant, Wood, Food, Wildlife, Stone, Fire.
+
+Dwarf needs: Water, Food, Dark, Gold
+Goblin needs: Water, Food, Dark, Gold
+
+Dwarf creates: Stone 4X, Ore 2X, Gold 2X, Bones
+Dwarf needs: Food 2X, Gold?, Dark
+Goblin creates: Stone, Ore, Gold, Bones, Food
+Goblin needs: Food, Gold?, Dark 4x
+
+Destination: Mage/Warlock ?
+
+Start: Nature/Treant
+
+Plants & food are going to be easier & faster to get with nature faction.
+Treants make a ton of wood, but much less plants, food, and wildlife.
+
+Humans need, water, food, plants, fire to survive
+Destination: Human
+
 Resource progression
 Essence > Light > Dark > Lava > Water
 Stone? > Plant > Wood > Wildlife&Food
@@ -40,6 +82,7 @@ Evil doesn't mean evil factions? It means you will get "imoral" upgrades, sacing
 Same for good
 THIS ONE Sounds good.
 Factions being locked on paths. If you allign with mages ,you can't allign with warlocks. Forcing you to get required resources without them. Prestiging gives resources to unlock more paths/factions?
+Prestiging gives resources that can buy locked faction upgrades & unlock faction-combos. Ex. Making goblins able to hunt wildlife (which makes it possible to do a goblin-human path)
 Ex. No treant faction = humans need to cut wood, or dwarf (but worse), or elves
 Aka faction choices. Nature or Treant, Ogre or Dwarfs, Goblins or Elfs, Mage or Warlock, Necro or Demon?, Skeleton or Human.
 

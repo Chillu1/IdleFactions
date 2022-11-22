@@ -1,6 +1,6 @@
 # TODO:
 
-* First choice design, nature/plant
+* First choice design, dwarf/goblin
 * Prestige prototyping, after first choice design
 * Progression
   * Heat-Ocean phase
