@@ -167,7 +167,8 @@ namespace IdleFactions
 				properties.SetCreateCost(
 					new ResourceCost(ResourceType.Light, 1e12),
 					new ResourceCost(ResourceType.Dark, 1e12),
-					new ResourceCost(ResourceType.Stone, 1e6)
+					new ResourceCost(ResourceType.Stone, 5e6),
+					new ResourceCost(ResourceType.Wood, 5e3)
 				);
 				properties.SetLiveCost(
 					new ResourceCost(ResourceType.Light, 100e9),
@@ -190,12 +191,13 @@ namespace IdleFactions
 				properties.SetGenerate(
 					new ResourceCost(ResourceType.Stone, 0.05d),
 					new ResourceCost(ResourceType.Ore, 0.01d),
-					new ResourceCost(ResourceType.Gold, 0.001d),
+					new ResourceCost(ResourceType.Gold, 0.0005d),
 					new ResourceCost(ResourceType.Bones, 0.01d)
 				);
 				properties.SetCreateCost(
 					new ResourceCost(ResourceType.Dark, 1e12),
-					new ResourceCost(ResourceType.Stone, 1e6)
+					new ResourceCost(ResourceType.Stone, 1e6),
+					new ResourceCost(ResourceType.Wood, 1e3)
 				);
 				properties.SetLiveCost(
 					new ResourceCost(ResourceType.Dark, 100e9),

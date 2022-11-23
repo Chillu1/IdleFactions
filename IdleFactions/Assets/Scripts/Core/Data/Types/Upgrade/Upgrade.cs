@@ -39,12 +39,10 @@ namespace IdleFactions
 			UpgradeActions = upgradeActions;
 		}
 
-		protected Upgrade(string id, ResourceCost[] costs, bool isUnlocked, params IUpgradeAction[] upgradeActions)
+		protected Upgrade(string id, ResourceCost[] costs, bool isUnlocked, params IUpgradeAction[] upgradeActions) :
+			this(id, costs, upgradeActions)
 		{
-			Id = id;
-			Costs = costs;
 			IsUnlocked = isUnlocked;
-			UpgradeActions = upgradeActions;
 		}
 
 		public static void Setup(IRevertController revertController, ResourceController resourceController)

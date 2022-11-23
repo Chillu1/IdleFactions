@@ -37,13 +37,40 @@ namespace IdleFactions
 		//Arcane?
 		//Gnome?
 		//Beast?
-		//Fairy?
+		//Fairy/Nymph/Sprite?
 		//Giant?
 		//Halfling?
 		//Troll?
 		//Angel?
 		//Dragon?
 		//Elemental?
+		//Undead/Zombie?
+		//Drake/Wyvern/Dragon?
+		//Druid?
+		//Titan?
+		//Faceless?
+		//Drow?
+		//DarkElf?//Some kind of choice/path of normal elves?
+		//Ethereal?
+		//LizardFolk?
+		//Kobold?
+		//Gnoll?
+		//Vampire?
+		//Shade?
+		//Faun?
+		//Imp/Gog?
+		//Magi?
+		//Magog?
+		//Lich?
+		//Elder?
+		//Pyromancer? //Should probably be an upgrade
+		//Aquamancer? //Should probably be an upgrade
+		//Leprechaun?
+		//Wight?
+		//Wraith?
+		//Psion?
+		//Spirit?
+		//Undine/fishfolk?
 	}
 
 	public static class FactionTypeHelper

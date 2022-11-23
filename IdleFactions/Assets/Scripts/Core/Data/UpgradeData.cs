@@ -167,15 +167,30 @@ namespace IdleFactions
 					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateAdded,
 						new AddedResource(ResourceType.Metal, 0.4d, ResourceType.Ore)),
 					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateCostAdded, new FactionResource(ResourceType.Ore, 0.2d))
-				)
-				//Deeper mountains, more stone, ore
+				),
+				new Upgrade("Deeper mines",
+					new[]
+					{
+						new ResourceCost(ResourceType.Light, 1000), new ResourceCost(ResourceType.Dark, 1000),
+						new ResourceCost(ResourceType.Fire, 1000), new ResourceCost(ResourceType.Stone, 1000),
+						new ResourceCost(ResourceType.Wood, 1000)
+					},
+					new UpgradeAction.Multiplier(FactionResourceType.Generate, ResourceType.Stone, 2),
+					new UpgradeAction.Multiplier(FactionResourceType.Generate, ResourceType.Ore, 2),
+					new UpgradeAction.Multiplier(FactionResourceType.LiveCost, ResourceType.Light, 2),
+					new UpgradeAction.Multiplier(FactionResourceType.LiveCost, ResourceType.Dark, 2),
+					new UpgradeAction.Multiplier(FactionResourceType.LiveCost, ResourceType.Food, 2)
+				),
 				//Smelt ore to metal
 				//Dwarfs keep gold, and work faster in general
 				//Dwarfs keep more gold, ...
 				//Dwarfs hunting, needs more wood & metal, worse than goblin hunting
 				//Gold infused pickaxes, more stone, ore, gold, etc. Costs more gold per gen
+				//Dwarf-Treant alliance. Dwarfs can plant trees in mountains, (unlocks upgrade for treant-less runs)
+				//Dwarf-Golem alliance. Working together in mountain, much more stone. (unlocks stone upgrade for golem-less runs)
 				//Dwarf-Elf alliance? 2X all generation, special upgrades unlocked?
 				//Dwarf-Mage alliance? Magic infused pickaxes?
+				//Dwarf-Human alliance. Dwarfs can live outside of mountains.
 			});
 			AddUpgrades(FactionType.Goblin, new[]
 			{
@@ -187,6 +202,12 @@ namespace IdleFactions
 						new AddedResource(ResourceType.Metal, 0.4d, ResourceType.Ore)),
 					new UpgradeAction.NewResource(FactionResourceAddedType.GenerateCostAdded, new FactionResource(ResourceType.Ore, 0.2d))
 				)
+				//Deeper mountains, more stone, ore
+				//Smelt ore to metal (less efficient than dwarfs)
+				//Goblins keep gold, and work faster in general (more efficient than dwarfs)
+				//Goblin hunting, needs more wood & metal, better than dwarf hunting
+				//Starve goblins, less food needed, lower production
+				//Sacrifice goblins (some other faction upgrade), gives food, dark, magic?, 
 			});
 
 			AddUpgrades(FactionType.Warlock, new[]

@@ -2,10 +2,20 @@
 
 ## Temp Notes
 
+Prestige resource for each faction, so the player needs to play that faciton if they want to progress with it/in general.
+And a special general prestige resource?
+
+Differences between Goblin and Dwarf factions:
+Goblins overall mine less & produce less.
+Goblins don't have morals.
+Goblins are more triby, also live in mountains, but don't "fancy up" their mountains.
+Goblins aren't friendly like dwarfs, and don't have as many alliances?
+Goblins eat less.
+
 We could also have "every" early game faction choice be available from the start
 But this would lead to harder balancing, and some choices would be terrible. Ex, choosing both goblins and dwarfs.
 
-Faction combos:
+Faction alliances:
 Creation-Mage
 Dark-Necro
 Heat-Demon
@@ -64,6 +74,7 @@ Unplaced: Ogre, Demon, Drowner, Necro, Skeleton, Elf
 
 Meaningful choices & prestige
 Options for prestige resources:
+
 * Single resource
 * Multi-resource
 * Resource for each faction
@@ -76,13 +87,16 @@ Choice upgrades. Choose one of two upgrades (permanent until next prestige). Ex:
 
 Aligment choice (at the beginning), good, neutral, evil
 
-Alighment choices (throughout the game), do you want to sac humans to warlocks for more mana/skeletons, do you want to infect the nature faction to create more dark, etc
+Alighment choices (throughout the game), do you want to sac humans to warlocks for more mana/skeletons, do you want to infect the nature
+faction to create more dark, etc
 
 Evil doesn't mean evil factions? It means you will get "imoral" upgrades, sacing population, using it, etc.
 Same for good
 THIS ONE Sounds good.
-Factions being locked on paths. If you allign with mages ,you can't allign with warlocks. Forcing you to get required resources without them. Prestiging gives resources to unlock more paths/factions?
-Prestiging gives resources that can buy locked faction upgrades & unlock faction-combos. Ex. Making goblins able to hunt wildlife (which makes it possible to do a goblin-human path)
+Factions being locked on paths. If you allign with mages ,you can't allign with warlocks. Forcing you to get required resources without
+them. Prestiging gives resources to unlock more paths/factions?
+Prestiging gives resources that can buy locked faction upgrades & unlock faction-combos. Ex. Making goblins able to hunt wildlife (which
+makes it possible to do a goblin-human path)
 Ex. No treant faction = humans need to cut wood, or dwarf (but worse), or elves
 Aka faction choices. Nature or Treant, Ogre or Dwarfs, Goblins or Elfs, Mage or Warlock, Necro or Demon?, Skeleton or Human.
 
@@ -92,14 +106,15 @@ Faction path
 Creation, Divinity, Void, Ocean & Heat are always present on all paths?
 Maybe, ocean & heat are optional? & user is forced to create heat with demons/dwarf & light/dark for water?
 For each faction choice, all other faction resource costs * 1000?
-Or design the game around set specific resource needs, designing around resource gets. Ex, X faction needs 1e6 mana, either gotten through warlocks, or mages. 
+Or design the game around set specific resource needs, designing around resource gets. Ex, X faction needs 1e6 mana, either gotten through
+warlocks, or mages.
 
 1e6 pop
 4h population decay. 14400s
 0.0144% pop decay per second?
 
 /// <summary>
-///		Sum of n ^ 1.2 for n = 0 to n
+/// Sum of n ^ 1.2 for n = 0 to n
 /// </summary>
 public static double GetScaling12Formula(int n)
 {
@@ -110,10 +125,11 @@ const double second = 0.57525;
 //const double first = 0.3819;
 
 	return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+
 }
 
 /// <summary>
-///		Sum of n ^ 1.05 for n = 0 to n
+/// Sum of n ^ 1.05 for n = 0 to n
 /// </summary>
 public static double GetScaling105Formula(int n)
 {
@@ -124,13 +140,13 @@ const double second = 0.5205666667;
 //const double first = 0.47031;
 
 	return fifth * Math.Pow(n, 5) - fourth * Math.Pow(n, 4) + third * Math.Pow(n, 3) + second * Math.Pow(n, 2);
+
 }
 
 Exponential Sum scales 2 hard. Have to use exponential only for specific factions?
 
 Early game. Resource 1-1e9 light. Mid game. 1e9-1e50, Late game. 1e50-1e100?
-            Pop      1-1e3,                 1e3-1e16,
-
+Pop 1-1e3, 1e3-1e16,
 
 n^2 no sum
 1 pop = 1 cost
@@ -161,11 +177,13 @@ n^2 no sum
 1e9 pop = 161e39
 
 Hover over panel
+
 * Title
 * Description/Effects
 * Costs
 
 Achievements:
+
 * Let there be light, first light production
 * Losing all population (to 1)
 
@@ -173,13 +191,13 @@ Rates:
 Per second/5, keep changing (adding/removing) a dict of resources.
 After X seconds, display the rate, & clear the dicts.
 
-10%: Get CreateCost. GetNeededResouces, get their amounts / 10. Get the lowest of those. Buy that many.  
+10%: Get CreateCost. GetNeededResouces, get their amounts / 10. Get the lowest of those. Buy that many.
 
 Resource classes:
-Base resource                                           , type, value
-Stored resource, stored resources in controller         , type, value,                        add, remove
-Need resource                                           , type, value, baseValue, multiplier, add, remove
-Cost resource                                           , type, value
+Base resource , type, value
+Stored resource, stored resources in controller , type, value, add, remove
+Need resource , type, value, baseValue, multiplier, add, remove
+Cost resource , type, value
 
 So resource needs to store a reference to what Needs Type its linked & Resource Type or the specific upgrade action somehow?
 So we get all multipliers of base, but also return a pooled dict of new resources & their multipliers.
@@ -189,8 +207,9 @@ New dependent on new & baseLive (not gen?).
 
 Create Base LiveCosts & GenerateCosts, that every Generate
 
-* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark & magic affect everything 100%)
-Ex. Skeleton:
+* Resource needs tied to each other, by type%? (Ex. Skeleton farming upgrade consumes wildlife, but other gens aren't affected. While dark &
+  magic affect everything 100%)
+  Ex. Skeleton:
   properties.SetGenerate(new[]
   {
   new ResourceCost(ResourceType.Bones, 1d) Depends 100% on Dark & Magic (all base LiveCost & GenCost), and nothing else
@@ -207,7 +226,8 @@ Ex. Skeleton:
   });
 
   new Upgrade("Add food generation", new ResourceCost(ResourceType.Magic, 500d),
-  upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5)), Would Depend 100% on Dark & Magic, and 100% on wildlife
+  upgradeActions: new UpgradeActionNewResource(ResourceNeedsType.Generate, ResourceType.Food, 0.5)), Would Depend 100% on Dark & Magic, and
+  100% on wildlife
 
 Prox progression:
 1 Essence Gen
@@ -219,7 +239,6 @@ Dark upgrades, 10 dark = 2x dark prod, 10 light = 2x dark prod
 
 lava needs 0.5 light to live
 
-
 Early game:
 
 Light
@@ -228,7 +247,6 @@ ark
 Lava
 Heat
 Water,
-
 
 Mid game:
 
@@ -245,10 +263,8 @@ Ogres
 Dwarfs
 Elves
 
-
 Nature Wildlife
 Treant
-
 
 Late game?:
 
@@ -258,31 +274,33 @@ Drowner
 Light = Active play resource?
 Dark = Passive play resource?
 
-Time resource, how to balance for afk time being 2 strong? Less time resource production the more we have it? Or a capped resource amount, 24h?
+Time resource, how to balance for afk time being 2 strong? Less time resource production the more we have it? Or a capped resource amount,
+24h?
 
 TimeFaction? Creating a special resource, time?
 Extra resource "time", that get's generated when game is offline/afk?
 
 Faction UI:
+
 * Buttons
-  * Buy population
-  * Upgrades
-  * Toggle generation
+	* Buy population
+	* Upgrades
+	* Toggle generation
 * Info
-  * Population
-  * Needs
-    * Generation
-    * GenerationCost
-    * LiveCost
-    * CreateCost
-  * Rates
-    * GenerationRate
-    * LiveRate
+	* Population
+	* Needs
+		* Generation
+		* GenerationCost
+		* LiveCost
+		* CreateCost
+	* Rates
+		* GenerationRate
+		* LiveRate
 
 ## Notes
+
 Homm like factions/cities, with building choices.
 Factions interact with each other, using each other resources.
-
 
 | Faction          | Generates       | NeededToCreate                                     | NeedsToLive   | NeedsToGenerate      |
 |------------------|-----------------|----------------------------------------------------|---------------|----------------------|
@@ -303,7 +321,6 @@ Factions interact with each other, using each other resources.
 | Creation         | Energy/Essence  |                                                    |               |                      |
 | Golem            | Stone           |                                                    | Human?,       |                      |
 | Drowner          | Bodies          |                                                    | Water         | Human                |
-
 
 First you only have base factions
 Then to ex. create humans, you need skeletons, food, wildlife, wood, etc
@@ -327,6 +344,7 @@ Mana is needed by:
 Warlock
 
 ## Ideas
+
 Each faction shares some upgrades, raw production, automatic, etc.
 And each faction has a unique set of buildings.
 
