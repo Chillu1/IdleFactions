@@ -2,6 +2,27 @@
 
 ## Temp Notes
 
+So system gets prestige resources when a faction adds a resource to the resource controller, that is a part of their main resource.
+
+Prestige resources for each faction, based on the faction's primary generation resource?
+Dwarf-Stone/Gold
+Resources are gotten on prestige.
+PrestigeLevels shouldn't matter much progression/upgrade wise, since someone can spam prestige runs.
+& forcing players to prestige to progress is unfun.
+
+How to do prestige resources?
+They should be "grindable", so a person isn't hard stuck in certain scenarios.
+They should unlock: factions, 2-faction choices, faction upgrades, faction alliances, QoL (also microtransactable).
+
+Example first prestige/prestige upgrade would unlock Golem faction. (Costs Divinity/Void/Heat/Ocean)
+Next would unlock a choice between Nature & Treant factions. (Costs Golem)
+
+* When do we get resources?
+	* Every frame?
+	* Every new achievement/goal reached?
+* What determines how much we get?
+	*
+
 Prestige resource for each faction, so the player needs to play that faciton if they want to progress with it/in general.
 And a special general prestige resource?
 

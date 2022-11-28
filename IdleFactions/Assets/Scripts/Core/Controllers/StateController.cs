@@ -20,13 +20,15 @@ namespace IdleFactions
 		private readonly ResourceController _resourceController;
 		private readonly IFactionController _factionController;
 		private readonly ProgressionController _progressionController;
+		private readonly PrestigeResourceController _prestigeResourceController;
 
 		public StateController(ResourceController resourceController, IFactionController factionController,
-			ProgressionController progressionController)
+			ProgressionController progressionController, PrestigeResourceController prestigeResourceController)
 		{
 			_resourceController = resourceController;
 			_factionController = factionController;
 			_progressionController = progressionController;
+			_prestigeResourceController = prestigeResourceController;
 		}
 
 		public void Update(float deltaTime)
@@ -118,6 +120,7 @@ namespace IdleFactions
 				_resourceController.Save(writer);
 				_factionController.Save(writer);
 				_progressionController.Save(writer);
+				_prestigeResourceController.Save(writer);
 
 				writer.WriteEndObject();
 
@@ -189,6 +192,7 @@ namespace IdleFactions
 				_resourceController.Load(saveData);
 				_factionController.Load(saveData);
 				_progressionController.Load(saveData);
+				_prestigeResourceController.Load(saveData);
 
 				_currentSaveName = saveData.Value<string>("SaveName");
 				if (string.IsNullOrEmpty(_currentSaveName))

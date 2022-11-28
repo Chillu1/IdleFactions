@@ -13,7 +13,8 @@ namespace IdleFactions.Tests
 		public void Setup()
 		{
 			_revertController = new RevertController();
-			_resourceController = new ResourceController();
+			var prestigeResourceData = new PrestigeResourceData();
+			_resourceController = new ResourceController(prestigeResourceData, new PrestigeResourceController(prestigeResourceData));
 			Upgrade.Setup(_revertController, _resourceController);
 			Faction.Setup(_revertController, _resourceController);
 			_resourceController.Add(ResourceType.Essence, double.MaxValue);

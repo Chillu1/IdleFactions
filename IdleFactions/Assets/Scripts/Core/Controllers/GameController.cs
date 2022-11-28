@@ -15,17 +15,21 @@ namespace IdleFactions
 		public FactionController FactionController { get; }
 		public ResourceController ResourceController { get; }
 		private readonly ProgressionController _progressionController;
+		private readonly PrestigeResourceController _prestigeResourceController;
 		public StateController StateController { get; }
 
 		public GameController(GameInitializer gameInitializer, DataController dataController, UIController uiController)
 		{
 			_revertController = new RevertController();
-			ResourceController = new ResourceController();
+			_prestigeResourceController = new PrestigeResourceController(dataController.PrestigeResourceData);
+			ResourceController = new ResourceController(dataController.PrestigeResourceData, _prestigeResourceController);
 			Upgrade.Setup(_revertController, ResourceController);
 			Faction.Setup(_revertController, ResourceController);
 			FactionController = new FactionController(dataController.FactionData);
-			_progressionController = new ProgressionController(dataController.ProgressionData, FactionController, uiController);
-			StateController = new StateController(ResourceController, FactionController, _progressionController);
+			_progressionController = new ProgressionController(dataController.ProgressionData, dataController.PrestigeProgressionData,
+				FactionController, uiController);
+			StateController = new StateController(ResourceController, FactionController, _progressionController,
+				_prestigeResourceController);
 
 			ResourceController.Added += _progressionController.OnAddResource;
 			Faction.PopulationAdded += _progressionController.OnAddFactionPopulation;
@@ -35,7 +39,7 @@ namespace IdleFactions
 			else
 				LoadGame(dataController.SaveName);
 
-			uiController.Setup(this, ResourceController, FactionController, StateController);
+			uiController.Setup(this, ResourceController, _prestigeResourceController, FactionController, StateController);
 			Faction.Discovered += uiController.UpdateTab;
 			Faction.Discovered += uiController.DisplayNotification;
 			Upgrade.Unlocked += uiController.DisplayNotification;

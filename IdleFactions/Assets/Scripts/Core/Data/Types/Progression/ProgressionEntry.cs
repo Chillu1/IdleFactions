@@ -1,6 +1,6 @@
 namespace IdleFactions
 {
-	public struct ProgressionEntry : IProgressionEntry
+	public readonly struct ProgressionEntry : IProgressionEntry
 	{
 		public IProgressionCondition Condition { get; }
 		public IProgressionAction Action { get; }

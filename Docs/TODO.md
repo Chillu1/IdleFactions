@@ -23,6 +23,8 @@
 
 ## Tests
 
+* Tests not using PrestigeResourceData
+* Prestige tests
 * UpgradeActionGeneralMultiplier
 * Added tests
 * Save Load States

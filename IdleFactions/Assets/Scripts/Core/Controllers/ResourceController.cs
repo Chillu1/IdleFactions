@@ -19,8 +19,16 @@ namespace IdleFactions
 
 		private readonly Dictionary<ResourceType, IChangeableResource> _resources;
 
-		public ResourceController()
+		private readonly IReadOnlyDictionary<FactionType, ISet<ResourceType>> _primaryResources;
+
+		private readonly PrestigeResourceController _prestigeResourceController;
+
+		public ResourceController(PrestigeResourceData prestigeResourceData, PrestigeResourceController prestigeResourceController)
 		{
+			_prestigeResourceController = prestigeResourceController;
+
+			_primaryResources = prestigeResourceData.GetPrimaryResources();
+
 			_resources = new Dictionary<ResourceType, IChangeableResource>();
 			_resources.Add(ResourceType.Essence, new ChangeableResource(ResourceType.Essence));
 			_resources.Add(ResourceType.Light, new ChangeableResource(ResourceType.Light));
@@ -37,34 +45,45 @@ namespace IdleFactions
 		public void Add(ResourceType type, double value)
 		{
 			if (!_resources.ContainsKey(type))
-			{
-				var resource = new ChangeableResource(type, value);
-				_resources.Add(type, resource);
-			}
-			else
-			{
-				_resources[type].Add(value);
-			}
+				_resources.Add(type, new ChangeableResource(type));
+
+			_resources[type].Add(value);
 
 			//Added?.Invoke(this, new ResourceEventArgs(type, value));
 			Rates.ChangeResource(type, value);
 			Added?.Invoke(_resources[type]);
 		}
 
-		public void Add(IReadOnlyDictionary<ResourceType, IFactionResource> resources, double usedGenMultiplier)
+		public void AddByFaction(FactionType factionType, ResourceType type, double value)
 		{
-			foreach (var cost in resources)
-				Add(cost.Key, cost.Value.Value * usedGenMultiplier);
+			//If resource is part of faction's primary resource, add to prestige resources
+			if (_primaryResources.TryGetValue(factionType, out var primaryResources) && primaryResources.Contains(type))
+				_prestigeResourceController.Add(factionType, type, value);
+
+			Add(type, value);
 		}
 
-		public void Add(IReadOnlyDictionary<ResourceType, IAddedResource> resources, IDictionary<ResourceType, double> multipliers,
-			double multiplier)
+		public void AddByFaction(FactionType factionType, IReadOnlyDictionary<ResourceType, IFactionResource> resources,
+			double usedGenMultiplier)
+		{
+			foreach (var cost in resources)
+				AddByFaction(factionType, cost.Key, cost.Value.Value * usedGenMultiplier);
+		}
+
+		public void AddByFaction(FactionType factionType, IReadOnlyDictionary<ResourceType, IAddedResource> resources,
+			IDictionary<ResourceType, double> multipliers, double multiplier)
 		{
 			foreach (var cost in resources)
 			{
 				double extraMultiplier = cost.Value.GetMultiplier(multipliers);
-				Add(cost.Key, cost.Value.Value * multiplier * extraMultiplier);
+				AddByFaction(factionType, cost.Key, cost.Value.Value * multiplier * extraMultiplier);
 			}
+		}
+
+		public void Add(IReadOnlyDictionary<ResourceType, IFactionResource> resources, double usedGenMultiplier)
+		{
+			foreach (var cost in resources)
+				Add(cost.Key, cost.Value.Value * usedGenMultiplier);
 		}
 
 		public void Add(ResourceCost[] resourceCosts)
@@ -268,7 +287,8 @@ namespace IdleFactions
 
 		private void Set(ResourceType type, double value)
 		{
-			_resources[type] = new ChangeableResource(type, value);
+			_resources[type] = new ChangeableResource(type);
+			_resources[type].Add(value);
 		}
 
 		public void Save(JsonTextWriter writer)

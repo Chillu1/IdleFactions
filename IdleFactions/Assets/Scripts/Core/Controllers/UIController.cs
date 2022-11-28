@@ -13,6 +13,7 @@ namespace IdleFactions
 
 		private GameController _gameController;
 		private ResourceController _resourceController;
+		private PrestigeResourceController _prestigeResourceController;
 		private IFactionController _factionController;
 		private StateController _stateController;
 
@@ -62,11 +63,12 @@ namespace IdleFactions
 		private FactionType _currentFactionType;
 
 
-		public void Setup(GameController gameController, ResourceController resourceController, IFactionController factionController,
-			StateController stateController)
+		public void Setup(GameController gameController, ResourceController resourceController,
+			PrestigeResourceController prestigeResourceController, IFactionController factionController, StateController stateController)
 		{
 			_gameController = gameController;
 			_resourceController = resourceController;
+			_prestigeResourceController = prestigeResourceController;
 			_factionController = factionController;
 			_stateController = stateController;
 		}
@@ -134,6 +136,10 @@ namespace IdleFactions
 					}
 				});
 			}
+
+			//TODO
+			//var prestigeButton = canvas.Find("Prestige").GetComponent<Button>();
+			//prestigeButton.onClick.AddListener(() => _prestigeResourceController.Prestige());
 
 			_population = factionTab.Find("Population").GetComponent<TMP_Text>();
 			_needs = factionTab.Find("Needs").GetComponentsInChildren<TMP_Text>();

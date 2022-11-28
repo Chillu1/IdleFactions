@@ -93,12 +93,12 @@ namespace IdleFactions
 			if (usedLiveMultiplier < MinLiveMultiplier)
 				usedLiveMultiplier = MinLiveMultiplier;
 
-			_resourceController.Add(FactionResources.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
+			_resourceController.AddByFaction(Type, FactionResources.Generate, Population * usedLiveMultiplier * usedGenMultiplier * delta);
 
 			if (FactionResources.GenerateCostAdded != null)
 				_resourceController.TryUsePartialResourceAdded(FactionResources.GenerateCostAdded, Population * delta,
 					_resourceCostAddedMultipliers);
-			_resourceController.Add(FactionResources.GenerateAdded, _resourceCostAddedMultipliers,
+			_resourceController.AddByFaction(Type, FactionResources.GenerateAdded, _resourceCostAddedMultipliers,
 				Population * usedLiveMultiplier * usedGenMultiplier * delta);
 
 			_resourceCostAddedMultipliers.Clear();

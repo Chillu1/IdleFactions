@@ -18,13 +18,17 @@ namespace IdleFactions
 		private readonly IDictionary<FactionType, Progression> _factionProgressions;
 		private readonly ISet<FactionType> _calledFaction;
 
+		private readonly IList<IProgressionEntry> _prestigeProgressions;
+		private int _prestigeProgressionIndex;
+
 		private const double ProgressionCooldownCheck = 0.5;
 		private float _timer;
 
 		private readonly IFactionController _factionController;
 		private readonly UIController _uiController;
 
-		public ProgressionController(ProgressionData progressionData, IFactionController factionController, UIController uiController)
+		public ProgressionController(ProgressionData progressionData, PrestigeProgressionData prestigeProgressionData,
+			IFactionController factionController, UIController uiController)
 		{
 			_factionController = factionController;
 			_uiController = uiController;
@@ -33,6 +37,7 @@ namespace IdleFactions
 
 			_resourceProgressions = new Dictionary<ResourceType, Progression>(progressionData.GetResourceProgressions());
 			_factionProgressions = new Dictionary<FactionType, Progression>(progressionData.GetFactionProgressions());
+			_prestigeProgressions = new List<IProgressionEntry>(prestigeProgressionData.GetPrestigeProgressions());
 		}
 
 		public void Update(float dt)
@@ -67,7 +72,6 @@ namespace IdleFactions
 			}
 		}
 
-
 		public void OnAddFactionPopulation(FactionType type, double population)
 		{
 			if (!_factionProgressions.TryGetValue(type, out var progression) || progression.IsCompleted)
@@ -83,6 +87,26 @@ namespace IdleFactions
 					{
 						HandleProgressionAction(progression.CurrentEntry.Action);
 						progression.Increment();
+					}
+
+					break;
+			}
+		}
+
+		//TODO Register
+		public void OnPrestige(int prestigeLevel)
+		{
+			if (_prestigeProgressionIndex >= _prestigeProgressions.Count) //Reached max prestige upgrades
+				return;
+
+			var prestigeProgression = _prestigeProgressions[_prestigeProgressionIndex];
+			switch (prestigeProgression.Condition)
+			{
+				case ProgressionCondition.Prestige condition:
+					if (condition.Value <= prestigeLevel)
+					{
+						HandleProgressionAction(prestigeProgression.Action);
+						_prestigeProgressionIndex++;
 					}
 
 					break;

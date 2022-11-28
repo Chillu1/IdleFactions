@@ -11,7 +11,8 @@ namespace IdleFactions.Tests
 		[SetUp]
 		public void Setup()
 		{
-			_resourceController = new ResourceController();
+			var prestigeResourceData = new PrestigeResourceData();
+			_resourceController = new ResourceController(prestigeResourceData, new PrestigeResourceController(prestigeResourceData));
 			Faction.Setup(new RevertController(), _resourceController);
 		}
 
