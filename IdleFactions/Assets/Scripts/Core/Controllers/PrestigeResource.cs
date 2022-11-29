@@ -25,8 +25,13 @@ namespace IdleFactions
 			if (!CanAfford(amount))
 				return false;
 
-			_amount -= amount;
+			Spend(amount);
 			return true;
+		}
+
+		public void Spend(double amount)
+		{
+			_amount -= amount;
 		}
 
 		public void Save(JsonTextWriter writer)

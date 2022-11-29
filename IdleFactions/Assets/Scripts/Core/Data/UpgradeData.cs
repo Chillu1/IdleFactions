@@ -52,6 +52,10 @@ namespace IdleFactions
 				new Upgrade("Heat up",
 					new ResourceCost(ResourceType.Lava, 100),
 					new UpgradeAction.Multiplier(FactionResourceType.Generate, ResourceType.Light, 2)),
+
+				new Upgrade("X", //TODO TEMP prestige unlock
+					new ResourceCost(ResourceType.Light, 1e20),
+					new UpgradeAction.Multiplier(FactionResourceType.Generate, ResourceType.Light, 1e3)),
 			});
 
 			AddUpgrades(FactionType.Void, new[]

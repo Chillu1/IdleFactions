@@ -43,6 +43,23 @@ namespace IdleFactions
 			_currentRunResources[factionType].Add(amount * resourceMultiplier);
 		}
 
+		public bool TrySpend(PrestigeResourceCost[] costs)
+		{
+			foreach (var cost in costs)
+			{
+				if (!_resources.ContainsKey(cost.Type))
+					return false;
+
+				if (!_resources[cost.Type].CanAfford(cost.Value))
+					return false;
+			}
+
+			foreach (var cost in costs)
+				_resources[cost.Type].Spend(cost.Value);
+
+			return true;
+		}
+
 		public bool TrySpend(FactionType factionType, double amount)
 		{
 			return _resources.ContainsKey(factionType) && _resources[factionType].TrySpend(amount);

@@ -20,6 +20,7 @@ namespace IdleFactions
 
 		private UpgradeData UpgradeData { get; }
 		public ProgressionData ProgressionData { get; }
+		public PrestigeUpgradesData PrestigeUpgradesData { get; }
 		public PrestigeProgressionData PrestigeProgressionData { get; }
 		public PrestigeResourceData PrestigeResourceData { get; }
 		public FactionData FactionData { get; }
@@ -37,6 +38,7 @@ namespace IdleFactions
 
 			UpgradeData = new UpgradeData();
 			ProgressionData = new ProgressionData(UpgradeData);
+			PrestigeUpgradesData = new PrestigeUpgradesData();
 			PrestigeProgressionData = new PrestigeProgressionData();
 			PrestigeResourceData = new PrestigeResourceData();
 			FactionData = new FactionData(UpgradeData);

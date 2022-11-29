@@ -1,11 +1,11 @@
 namespace IdleFactions
 {
-	public readonly struct ResourceCost : IResource
+	public readonly struct PrestigeResourceCost
 	{
-		public ResourceType Type { get; }
+		public FactionType Type { get; }
 		public double Value { get; }
 
-		public ResourceCost(ResourceType type, double value = 1d)
+		public PrestigeResourceCost(FactionType type, double value = 1d)
 		{
 			Type = type;
 			Value = value;
