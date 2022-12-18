@@ -25,12 +25,14 @@ namespace IdleFactions
 		private float _timer;
 
 		private readonly IFactionController _factionController;
+		private readonly UpgradeController _upgradeController;
 		private readonly UIController _uiController;
 
 		public ProgressionController(ProgressionData progressionData, PrestigeProgressionData prestigeProgressionData,
-			IFactionController factionController, UIController uiController)
+			IFactionController factionController, UpgradeController upgradeController, UIController uiController)
 		{
 			_factionController = factionController;
+			_upgradeController = upgradeController;
 			_uiController = uiController;
 			_calledResources = new HashSet<ResourceType>();
 			_calledFaction = new HashSet<FactionType>();
@@ -124,7 +126,7 @@ namespace IdleFactions
 					_factionController.Get(action.FactionType)!.Discover();
 					break;
 				case ProgressionAction.UnlockUpgrade action:
-					_factionController.Get(action.FactionType)!.GetUpgrade(action.UpgradeId)!.Unlock();
+					_upgradeController.Get(action.FactionType, action.UpgradeId)!.Unlock();
 					_uiController.UpdateFactionTabUpgrades(); //TODO Move?
 					break;
 				case ProgressionAction.TempUI:

@@ -13,6 +13,7 @@ namespace IdleFactions
 
 		private readonly IRevertController _revertController;
 		public FactionController FactionController { get; }
+		private readonly UpgradeController _upgradeController;
 		public ResourceController ResourceController { get; }
 		private readonly ProgressionController _progressionController;
 		private readonly PrestigeResourceController _prestigeResourceController;
@@ -26,8 +27,9 @@ namespace IdleFactions
 			Upgrade.Setup(_revertController, ResourceController);
 			Faction.Setup(_revertController, ResourceController);
 			FactionController = new FactionController(dataController.FactionData);
+			_upgradeController = new UpgradeController(dataController.UpgradeData, FactionController);
 			_progressionController = new ProgressionController(dataController.ProgressionData, dataController.PrestigeProgressionData,
-				FactionController, uiController);
+				FactionController, _upgradeController, uiController);
 			StateController = new StateController(ResourceController, FactionController, _progressionController,
 				_prestigeResourceController);
 
@@ -39,7 +41,8 @@ namespace IdleFactions
 			else
 				LoadGame(dataController.SaveName);
 
-			uiController.Setup(this, ResourceController, _prestigeResourceController, FactionController, StateController);
+			uiController.Setup(this, ResourceController, _prestigeResourceController, FactionController, _upgradeController,
+				StateController);
 			Faction.Discovered += uiController.UpdateTab;
 			Faction.Discovered += uiController.DisplayNotification;
 			Upgrade.Unlocked += uiController.DisplayNotification;

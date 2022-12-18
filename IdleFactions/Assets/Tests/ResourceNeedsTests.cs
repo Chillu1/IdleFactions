@@ -30,7 +30,7 @@ namespace IdleFactions.Tests
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
 
@@ -47,7 +47,7 @@ namespace IdleFactions.Tests
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) }
-			}), null);
+			}));
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
@@ -64,7 +64,7 @@ namespace IdleFactions.Tests
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
-			}), null);
+			}));
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
@@ -81,7 +81,7 @@ namespace IdleFactions.Tests
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 10d) }
-			}), null);
+			}));
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
@@ -100,7 +100,7 @@ namespace IdleFactions.Tests
 			{
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
-			}), null);
+			}));
 			faction.Unlock();
 
 			Assert.AreEqual(0, faction.Population);
@@ -131,7 +131,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				GenerateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
 
@@ -148,7 +148,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				GenerateCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
 
@@ -168,7 +168,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(10);
 
@@ -186,7 +186,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 1d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(5);
 
@@ -209,7 +209,7 @@ namespace IdleFactions.Tests
 				Generate = new[] { new ResourceCost(ResourceType.Light, 1d) },
 				CreateCost = new[] { new ResourceCost(ResourceType.Light, 0d) },
 				LiveCost = new[] { new ResourceCost(ResourceType.Dark, 5d) }
-			}), null);
+			}));
 			faction.Unlock();
 			faction.TryBuyPopulation(1);
 

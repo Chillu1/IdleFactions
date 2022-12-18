@@ -7,12 +7,8 @@ namespace IdleFactions
 	{
 		private readonly Dictionary<FactionType, Faction> _factions;
 
-		private readonly UpgradeData _upgradeData;
-
-		public FactionData(UpgradeData upgradeData)
+		public FactionData()
 		{
-			_upgradeData = upgradeData;
-
 			_factions = new Dictionary<FactionType, Faction>();
 			SetupFactions();
 		}
@@ -325,7 +321,7 @@ namespace IdleFactions
 		private void AddFaction(FactionType type, string description, FactionResourceProperties properties)
 		{
 			bool isSoulBased = FactionTypeHelper.SoulFactionTypes.Contains(type);
-			_factions.Add(type, new Faction(type, description, new FactionResources(properties, isSoulBased), _upgradeData.Get(type)));
+			_factions.Add(type, new Faction(type, description, new FactionResources(properties, isSoulBased)));
 		}
 	}
 }

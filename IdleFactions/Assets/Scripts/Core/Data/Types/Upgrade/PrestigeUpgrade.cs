@@ -11,6 +11,7 @@ namespace IdleFactions
 
 		public bool IsBought { get; private set; }
 
+		private UpgradeController _upgradeController;
 		private PrestigeResourceController _prestigeResourceController;
 		private Faction _faction;
 
@@ -29,8 +30,9 @@ namespace IdleFactions
 			Action = action;
 		}
 
-		public void Setup(PrestigeResourceController prestigeResourceController)
+		public void Setup(UpgradeController upgradeController, PrestigeResourceController prestigeResourceController)
 		{
+			_upgradeController = upgradeController;
 			_prestigeResourceController = prestigeResourceController;
 		}
 
@@ -58,7 +60,7 @@ namespace IdleFactions
 			switch (Action)
 			{
 				case PrestigeUpgradeAction.UnlockUpgrade action:
-					_faction.GetUpgrade(action.UpgradeId)?.Unlock();
+					_upgradeController.Get(_faction.Type, action.UpgradeId)?.Unlock();
 					break;
 				default:
 					Log.Error($"Unknown action type: {Action.GetType()}");

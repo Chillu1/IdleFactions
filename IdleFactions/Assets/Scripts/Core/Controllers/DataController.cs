@@ -18,7 +18,7 @@ namespace IdleFactions
 		//In case of load game
 		public string SaveName { get; private set; }
 
-		private UpgradeData UpgradeData { get; }
+		public UpgradeData UpgradeData { get; }
 		public ProgressionData ProgressionData { get; }
 		public PrestigeUpgradesData PrestigeUpgradesData { get; }
 		public PrestigeProgressionData PrestigeProgressionData { get; }
@@ -41,7 +41,7 @@ namespace IdleFactions
 			PrestigeUpgradesData = new PrestigeUpgradesData();
 			PrestigeProgressionData = new PrestigeProgressionData();
 			PrestigeResourceData = new PrestigeResourceData();
-			FactionData = new FactionData(UpgradeData);
+			FactionData = new FactionData();
 		}
 
 		public void PrepareNewGame()

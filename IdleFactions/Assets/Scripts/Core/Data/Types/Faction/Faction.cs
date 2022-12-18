@@ -24,7 +24,6 @@ namespace IdleFactions
 		public string NotificationText => "Discovered faction: " + Type;
 		public string Description { get; }
 		public bool IsNew { get; private set; } = true;
-		public bool HasNewUpgrades => Upgrades?.Any(upgrade => upgrade.IsUnlocked && upgrade.IsNew) == true;
 		public bool IsDiscovered { get; private set; }
 		public bool IsUnlocked { get; private set; }
 		public bool IsGenerationOn { get; private set; } = true;
@@ -45,16 +44,11 @@ namespace IdleFactions
 		private static IRevertController _revertController;
 		private static ResourceController _resourceController;
 
-		public Faction(FactionType type, string description, FactionResources factionResources, IReadOnlyList<IUpgrade> upgrades)
+		public Faction(FactionType type, string description, FactionResources factionResources)
 		{
 			Type = type;
 			Description = description;
 			FactionResources = factionResources;
-
-			foreach (var upgrade in upgrades.EmptyIfNull())
-				upgrade.SetupFaction(this);
-
-			Upgrades = upgrades;
 
 			_resourceCostAddedMultipliers = new Dictionary<ResourceType, double>();
 		}
@@ -192,40 +186,6 @@ namespace IdleFactions
 			ChangePopulation(-amount);
 		}
 
-		public bool TryBuyUpgrade(int index)
-		{
-			var upgrade = Upgrades[index];
-			if (upgrade.TryBuy())
-			{
-				//_upgrades.RemoveAt(index);
-				return true;
-			}
-
-			return false;
-		}
-
-		[CanBeNull]
-		public IUpgrade GetUpgrade(int index)
-		{
-			if (Upgrades == null)
-				return null;
-			if (index < 0 || index >= Upgrades.Count)
-				return null;
-
-			return Upgrades[index];
-		}
-
-		[CanBeNull]
-		public IUpgrade GetUpgrade(string id)
-		{
-			return Upgrades == null ? null : Upgrades.FirstOrDefault(u => u.Id == id);
-		}
-
-		public string GetUpgradeId(int i)
-		{
-			return i >= Upgrades?.Count ? "Unknown" : Upgrades?[i].Id;
-		}
-
 		public void ActivateUpgradeAction(IUpgradeAction action)
 		{
 			switch (action)
@@ -293,12 +253,6 @@ namespace IdleFactions
 			writer.WritePropertyName(nameof(Population));
 			writer.WriteValue(Population);
 
-			writer.WritePropertyName(nameof(Upgrades));
-			writer.WriteStartArray();
-			foreach (var upgrade in Upgrades.EmptyIfNull())
-				upgrade.Save(writer);
-			writer.WriteEndArray();
-
 			writer.WriteEndObject();
 		}
 
@@ -314,15 +268,11 @@ namespace IdleFactions
 
 			IsGenerationOn = data.Value<bool>(nameof(IsGenerationOn));
 			Population = data.Value<double>(nameof(Population));
-
-			var upgradesData = data.Value<JArray>(nameof(Upgrades));
-			foreach (var upgradeData in upgradesData.EmptyIfNull())
-				Upgrades.First(u => u.Id == upgradeData.Value<string>(nameof(Upgrade.Id))).Load(upgradeData as JObject);
 		}
 
 		public Faction DeepClone()
 		{
-			return new Faction(Type, Description, FactionResources.DeepClone(), Upgrades?.Select(u => u.ShallowClone()).ToList());
+			return new Faction(Type, Description, FactionResources.DeepClone());
 		}
 
 		public override int GetHashCode()

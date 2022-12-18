@@ -15,6 +15,7 @@ namespace IdleFactions
 		private ResourceController _resourceController;
 		private PrestigeResourceController _prestigeResourceController;
 		private IFactionController _factionController;
+		private UpgradeController _upgradeController;
 		private StateController _stateController;
 
 		private Image _background;
@@ -60,16 +61,18 @@ namespace IdleFactions
 		private int _currentPopulationAmount = 1;
 		private PurchaseType _currentPurchaseType;
 		private Faction _currentFaction;
-		private FactionType _currentFactionType;
+		private FactionType CurrentFactionType => _currentFaction.Type;
 
 
 		public void Setup(GameController gameController, ResourceController resourceController,
-			PrestigeResourceController prestigeResourceController, IFactionController factionController, StateController stateController)
+			PrestigeResourceController prestigeResourceController, IFactionController factionController,
+			UpgradeController upgradeController, StateController stateController)
 		{
 			_gameController = gameController;
 			_resourceController = resourceController;
 			_prestigeResourceController = prestigeResourceController;
 			_factionController = factionController;
+			_upgradeController = upgradeController;
 			_stateController = stateController;
 		}
 
@@ -129,11 +132,8 @@ namespace IdleFactions
 				int upgradeIndex = i;
 				upgradeButton.onClick.AddListener(() =>
 				{
-					//TODO upgradeIndex will be wrong/not dynamic, unless we do some special logic in faction
-					if (_currentFaction?.TryBuyUpgrade(upgradeIndex) == true)
-					{
+					if (_upgradeController.TryBuy(CurrentFactionType, upgradeIndex))
 						upgradeButton.interactable = false;
-					}
 				});
 			}
 
@@ -285,7 +285,7 @@ namespace IdleFactions
 			switch (hoverType)
 			{
 				case HoverType.Upgrade:
-					var upgrade = _currentFaction.GetUpgrade(index);
+					var upgrade = _upgradeController.Get(CurrentFactionType, index);
 					if (upgrade == null || !upgrade.IsUnlocked)
 					{
 						_hoverPanelNameText.text = "Unknown upgrade";
@@ -336,7 +336,9 @@ namespace IdleFactions
 				return;
 
 			_currentFaction.SetNotNew();
-			_factionTabImages[(int)type - 1].color = _currentFaction.HasNewUpgrades ? Colors.UIFactionUpgradesAvailable : Colors.UINormal;
+			_factionTabImages[(int)type - 1].color = _upgradeController.HasNewUpgrades(CurrentFactionType)
+				? Colors.UIFactionUpgradesAvailable
+				: Colors.UINormal;
 
 			_background.sprite = GetFactionBackground(type);
 
@@ -380,7 +382,7 @@ namespace IdleFactions
 		{
 			for (int i = 0; i < _upgradeButtons.Length; i++)
 			{
-				var upgrade = _currentFaction.GetUpgrade(i);
+				var upgrade = _upgradeController.Get(CurrentFactionType, i);
 
 				if (upgrade == null || !upgrade.IsUnlocked)
 				{
@@ -391,7 +393,7 @@ namespace IdleFactions
 
 				_upgradeImages[i].color = upgrade.IsNew ? Colors.UINew : Colors.UINormal;
 				_upgradeButtons[i].interactable = !upgrade.IsBought;
-				_upgradeButtonTexts[i].text = _currentFaction.GetUpgradeId(i);
+				_upgradeButtonTexts[i].text = _upgradeController.GetId(CurrentFactionType, i);
 			}
 		}
 

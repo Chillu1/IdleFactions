@@ -22,6 +22,11 @@ namespace IdleFactions
 			return upgrades;
 		}
 
+		public IReadOnlyDictionary<FactionType, IReadOnlyList<IUpgrade>> GetAll()
+		{
+			return _upgrades.ToDictionary(x => x.Key, x => x.Value.Select(u => u.ShallowClone()).ToList() as IReadOnlyList<IUpgrade>);
+		}
+
 		public IReadOnlyList<IProgressionUpgrade> GetAllProgressionUpgrades()
 		{
 			return _upgrades.Values.SelectMany(readOnlyList => (IReadOnlyList<IProgressionUpgrade>)readOnlyList).ToList();
