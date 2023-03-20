@@ -1,6 +1,5 @@
 # TODO:
 
-* Separate upgrades from factions, factions shouldnt hold all their upgrades most likely.
 * First choice design, dwarf/goblin
 * Prestige prototyping, after first choice design
 * Disabling selective upgrades (ex. dwarf smelter upgrade)

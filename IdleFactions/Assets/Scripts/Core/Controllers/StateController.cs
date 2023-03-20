@@ -9,8 +9,13 @@ namespace IdleFactions
 	public class StateController //TODO Not part of gamecontroller?
 	{
 		public const int MaxSaves = 8; //TODO TEMP
-		private static readonly Version saveVersion = new Version(0, 1, 0, 0);
-		public static readonly string DefaultSavePath = Application.persistentDataPath + "/saves/";
+		private static readonly Version saveVersion = new Version(0, 1, 0);
+		public static readonly string DefaultSavePath
+#if UNITY_WEBGL && !UNITY_EDITOR
+			= "idbfs/" + Application.companyName + "/" + Application.productName + "/saves/";
+#else
+			= Application.persistentDataPath + "/saves/";
+#endif
 		public const string DefaultSaveFileName = "save.json";
 		private string _currentSaveName;
 		private double _filePlayTime;

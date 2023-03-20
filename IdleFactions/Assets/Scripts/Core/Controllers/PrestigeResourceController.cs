@@ -40,7 +40,7 @@ namespace IdleFactions
 				_currentRunResources.Add(factionType, new PrestigeResource(factionType));
 
 			float resourceMultiplier = GetResourceMultiplier(factionType, resourceType);
-			_currentRunResources[factionType].Add(amount * resourceMultiplier);
+			_currentRunResources[factionType].Add(amount * 0.01f * resourceMultiplier);
 		}
 
 		public bool TrySpend(PrestigeResourceCost[] costs)
