@@ -2,6 +2,9 @@
 
 [Game build](https://chillu1.github.io/IdleFactionsWeb/)
 
+<img src="Docs/Screenshot1.png" width="350"/>
+<img src="Docs/Screenshot2.png" width="350"/>
+
 Idle factions is a game based around 17+ factions, each with unique resource generation, and upgrades.
 The main idea is that each run you choose one of two faction choices. Both of them using and generating mostly similar resources.
 With this, and unique upgrades, you can create new builds each run.
@@ -37,3 +40,27 @@ and [Factions](https://github.com/Chillu1/IdleFactions/blob/a6bbfa4a343cf8d66817
 
 I will be making a new game with the exact same core mechanics and principles in the future.
 But instead I'll be using ECS and not over-complicate the codebase. Most likely in 2024.
+
+## Design
+
+Theorycrafting factions. More info in [Docs/*](https://github.com/Chillu1/IdleFactions/tree/master/Docs)
+
+| Faction          | Generates       | NeededToCreate                                     | NeedsToLive   | NeedsToGenerate      |
+|------------------|-----------------|----------------------------------------------------|---------------|----------------------|
+| Divinity/Creator | Light           |                                                    |               |                      |
+| Necro            | Skeletons       | Human, Energy, Dark, Skeleton?                     | Food, Mana    | Dark                 |
+| Mage             | Mana            | Human, Energy, Light, Skeleton/Human?              | Food, ?       | Energy               |
+| Human            | Food, Wood      | Plants, Light, Water, Skeleton?, Lifeforce/Energy? | Food, Water   | Plants               |
+| Gobling/Ogre/w/e | Food, Stone     | Plants, Dark, Water, Skeleton?                     | Food, Water   |                      |
+| Ocean            | Water           | Light                                              | Light         |                      |
+| Warlock faction  | Magic/mana      | Human, ?                                           | Food, ?       |                      |
+| Demons/Fire      | Heat/fire/light |                                                    | Light?        |                      |
+| Nature           | Plants, Food-   |                                                    | Water, Light? | Light, Water         |
+| Treant           | Wood            | Light, Plants, Water                               | Light, Water  | Water, Light         |
+| Nature2?         | Wildlife        |                                                    | Light, Water  | Light, Water, Plants |
+| Dwarf?           | Gold/treasures  |                                                    | Food          |                      |
+| Void?Elders?	    | Dark            |                                                    |               | Light                |
+| Evil?            | Souls/bodies    |                                                    | Dark          | Human                |
+| Creation         | Energy/Essence  |                                                    |               |                      |
+| Golem            | Stone           |                                                    | Human?,       |                      |
+| Drowner          | Bodies          |                                                    | Water         | Human                |
