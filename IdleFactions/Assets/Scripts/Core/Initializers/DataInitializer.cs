@@ -12,6 +12,7 @@ namespace IdleFactions
 		{
 			if (_instance == null)
 			{
+				Application.targetFrameRate = 60;
 				_instance = this;
 				DontDestroyOnLoad(gameObject);
 				return;
